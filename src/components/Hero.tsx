@@ -11,39 +11,36 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center items-center px-4 md:px-8 pt-28 pb-16 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col justify-center items-center px-4 md:px-8 pt-28 pb-16 overflow-hidden bg-[#070709]">
       
-      {/* 3D BALLPIT BACKGROUND */}
-      <div className="absolute inset-0 pointer-events-auto z-0 opacity-45 overflow-hidden">
+      {/* 3D BALLPIT BACKGROUND CANVAS - HIGH VISIBILITY & INTERACTIVE */}
+      <div className="absolute inset-0 z-0 opacity-85 overflow-hidden">
         <Ballpit
-          count={90}
+          count={120}
           gravity={0.01}
           friction={0.9975}
           wallBounce={0.95}
           followCursor={true}
-          colors={[0x9d4edf, 0x7b2cbf, 0x00f5d4, 0xf72585, 0x3a0ca3]}
-          minSize={0.4}
-          maxSize={1.1}
+          colors={[0x9d4edf, 0x7b2cbf, 0x00f5d4, 0xf72585, 0x480ca8, 0xc77dff]}
+          minSize={0.6}
+          maxSize={1.6}
+          ambientIntensity={2.5}
+          lightIntensity={350}
         />
       </div>
 
-      {/* BACKGROUND GLOW ORBS */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[750px] h-[500px] md:h-[750px] bg-gradient-to-tr from-purple-700/30 via-indigo-600/20 to-cyan-500/15 rounded-full blur-[140px] animate-pulse-glow" />
-        <div className="absolute bottom-10 left-1/4 w-[350px] h-[350px] bg-pink-600/15 rounded-full blur-[120px]" />
-        <div className="absolute top-20 right-10 w-[300px] h-[300px] bg-purple-900/20 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
-      </div>
+      {/* GRADIENT OVERLAY MASK TO ENSURE TEXT LEGIBILITY */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#070709]/60 via-[#070709]/40 to-[#070709]/90 pointer-events-none" />
 
       {/* HERO CONTENT CONTAINER */}
-      <div className="max-w-5xl mx-auto text-center z-10 flex flex-col items-center pointer-events-none">
+      <div className="max-w-5xl mx-auto text-center z-10 flex flex-col items-center relative">
         
         {/* TIME & LOCATION BADGE */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-6 pointer-events-auto"
+          className="mb-6"
         >
           <LiveClock />
         </motion.div>
@@ -53,7 +50,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs tracking-widest uppercase font-semibold mb-6 shadow-inner pointer-events-auto"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-200 text-xs tracking-widest uppercase font-semibold mb-6 backdrop-blur-md shadow-lg shadow-purple-950/40"
         >
           <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
           <span>Computer Science &amp; Design Engineer</span>
@@ -76,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-6 text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-200"
+          className="mt-6 text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-100 drop-shadow-lg"
         >
           Engineering intelligent <span className="font-serif italic font-normal text-purple-400">AI systems</span> &amp; digital solutions
         </motion.h2>
@@ -86,9 +83,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-6 text-gray-400 max-w-2xl text-base md:text-lg leading-relaxed font-normal"
+          className="mt-6 text-gray-300 max-w-2xl text-base md:text-lg leading-relaxed font-normal drop-shadow-md"
         >
-          B.E. student at <span className="text-gray-200 font-medium">PESITM</span> specializing in Deep Learning, FinTech security against Agentic AI threats, and full-stack web applications.
+          B.E. student at <span className="text-white font-semibold">PESITM</span> specializing in Deep Learning, FinTech security against Agentic AI threats, and full-stack web applications.
         </motion.p>
 
         {/* ACTION BUTTONS */}
@@ -96,11 +93,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4 pointer-events-auto"
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
             href="#projects"
-            className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-105 active:scale-95 transition-all"
+            className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-xl shadow-purple-600/40 hover:shadow-purple-600/60 hover:scale-105 active:scale-95 transition-all"
           >
             <Code2 className="w-4 h-4 text-cyan-300" />
             <span>Explore Projects</span>
@@ -117,7 +114,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
 
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-gray-400 hover:text-white text-sm font-medium hover:bg-white/5 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-gray-300 hover:text-white text-sm font-medium hover:bg-white/10 backdrop-blur-sm transition-all"
           >
             <Send className="w-4 h-4 text-cyan-400" />
             <span>Contact Me</span>
@@ -129,9 +126,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0 }}
-          className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl pointer-events-auto"
+          className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl"
         >
-          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/10 hover:border-purple-500/30 transition-all">
+          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/20 hover:border-purple-500/40 transition-all">
             <div className="flex items-center justify-center text-purple-400 mb-1">
               <GraduationCap className="w-5 h-5" />
             </div>
@@ -139,7 +136,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             <div className="text-[11px] text-gray-400 uppercase tracking-wider font-mono">B.E. GPA</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/10 hover:border-purple-500/30 transition-all">
+          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/20 hover:border-purple-500/40 transition-all">
             <div className="flex items-center justify-center text-cyan-400 mb-1">
               <FolderGit2 className="w-5 h-5" />
             </div>
@@ -147,7 +144,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             <div className="text-[11px] text-gray-400 uppercase tracking-wider font-mono">AI &amp; Web Projects</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/10 hover:border-purple-500/30 transition-all">
+          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/20 hover:border-purple-500/40 transition-all">
             <div className="flex items-center justify-center text-pink-400 mb-1">
               <Award className="w-5 h-5" />
             </div>
@@ -155,7 +152,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             <div className="text-[11px] text-gray-400 uppercase tracking-wider font-mono">Team Lead</div>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/10 hover:border-purple-500/30 transition-all">
+          <div className="glass-panel p-4 rounded-2xl text-center border-purple-500/20 hover:border-purple-500/40 transition-all">
             <div className="flex items-center justify-center text-indigo-400 mb-1">
               <Sparkles className="w-5 h-5" />
             </div>
