@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, FileText, Sparkles, Send } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   onOpenResumeModal: () => void;
@@ -15,29 +14,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   const navItems = [
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
-    { label: 'Education', href: '#education' },
-    { label: 'Projects', href: '#projects' },
     { label: 'Skills', href: '#skills' },
-    { label: 'Experience & Events', href: '#events' },
+    { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
 
-      // Simple active section indicator
-      const sections = navItems.map(item => item.href.substring(1));
-      const scrollPos = window.scrollY + 200;
-
-      for (const section of sections) {
-        const el = document.getElementById(section);
+      // Scroll spy for active section
+      const scrollPos = window.scrollY + 100;
+      for (const item of navItems) {
+        const sectionId = item.href.substring(1);
+        const el = document.getElementById(sectionId);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section);
-            break;
+          const offsetTop = el.offsetTop;
+          const offsetHeight = el.offsetHeight;
+          if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
+            setActiveSection(sectionId);
           }
         }
       }
@@ -47,135 +42,113 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleResumeClick = () => {
-    confetti({
-      particleCount: 50,
-      spread: 60,
-      origin: { y: 0.1 }
-    });
-    onOpenResumeModal();
-  };
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-4 transition-all duration-300">
-      <div className={`max-w-6xl mx-auto rounded-full transition-all duration-300 ${
+    <header 
+      className={`fixed top-0 left-0 right-0 z-[50000] w-full transition-all duration-500 ease-out border-b border-transparent ${
         scrolled 
-          ? 'glass-panel py-3 px-6 border-purple-500/20 shadow-2xl shadow-purple-950/20' 
-          : 'bg-transparent py-4 px-4'
-      }`}>
-        <div className="flex items-center justify-between">
-          
-          {/* Logo */}
-          <a href="#home" className="group flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-400 p-[1px] shadow-lg group-hover:shadow-purple-500/50 transition-all">
-              <div className="w-full h-full bg-[#0d0d14] rounded-[11px] flex items-center justify-center font-extrabold text-sm text-white">
-                VP
-              </div>
-            </div>
-            <span className="font-extrabold text-lg tracking-tight text-white group-hover:text-purple-300 transition-colors">
-              VINAY<span className="text-purple-500">.</span>
-            </span>
-          </a>
+          ? 'py-3 bg-black/60 backdrop-blur-xl border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
+          : 'py-6 bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+        
+        {/* LOGO */}
+        <a href="#home" className="flex items-center text-2xl font-black tracking-tight text-white select-none">
+          Vinayprakash<span className="text-[#FF2A2A]">.</span>
+        </a>
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-1 bg-[#10101a]/70 p-1.5 rounded-full border border-white/5 backdrop-blur-md">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.substring(1);
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`relative px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-200 ${
-                    isActive 
-                      ? 'text-white font-semibold' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+        {/* CENTER NAVIGATION (DESKTOP) */}
+        <nav className="hidden md:flex items-center gap-8 lg:gap-12">
+          {navItems.map((item) => {
+            const sectionId = item.href.substring(1);
+            const isActive = activeSection === sectionId;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`relative py-2 text-sm font-medium tracking-wide transition-colors duration-300 group ${
+                  isActive ? 'text-white' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {item.label}
+                {/* Underline grows from left to right */}
+                <span 
+                  className={`absolute bottom-0 left-0 h-[2px] bg-[#FF2A2A] transition-all duration-300 origin-left ${
+                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavIndicator"
-                      className="absolute inset-0 bg-gradient-to-r from-purple-600/80 to-indigo-600/80 rounded-full -z-10"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  {item.label}
-                </a>
-              );
-            })}
-          </nav>
+                />
+              </a>
+            );
+          })}
+        </nav>
 
-          {/* Right Action Buttons */}
-          <div className="hidden sm:flex items-center gap-3">
-            <button
-              onClick={handleResumeClick}
-              className="flex items-center gap-2 text-xs font-semibold text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-4 py-2 rounded-full transition-all hover:scale-105 active:scale-95 shadow-md shadow-purple-900/20"
-            >
-              <FileText className="w-3.5 h-3.5 text-purple-400" />
-              <span>Resume</span>
-              <Sparkles className="w-3 h-3 text-cyan-400" />
-            </button>
-
-            <a
-              href="#contact"
-              className="flex items-center gap-2 text-xs font-semibold text-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 hover:opacity-90 px-4 py-2 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg shadow-cyan-500/20"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>Let's Talk</span>
-            </a>
-          </div>
-
-          {/* Mobile Menu Toggle */}
+        {/* RIGHT CTA (DESKTOP) */}
+        <div className="hidden md:flex items-center gap-4">
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl text-gray-300 hover:text-white glass-pill"
-            aria-label="Toggle menu"
+            onClick={onOpenResumeModal}
+            className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide border border-white/10 text-white/95 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            Resume
           </button>
+          
+          <a
+            href="#contact"
+            className="relative px-6 py-2.5 rounded-full text-sm font-bold tracking-wide text-white bg-white/10 hover:bg-[#FF2A2A] border border-white/20 hover:border-[#FF2A2A] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] active:scale-95 backdrop-blur-md"
+          >
+            Hire Me
+          </a>
         </div>
+
+        {/* MOBILE MENU TOGGLE */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2 text-white/90 hover:text-white transition-colors z-[60000]"
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* MOBILE PANEL (Slide down full width, bright red) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: '-100%' }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden mt-3 mx-4 p-5 glass-panel rounded-2xl border-purple-500/20 shadow-2xl space-y-3"
+            exit={{ opacity: 0, y: '-100%' }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 w-full min-h-screen bg-[#FF2A2A] z-[40000] flex flex-col justify-center px-8 sm:px-16"
           >
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-8">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2.5 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                  className="text-4xl sm:text-5xl font-black text-black hover:text-white transition-colors duration-300 tracking-tighter"
                 >
                   {item.label}
                 </a>
               ))}
             </div>
 
-            <div className="pt-3 border-t border-white/10 flex flex-col gap-2.5">
+            <div className="mt-16 pt-8 border-t border-black/10 flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  handleResumeClick();
+                  onOpenResumeModal();
                 }}
-                className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-purple-300 bg-purple-500/10 border border-purple-500/30 py-2.5 rounded-xl"
+                className="px-8 py-4 rounded-full text-base font-bold text-[#FF2A2A] bg-white border border-white text-center shadow-xl hover:scale-105 transition-transform"
               >
-                <FileText className="w-4 h-4" />
-                <span>View Resume</span>
+                View Resume
               </button>
-
+              
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-black bg-gradient-to-r from-cyan-400 to-purple-400 py-2.5 rounded-xl"
+                className="px-8 py-4 rounded-full text-base font-bold text-white bg-black hover:bg-neutral-900 text-center shadow-xl hover:scale-105 transition-transform"
               >
-                <Send className="w-4 h-4" />
-                <span>Contact Me</span>
+                Let's Talk
               </a>
             </div>
           </motion.div>

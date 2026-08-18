@@ -1,136 +1,188 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Cpu, ShieldAlert, Code, Languages, MapPin, CheckCircle2 } from 'lucide-react';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
+import profileImg from '../assets/profile.jpg';
 
 export const About: React.FC = () => {
-  const highlights = [
-    {
-      icon: Cpu,
-      title: "AI & Deep Learning",
-      description: "Developing CNN models with TensorFlow, OpenCV & MediaPipe for real-world facial analysis and skincare diagnostics."
-    },
-    {
-      icon: ShieldAlert,
-      title: "FinTech & Agentic AI Defense",
-      description: "Building proactive security layers against synthetic biometric spoofing, voice mimicry, and automated AI fraud."
-    },
-    {
-      icon: Code,
-      title: "Full Stack Web Apps",
-      description: "Crafting robust web architectures with HTML, CSS, JavaScript, Flask, and database integrations."
-    }
-  ];
-
   return (
-    <section id="about" className="py-24 px-4 md:px-8 relative z-10">
-      <div className="max-w-6xl mx-auto">
+    <section 
+      id="about" 
+      className="relative min-h-screen py-24 bg-[#FF2A2A] text-white flex items-center justify-center overflow-hidden z-20"
+    >
+      {/* FLOATING DECORATIONS: ABSTRACT BLACK STARS WITH SOFT PULSE */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        className="absolute top-20 left-[10%] text-black pointer-events-none"
+      >
+        <svg className="w-12 h-12 fill-current" viewBox="0 0 24 24">
+          <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z" />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2] }}
+        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-32 right-[15%] text-black pointer-events-none"
+      >
+        <svg className="w-16 h-16 fill-current" viewBox="0 0 24 24">
+          <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z" />
+        </svg>
+      </motion.div>
+
+      <div className="max-w-6xl mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
         
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-mono uppercase tracking-widest mb-3">
-            <User className="w-3.5 h-3.5 text-purple-400" />
-            <span>About Me</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-            Passionate Engineer at the Intersection of <span className="text-purple-gradient">AI &amp; Design</span>
-          </h2>
-          <p className="mt-4 text-gray-400 max-w-2xl text-base">
-            Bridging technical precision with user-centric design principles to construct next-generation software systems.
-          </p>
-        </div>
-
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* LEFT COLUMN: HANGING EMPLOYEE ID BADGE */}
+        <div className="lg:col-span-5 flex flex-col items-center relative h-[520px] justify-start pt-16">
           
-          {/* Main Bio Card (7 cols) */}
+          {/* LANYARD STRAP */}
+          <div className="absolute top-0 w-2.5 h-36 bg-black z-0 rounded-b shadow-lg" />
+          
+          {/* LANYARD CLIP / METAL CLASP */}
+          <div className="absolute top-32 z-10 flex flex-col items-center">
+            {/* Swivel metal loop */}
+            <div className="w-6 h-6 rounded-full border-[3px] border-neutral-600 bg-neutral-800 shadow" />
+            {/* Swivel clasp */}
+            <div className="w-3 h-5 bg-neutral-500 rounded-sm -mt-1 shadow-sm border border-neutral-600" />
+            {/* Clasp clip holding the card */}
+            <div className="w-5 h-2 bg-neutral-400 rounded-sm -mt-0.5" />
+          </div>
+
+          {/* BADGE CARD CONTAINER (tilted -3deg, with hover effect) */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ y: -50, rotate: -6, opacity: 0 }}
+            whileInView={{ y: 0, rotate: -3, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 glass-panel p-8 rounded-3xl border-purple-500/20 shadow-2xl relative overflow-hidden group"
+            whileHover={{ scale: 1.03, rotate: 0, transition: { duration: 0.3 } }}
+            transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.2 }}
+            className="w-72 h-[380px] bg-neutral-950 rounded-2xl p-5 border border-neutral-800 shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-20 flex flex-col items-center mt-36 relative select-none origin-top"
           >
-            {/* Subtle background glow */}
-            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl group-hover:bg-purple-600/20 transition-all duration-500" />
-
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Hello, I'm <span className="text-purple-400">Vinayprakash</span>
-            </h3>
+            {/* HOLE PUNCH DETAILED GRAPHIC */}
+            <div className="w-10 h-3 bg-neutral-900 border border-neutral-800 rounded-full mb-6 z-30" />
             
-            <p className="text-gray-300 text-base leading-relaxed mb-6">
-              {PORTFOLIO_DATA.personal.about}
-            </p>
+            {/* PROFILE PHOTO FRAME */}
+            <div className="w-36 h-36 rounded-xl overflow-hidden bg-neutral-900 border-2 border-neutral-700 shadow-inner mb-4">
+              <img
+                src={profileImg}
+                alt="Vinayprakash"
+                className="w-full h-full object-cover object-top"
+                draggable="false"
+              />
+            </div>
 
-            <p className="text-gray-400 text-sm leading-relaxed mb-8">
-              Currently pursuing a Bachelor of Engineering in <strong className="text-gray-200">Computer Science and Design</strong> at PES Institute of Technology and Management, Shivamogga. I thrive on solving complex technical challenges—from detecting subtle facial biomarkers using convolutional neural networks to creating preemptive defenses against AI biometric mimicry in financial systems.
-            </p>
-
-            {/* Quick Info Pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-[11px] text-gray-400 font-mono uppercase">Location</div>
-                  <div className="text-sm font-semibold text-white">{PORTFOLIO_DATA.personal.location}</div>
-                </div>
+            {/* BADGE METADATA */}
+            <div className="text-center w-full flex-grow flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 uppercase block mb-1">
+                  Developer ID
+                </span>
+                <h4 className="text-lg font-black tracking-tight text-white uppercase">
+                  VINAYPRAKASH
+                </h4>
+                <p className="text-[11px] font-mono text-neutral-400 mt-0.5">
+                  CSD STUDENT | CLASS OF 2027
+                </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-                  <Languages className="w-5 h-5" />
+              {/* BARCODE GRAPHIC */}
+              <div className="mt-4 flex flex-col items-center gap-1 w-full bg-white/5 py-2.5 rounded-lg border border-white/5">
+                <div className="h-6 flex items-center justify-between w-4/5">
+                  {/* Generate visual barcode lines */}
+                  {[1.5, 3, 1, 4, 1.5, 3, 2, 1, 3.5, 1, 2.5, 4, 1.5, 2, 3].map((w, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-neutral-300 h-full rounded-sm"
+                      style={{ width: `${w}px`, opacity: idx % 4 === 0 ? 0.3 : 0.8 }}
+                    />
+                  ))}
                 </div>
-                <div>
-                  <div className="text-[11px] text-gray-400 font-mono uppercase">Languages Known</div>
-                  <div className="flex gap-1.5 mt-0.5">
-                    {PORTFOLIO_DATA.personal.spokenLanguages.map(lang => (
-                      <span key={lang} className="text-xs px-2 py-0.5 rounded-md bg-white/5 text-gray-200 font-medium">
-                        {lang}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <span className="text-[9px] font-mono text-neutral-500 tracking-wider">
+                  *80210002027*
+                </span>
               </div>
             </div>
 
           </motion.div>
+        </div>
 
-          {/* Pillars & Competencies Cards (5 cols) */}
-          <div className="lg:col-span-5 space-y-4">
-            {highlights.map((item, idx) => {
-              const IconComp = item.icon;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.15 }}
-                  className="glass-panel p-6 rounded-2xl border-white/5 hover:border-purple-500/30 glass-panel-hover"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-600/20 to-indigo-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
-                      <IconComp className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
-                        {item.title}
-                        <CheckCircle2 className="w-4 h-4 text-cyan-400 opacity-80" />
-                      </h4>
-                      <p className="text-xs text-gray-400 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+        {/* RIGHT COLUMN: BIOGRAPHY & TECH SKILLS */}
+        <div className="lg:col-span-7 text-left flex flex-col justify-center">
+          {/* Heading */}
+          <h3 className="text-6xl md:text-7xl font-black text-black tracking-tighter select-none mb-6">
+            Hello!
+          </h3>
+
+          {/* Intro Paragraph */}
+          <div className="space-y-6 text-white text-base md:text-lg leading-relaxed font-light">
+            <p>
+              I am <strong className="text-black font-extrabold">VINAYPRAKASH</strong>, a dedicated Computer Science & Design student at PES Institute of Technology and Management, Shivamogga, Karnataka. With a GPA of <strong className="text-black font-extrabold">8.02/10.00</strong>, I focus on engineering intelligent web systems and tackling modern security challenges in tech.
+            </p>
+            <p className="text-white/80">
+              My engineering pathway integrates database connectivity, Python, deep learning algorithms, and full-stack interfaces to construct secure, high-performance web products. I am highly motivated by designing beautiful editorial UIs and developing scalable architectures.
+            </p>
+          </div>
+
+          {/* Technology Skills Logos (React, Node, Mongo) */}
+          <div className="mt-12">
+            <span className="text-[10px] font-bold tracking-[0.25em] text-black uppercase block mb-6">
+              Core Tech Stack
+            </span>
+            <div className="flex items-center gap-8">
+              
+              {/* React SVG Logo */}
+              <motion.div
+                whileHover={{ scale: 1.15, y: -5 }}
+                animate={{ y: [0, -4, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="w-16 h-16 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center justify-center shadow-lg group cursor-pointer"
+                title="React"
+              >
+                <svg className="w-10 h-10 text-cyan-400 fill-none" viewBox="-11.5 -10.23174 23 20.46348">
+                  <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
+                  <g stroke="currentColor" strokeWidth="1" fill="none">
+                    <ellipse rx="11" ry="4.2"/>
+                    <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+                    <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+                  </g>
+                </svg>
+              </motion.div>
+
+              {/* Node.js SVG Logo */}
+              <motion.div
+                whileHover={{ scale: 1.15, y: -5 }}
+                animate={{ y: [0, -4, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 0.5 }}
+                className="w-16 h-16 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center justify-center shadow-lg cursor-pointer"
+                title="Node.js"
+              >
+                <svg className="w-10 h-10 text-green-500 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2L4 6.6v9.2L12 22l8-4.6v-9.2L12 2zm6.7 13l-6.7 3.9v-7.8l6.7-3.9v7.8zm-8 3.9L4 15V7.2l6.7 3.9v7.8z"/>
+                </svg>
+              </motion.div>
+
+              {/* MongoDB SVG Logo */}
+              <motion.div
+                whileHover={{ scale: 1.15, y: -5 }}
+                animate={{ y: [0, -4, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 1 }}
+                className="w-16 h-16 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center justify-center shadow-lg cursor-pointer"
+                title="MongoDB"
+              >
+                <svg className="w-10 h-10 text-emerald-500 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 0C10.5 5 6 9.5 6 13c0 3.3 2.7 6 6 6s6-2.7 6-6c0-3.5-4.5-8-6-13zm0 16c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3zm0 6c-3.3 0-6-1.5-6-3h12c0 1.5-2.7 3-6 3z"/>
+                </svg>
+              </motion.div>
+
+            </div>
           </div>
 
         </div>
+      </div>
 
+      {/* JAGGED TORN PAPER BOTTOM DIVIDER (White, separates red about from white timeline) */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-30 translate-y-[2px]">
+        <svg viewBox="0 0 1440 100" preserveAspectRatio="none" className="w-full h-16 text-white fill-current">
+          <path d="M0,80 L40,85 L80,75 L120,82 L160,78 L200,85 L240,80 L280,83 L320,74 L360,82 L400,85 L440,78 L480,82 L520,79 L560,84 L600,76 L640,82 L680,85 L720,78 L760,81 L800,76 L840,84 L880,80 L920,83 L960,75 L1000,82 L1040,78 L1080,84 L1120,80 L1160,83 L1200,76 L1240,81 L1280,77 L1320,84 L1360,79 L1400,83 L1440,75 L1440,100 L0,100 Z"></path>
+        </svg>
       </div>
     </section>
   );
