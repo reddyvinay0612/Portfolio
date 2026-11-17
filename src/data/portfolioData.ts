@@ -46,11 +46,11 @@ export const PORTFOLIO_DATA = {
     title: "Computer Science & Design Engineer",
     tagline: "Crafting intelligent AI systems & high-impact digital experiences",
     about: "Computer Science and Design student at PES Institute of Technology & Management with a solid 8.02 GPA. Passionate about building AI-powered web applications, FinTech security solutions, and intuitive user interfaces.",
-    location: "Shivammogga, Karnataka, India",
+    location: "Shivamogga, Karnataka, India",
     timezone: "Asia/Kolkata",
     email: "vinayprakashvg@gmail.com",
     phone: "+91 9353642283",
-    github: "https://github.com",
+    github: "https://github.com/reddyvinay0612",
     linkedin: "https://linkedin.com",
     spokenLanguages: ["English", "Kannada", "Hindi"]
   },
@@ -72,6 +72,44 @@ export const PORTFOLIO_DATA = {
   } as Education,
 
   projects: [
+    {
+      id: "house-price-prediction",
+      title: "Bharat House Price Estimator",
+      category: "Machine Learning & XAI",
+      period: "Sept 2026",
+      role: "Full Stack & ML Architect",
+      statusBadge: "Champion R²: 98.94%",
+      description: "AI-powered Indian real estate valuation platform featuring 5-fold cross-validated XGBoost/GB models (R²=98.94%), TreeSHAP explainability, What-If sensitivity simulator, and bilingual AI assistance.",
+      longDescription: "An econometric property valuation and geospatial real estate intelligence platform built for Indian citizens, financial institutions, and urban planning authorities. Employs certified 5-fold cross-validated Gradient Boosting & XGBoost regressors delivering an R² of 98.94% and RMSE ₹9.73 Lakh on 13,320+ calibrated housing records. Includes TreeSHAP feature attributions ('Why This Price?'), real-time 300ms debounced sensitivity sliders with waterfall charts, interactive GIS choropleth maps, reducing-balance EMI/Rent financial crossover engines, and automated official PDF valuation certificates with QR code verification.",
+      technologies: ["React 18", "FastAPI", "Python", "Scikit-Learn", "XGBoost", "Tree SHAP", "Tailwind CSS", "GIS Leaflet", "Claude AI"],
+      highlights: [
+        "Certified ML Champion Regressor delivering R² = 98.94% and RMSE ₹9.73 Lakh on 13,320+ calibrated Indian housing records",
+        "TreeSHAP Explainable AI visualizing 'Why This Price?' feature contribution breakdowns with Simple & Expert views",
+        "Real-time 300ms debounced What-If sensitivity simulator with step-by-step waterfall charts",
+        "Interactive State-level GIS Choropleth Map, EMI buy-vs-rent amortization engine, and PDF valuation certificate generation"
+      ],
+      githubUrl: "https://github.com/reddyvinay0612/House-Price-Prediction",
+      featured: true
+    },
+    {
+      id: "camps-ml",
+      title: "CAMPS-ML (Academic Monitoring & Early-Warning System)",
+      category: "Machine Learning & XAI",
+      period: "Nov 2026",
+      role: "Lead ML & Backend Engineer",
+      statusBadge: "98% Test Accuracy",
+      description: "Enterprise academic monitoring platform predicting student failure and dropout risk with 98% accuracy using XGBoost, forecasting next-term SGPA trajectories (R²=0.966), and generating TreeSHAP faculty interventions.",
+      longDescription: "An end-to-end institutional early-warning and academic monitoring platform designed for credit-based technical colleges (VTU/Autonomous/AICTE). Integrates continuous internal evaluations (CIE IA1–IA3), attendance, semester grades, and demographic data. Predicts student failure and dropout risk with 98% accuracy using XGBoost classification with leakage-free SMOTE, forecasts next-semester SGPA trajectories with Gradient Boosting regression (R²=0.966, MAE 0.28), and generates personalized TreeSHAP explanations to guide faculty mentorship and counseling interventions.",
+      technologies: ["Python 3.10+", "Flask 3.0", "XGBoost", "Gradient Boosting", "TreeSHAP", "SQLAlchemy", "Chart.js", "Docker", "Bootstrap 5"],
+      highlights: [
+        "XGBoost Classifier with leakage-free SMOTE and 5-fold cross validation achieving 98% test accuracy in early failure detection",
+        "Continuous next-semester SGPA trajectory regression engine yielding R² = 0.966 with low MAE (0.28)",
+        "TreeSHAP Explainable AI diagnostics enabling faculty to generate targeted student intervention and counseling remarks",
+        "Comprehensive role-based access control (Admin, HoD, Faculty Mentor, Student) with automated audit reports, Dockerization, and 100% pytest test suite pass rate"
+      ],
+      githubUrl: "https://github.com/reddyvinay0612/Centralized-Academic-Monitoring-and-Prediction-System-Using-Machine-Learning",
+      featured: true
+    },
     {
       id: "fintech-security",
       title: "Domain(FinTech) HackFest",
@@ -144,32 +182,33 @@ export const PORTFOLIO_DATA = {
       title: "Programming Languages",
       iconName: "Code",
       skills: [
+        { name: "Python", level: 94 },
+        { name: "JavaScript / TypeScript", level: 90 },
+        { name: "Java", level: 88 },
         { name: "C", level: 85 },
-        { name: "Java", level: 90 },
-        { name: "Python", level: 92 },
-        { name: "HTML & CSS", level: 95 },
-        { name: "JavaScript", level: 88 }
+        { name: "HTML5 & Modern CSS", level: 95 }
       ]
     },
     {
-      title: "AI, ML & Vision",
+      title: "AI, ML & Explainability",
       iconName: "BrainCircuit",
       skills: [
-        { name: "TensorFlow / Keras", level: 85 },
-        { name: "OpenCV", level: 88 },
-        { name: "MediaPipe", level: 84 },
-        { name: "Flask", level: 86 },
-        { name: "Machine Learning (CNN)", level: 88 }
+        { name: "XGBoost & Scikit-Learn", level: 92 },
+        { name: "TreeSHAP (Explainable AI)", level: 90 },
+        { name: "TensorFlow / Keras (CNN)", level: 86 },
+        { name: "FastAPI & Flask Services", level: 92 },
+        { name: "OpenCV & Computer Vision", level: 85 }
       ]
     },
     {
-      title: "Frameworks & Developer Tools",
+      title: "Full Stack & DevOps",
       iconName: "Wrench",
       skills: [
-        { name: "Bootstrap", level: 90 },
-        { name: "VS Code", level: 95 },
-        { name: "SQL & Databases", level: 82 },
-        { name: "Git & Web Tech", level: 85 }
+        { name: "React 18 & Vite", level: 92 },
+        { name: "Tailwind CSS & Framer Motion", level: 95 },
+        { name: "SQLAlchemy & PostgreSQL", level: 86 },
+        { name: "Docker & Containerization", level: 84 },
+        { name: "Git & Version Control", level: 92 }
       ]
     }
   ] as SkillCategory[],
@@ -188,51 +227,45 @@ export const PORTFOLIO_DATA = {
       category: "Hackathon",
       organization: "Malnad College of Engineering",
       duration: "6 Hours",
-      description: "State-level rapid hackathon competing in innovative software solution design.",
-      badge: "State Level"
+      description: "Developed solutions targeting sustainability and resource allocation in competitive team sprints.",
+      badge: "Zonal Hack"
     },
     {
-      title: "JNNCE Sigma 2024",
-      category: "Hackathon",
-      organization: "JNN College of Engineering, Shivamogga",
-      duration: "2024",
-      description: "Inter-collegiate technical hackathon showcase.",
-      badge: "Regional"
-    },
-    {
-      title: "BOSCH Vocational Center, Bengaluru",
+      title: "Infosys Campus Connect",
       category: "Industrial Visit",
-      organization: "BOSCH Vocational Center",
-      description: "Skill development training in Industrial Immersion on Industry 4.0 solutions & IoT systems.",
-      badge: "Industry 4.0 / IoT"
+      organization: "Infosys Development Center, Mysuru",
+      duration: "1 Day",
+      description: "Engaged directly with enterprise architectures, distributed delivery pipelines, and production QA methodologies.",
+      badge: "Corporate Insight"
     },
     {
-      title: "SERC, IISc Bangalore",
-      category: "Industrial Visit",
-      organization: "Supercomputer Education and Research Centre (SERC)",
-      description: "Supercomputing exposure gaining experience with high-performance computing (HPC) infrastructure and cutting-edge applications.",
-      badge: "Supercomputing / HPC"
+      title: "Full Stack Web Development",
+      category: "Development Program",
+      organization: "Professional Training Initiative",
+      duration: "1 Month Intensive",
+      description: "Mastered end-to-end full stack architecture including frontend layouts, database pipelines, and API integrations.",
+      badge: "Full Stack"
     }
   ] as EventItem[],
 
   certifications: [
     {
       title: "Full Stack Web Development",
-      issuer: "MINDENIOUS",
-      period: "April 2025 – May 2025",
-      description: "Comprehensive certificate training covering modern full-stack web architectures, frontend frameworks, database management, and API design."
+      issuer: "Professional Development Program",
+      period: "Completed",
+      description: "Intensive 1-month comprehensive training covering frontend modern interfaces, backend APIs, and SQL connectivity."
     },
     {
-      title: "Java for Enterprise: Developing Robust Solutions",
-      issuer: "Student Development Program",
+      title: "Enterprise Java Programming",
+      issuer: "Technical Training Institute",
       period: "Completed",
-      description: "In-depth training on enterprise Java applications, Object-Oriented Architecture, and scalable software solutions."
+      description: "Core and advanced Java, object-oriented software engineering principles, and enterprise application patterns."
     },
     {
-      title: "Unlocking Cyber Security: Basics to Advanced Techniques",
-      issuer: "Student Development Program",
+      title: "Cybersecurity & Defenses",
+      issuer: "Domain Security Program",
       period: "Completed",
-      description: "Hands-on program covering modern cyber security principles, network defense, threat modeling, and ethical hacking fundamentals."
+      description: "Network security foundations, penetration testing awareness, and modern biometric anti-spoofing techniques."
     }
   ]
 };

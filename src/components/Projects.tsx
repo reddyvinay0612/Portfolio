@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, ShieldAlert, Sparkles, Flame, ExternalLink, Github, ChevronRight, X, Users } from 'lucide-react';
+import { Code2, Sparkles, ExternalLink, Github, ChevronRight, X, Users } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 export const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const categories = ['All', 'FinTech & AI Security', 'Deep Learning & Computer Vision', 'Full Stack & AI', 'AI & Sustainability'];
+  const categories = [
+    'All',
+    'Machine Learning & XAI',
+    'FinTech & AI Security',
+    'Full Stack & AI',
+    'Deep Learning & Computer Vision',
+    'AI & Sustainability'
+  ];
 
   const filteredProjects = selectedCategory === 'All' 
     ? PORTFOLIO_DATA.projects 
-    : PORTFOLIO_DATA.projects.filter(p => p.category.toLowerCase().includes(selectedCategory.toLowerCase()) || selectedCategory.includes(p.category));
+    : PORTFOLIO_DATA.projects.filter(p => 
+        p.category.toLowerCase().includes(selectedCategory.toLowerCase()) || 
+        selectedCategory.toLowerCase().includes(p.category.toLowerCase())
+      );
 
   return (
     <section id="projects" className="py-24 px-4 md:px-8 relative z-10 bg-[#070709]">
@@ -27,7 +37,7 @@ export const Projects: React.FC = () => {
             Featured <span className="text-[#FF2A2A]">Projects</span>
           </h2>
           <p className="mt-3 text-neutral-400 max-w-2xl text-sm md:text-base">
-            Innovative engineering work spanning AI financial security against synthetic biometrics, computer vision, energy prediction ML, and full-stack web systems.
+            Innovative engineering work spanning AI financial security against synthetic biometrics, explainable real estate valuation, institutional early-warning systems, and computer vision.
           </p>
         </div>
 
@@ -125,13 +135,28 @@ export const Projects: React.FC = () => {
                   ))}
                 </div>
 
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#FF2A2A]/10 hover:bg-[#FF2A2A] border border-[#FF2A2A]/30 text-white text-xs font-semibold transition-all group-hover:border-[#FF2A2A]/60"
-                >
-                  <span>View Technical Details</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                <div className="flex items-center gap-2">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-neutral-200 hover:text-white border border-white/10 hover:border-[#FF2A2A]/50 transition-all flex items-center gap-1.5 text-xs font-mono font-semibold shrink-0"
+                      title="Open GitHub Repository"
+                    >
+                      <Github className="w-3.5 h-3.5 text-[#FF2A2A]" />
+                      <span>Code</span>
+                    </a>
+                  )}
+
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#FF2A2A]/10 hover:bg-[#FF2A2A] border border-[#FF2A2A]/30 text-white text-xs font-semibold transition-all group-hover:border-[#FF2A2A]/60"
+                  >
+                    <span>View Technical Details</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
               </div>
 
             </motion.div>
@@ -197,10 +222,23 @@ export const Projects: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
+                {selectedProject.githubUrl ? (
+                  <a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold transition-all border border-white/15 hover:border-[#FF2A2A]/50"
+                  >
+                    <Github className="w-4 h-4 text-[#FF2A2A]" />
+                    <span>View GitHub Repo</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
+                  </a>
+                ) : <div />}
+
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="px-6 py-2.5 rounded-xl bg-[#FF2A2A] hover:bg-red-600 text-white font-semibold text-xs transition-colors"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#FF2A2A] hover:bg-red-600 text-white font-semibold text-xs transition-colors"
                 >
                   Close Window
                 </button>
