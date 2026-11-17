@@ -81,6 +81,12 @@ export const NimbusIcons = {
       <polyline points="2 12 12 17 22 12" />
     </>
   ),
+  certificate: I(
+    <>
+      <circle cx="12" cy="8" r="5" />
+      <path d="m8.21 13.89-1.21 7.11 5-3 5 3-1.21-7.11" />
+    </>
+  ),
 };
 
 const DEFAULT_ITEMS: LiquidNavItem[] = [

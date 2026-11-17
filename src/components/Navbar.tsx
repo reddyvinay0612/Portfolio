@@ -17,6 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     { label: 'About', href: '#about', icon: NimbusIcons.user, fx: 'wave' },
     { label: 'Projects', href: '#projects', icon: NimbusIcons.projects, fx: 'plane' },
     { label: 'Skills', href: '#skills', icon: NimbusIcons.code, fx: 'pop' },
+    { label: 'Certifications', href: '#certifications', icon: NimbusIcons.certificate, fx: 'glow' },
     { label: 'Contact', href: '#contact', icon: NimbusIcons.contact, fx: 'drop' },
   ];
 
