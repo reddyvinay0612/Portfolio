@@ -1,392 +1,862 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { RotateCw, Compass, Sparkles, X } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { X, Compass, RotateCw, Sparkles } from 'lucide-react';
 import { TechBadge } from '../../data/portfolioData';
 
-export interface TechSphereProps {
-  items: TechBadge[];
-  selectedCategory?: string;
-  onItemSelect?: (item: TechBadge) => void;
-  className?: string;
-}
+/**
+ * SphereImageGrid / TechSphere - Interactive 3D Image & Technology Sphere
+ *
+ * Implements Tony Sebastian's 3D Fibonacci Sphere architecture with:
+ * - Fibonacci sphere lattice with pole bonus distribution for even 360° coverage
+ * - Euler 3D matrix rotations (Y-axis horizontal, X-axis vertical)
+ * - Collision detection pass to prevent image/node overlaps
+ * - Smooth fade zones & depth scaling
+ * - Momentum physics, drag velocity, and continuous auto-rotation
+ * - Pointer & touch interaction with document listeners
+ * - Spotlight inspection modal on node click
+ */
 
-interface Point3D {
+// ==========================================
+// TYPES & INTERFACES
+// ==========================================
+
+export interface Position3D {
   x: number;
   y: number;
   z: number;
 }
 
+export interface SphericalPosition {
+  theta: number;  // Azimuth angle in degrees
+  phi: number;    // Polar angle in degrees
+  radius: number; // Distance from center
+}
+
+export interface WorldPosition extends Position3D {
+  scale: number;
+  zIndex: number;
+  isVisible: boolean;
+  fadeOpacity: number;
+  originalIndex: number;
+}
+
+export interface ImageData {
+  id: string;
+  src: string;
+  alt: string;
+  title?: string;
+  description?: string;
+}
+
+export interface TechSphereProps {
+  items?: TechBadge[];
+  images?: ImageData[];
+  selectedCategory?: string;
+  onItemSelect?: (item: TechBadge) => void;
+  containerSize?: number;
+  sphereRadius?: number;
+  dragSensitivity?: number;
+  momentumDecay?: number;
+  maxRotationSpeed?: number;
+  baseImageScale?: number;
+  hoverScale?: number;
+  perspective?: number;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
+  className?: string;
+}
+
+interface RotationState {
+  x: number;
+  y: number;
+  z: number;
+}
+
+interface VelocityState {
+  x: number;
+  y: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+// ==========================================
+// CONSTANTS & MATHEMATICAL UTILITIES
+// ==========================================
+
+const SPHERE_MATH = {
+  degreesToRadians: (degrees: number): number => degrees * (Math.PI / 180),
+  radiansToDegrees: (radians: number): number => radians * (180 / Math.PI),
+
+  sphericalToCartesian: (radius: number, theta: number, phi: number): Position3D => ({
+    x: radius * Math.sin(phi) * Math.cos(theta),
+    y: radius * Math.cos(phi),
+    z: radius * Math.sin(phi) * Math.sin(theta)
+  }),
+
+  calculateDistance: (pos: Position3D, center: Position3D = { x: 0, y: 0, z: 0 }): number => {
+    const dx = pos.x - center.x;
+    const dy = pos.y - center.y;
+    const dz = pos.z - center.z;
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  },
+
+  normalizeAngle: (angle: number): number => {
+    while (angle > 180) angle -= 360;
+    while (angle < -180) angle += 360;
+    return angle;
+  }
+};
+
+// ==========================================
+// MAIN COMPONENT
+// ==========================================
+
 export const TechSphere: React.FC<TechSphereProps> = ({
-  items,
+  items = [],
+  images = [],
   selectedCategory = 'All',
   onItemSelect,
+  containerSize: customContainerSize,
+  sphereRadius: customSphereRadius,
+  dragSensitivity = 0.55,
+  momentumDecay = 0.94,
+  maxRotationSpeed = 6,
+  baseImageScale = 0.14,
+  hoverScale = 1.22,
+  perspective = 1000,
+  autoRotate: initialAutoRotate = true,
+  autoRotateSpeed = 0.35,
   className = ''
 }) => {
+  // If items is passed, use tech badges mode; otherwise fallback to images
+  const isBadgeMode = items.length > 0;
+  const itemCount = isBadgeMode ? items.length : images.length;
+
+  // ==========================================
+  // STATE & REFS
+  // ==========================================
+
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [rotation, setRotation] = useState<RotationState>({ x: 12, y: 20, z: 0 });
+  const [velocity, setVelocity] = useState<VelocityState>({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const isDraggingRef = useRef<boolean>(false);
+
+  const [autoRotate, setAutoRotate] = useState<boolean>(initialAutoRotate);
+  const autoRotateRef = useRef<boolean>(initialAutoRotate);
+  autoRotateRef.current = autoRotate;
+
+  const [selectedBadge, setSelectedBadge] = useState<TechBadge | null>(null);
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
+  const [imagePositions, setImagePositions] = useState<SphericalPosition[]>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
-  const [radius, setRadius] = useState<number>(200);
-  const radiusRef = useRef<number>(200);
-  const [autoRotate, setAutoRotate] = useState<boolean>(true);
-  const autoRotateRef = useRef<boolean>(true);
-  const [activeItem, setActiveItem] = useState<TechBadge | null>(null);
-
-  // Synchronize state to refs for high-frequency 60fps animation loop
-  useEffect(() => {
-    radiusRef.current = radius;
-  }, [radius]);
-
-  useEffect(() => {
-    autoRotateRef.current = autoRotate;
-  }, [autoRotate]);
-
-  const selectedCategoryRef = useRef<string>(selectedCategory);
-  useEffect(() => {
-    selectedCategoryRef.current = selectedCategory;
-  }, [selectedCategory]);
-
-  // Array of DOM node refs for direct zero-overhead 3D transforms
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // 3D Rotation angles (in radians) and physics velocity
-  const rotX = useRef<number>(-0.12);
-  const rotY = useRef<number>(0.2);
-  const velocity = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const isDragging = useRef<boolean>(false);
-  const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const lastMousePos = useRef<MousePosition>({ x: 0, y: 0 });
   const dragDistance = useRef<number>(0);
-  const animFrameId = useRef<number>(0);
+  const animationFrame = useRef<number | null>(null);
 
-  // Responsive radius calculation based on container width
+  // Dynamic responsive sizing
+  const [responsiveSize, setResponsiveSize] = useState<number>(540);
+
   useEffect(() => {
-    const updateSize = () => {
+    const handleResize = () => {
       if (!containerRef.current) return;
-      const width = containerRef.current.clientWidth;
-      if (width < 450) {
-        setRadius(135);
+      const width = containerRef.current.parentElement?.clientWidth || window.innerWidth;
+      if (width < 480) {
+        setResponsiveSize(360);
       } else if (width < 768) {
-        setRadius(175);
+        setResponsiveSize(460);
+      } else if (width < 1024) {
+        setResponsiveSize(540);
       } else {
-        setRadius(215);
+        setResponsiveSize(580);
       }
     };
 
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Compute 3D Fibonacci Sphere lattice distribution for uniform geometric coverage
-  const basePoints = useMemo<Point3D[]>(() => {
-    const count = items.length;
-    const points: Point3D[] = [];
-    const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle in radians (~2.39996)
+  const containerSize = customContainerSize || responsiveSize;
+  const actualSphereRadius = customSphereRadius || containerSize * 0.44;
+  const baseImageSize = containerSize * baseImageScale;
+
+  // ==========================================
+  // 1. FIBONACCI SPHERE DISTRIBUTION WITH POLE BONUS
+  // ==========================================
+
+  const generateSpherePositions = useCallback((): SphericalPosition[] => {
+    const positions: SphericalPosition[] = [];
+    const count = itemCount;
+    if (count === 0) return positions;
+
+    // Golden angle in radians
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+    const angleIncrement = (2 * Math.PI) / goldenRatio;
 
     for (let i = 0; i < count; i++) {
-      // y evenly distributed from 1 down to -1
-      const y = 1 - (i / Math.max(1, count - 1)) * 2;
-      const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
-      const theta = phi * i;
+      // Fibonacci sphere distribution
+      const t = count > 1 ? i / (count - 1) : 0.5;
+      const inclination = Math.acos(1 - 2 * t);
+      const azimuth = angleIncrement * i;
 
-      const x = Math.cos(theta) * radiusAtY;
-      const z = Math.sin(theta) * radiusAtY;
+      // Convert to degrees
+      let phi = inclination * (180 / Math.PI);
+      let theta = (azimuth * (180 / Math.PI)) % 360;
 
-      points.push({ x, y, z });
-    }
-    return points;
-  }, [items.length]);
-
-  // 60FPS Direct-DOM 3D Projections update function
-  const updatePositions = useCallback(() => {
-    const cosY = Math.cos(rotY.current);
-    const sinY = Math.sin(rotY.current);
-    const cosX = Math.cos(rotX.current);
-    const sinX = Math.sin(rotX.current);
-    const cameraDistance = 500;
-    const currentRadius = radiusRef.current;
-    const activeCategory = selectedCategoryRef.current;
-
-    for (let i = 0; i < items.length; i++) {
-      const el = itemRefs.current[i];
-      if (!el) continue;
-
-      const p = basePoints[i];
-      if (!p) continue;
-
-      const scaledX = p.x * currentRadius;
-      const scaledY = p.y * currentRadius;
-      const scaledZ = p.z * currentRadius;
-
-      // 1. Rotate around Y-axis
-      const x1 = scaledX * cosY + scaledZ * sinY;
-      const z1 = -scaledX * sinY + scaledZ * cosY;
-
-      // 2. Rotate around X-axis
-      const y2 = scaledY * cosX - z1 * sinX;
-      const z2 = scaledY * sinX + z1 * cosX;
-      const x2 = x1;
-
-      // 3. Perspective projection
-      const perspective = cameraDistance / Math.max(10, cameraDistance - z2);
-      const screenX = x2 * perspective;
-      const screenY = y2 * perspective;
-
-      // 4. Depth factors (from 0 in back to 1 at front)
-      const depthFactor = Math.max(0, Math.min(1, (z2 + currentRadius) / (2 * currentRadius)));
-      const scale = (0.52 + 0.65 * depthFactor) * Math.min(1.22, perspective);
-      const baseOpacity = 0.35 + 0.65 * depthFactor;
-      const isMatch = activeCategory === 'All' || items[i].category === activeCategory;
-      const opacity = isMatch ? baseOpacity : baseOpacity * 0.22;
-      const zIndex = Math.round(depthFactor * 1000);
-
-      el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) scale(${scale})`;
-      el.style.zIndex = `${zIndex}`;
-      el.style.opacity = `${opacity}`;
-      el.style.pointerEvents = isMatch ? 'auto' : 'none';
-
-      // Enhanced shadow for front-facing nodes
-      if (depthFactor > 0.6) {
-        el.classList.add('tech-sphere-front');
+      // Pole coverage boost: reach closer to poles to avoid empty polar zones
+      const poleBonus = Math.pow(Math.abs(phi - 90) / 90, 0.6) * 32;
+      if (phi < 90) {
+        phi = Math.max(10, phi - poleBonus);
       } else {
-        el.classList.remove('tech-sphere-front');
+        phi = Math.min(170, phi + poleBonus);
       }
+
+      // Map to balanced vertical range (18° to 162°)
+      phi = 18 + (phi / 180) * 144;
+
+      // Gentle deterministic pseudorandom offset based on index
+      const seed = Math.sin(i * 997) * 10000;
+      const randomOffset = ((seed - Math.floor(seed)) - 0.5) * 12;
+      theta = (theta + randomOffset) % 360;
+
+      positions.push({
+        theta,
+        phi,
+        radius: actualSphereRadius
+      });
     }
-  }, [items, basePoints]);
 
-  // Main high-frequency animation loop with momentum physics & continuous rotation
-  useEffect(() => {
-    let lastTime = performance.now();
+    return positions;
+  }, [itemCount, actualSphereRadius]);
 
-    const loop = (currentTime: number) => {
-      const delta = Math.min(32, currentTime - lastTime);
-      lastTime = currentTime;
+  // ==========================================
+  // 2. WORLD POSITIONS & COLLISION DETECTION
+  // ==========================================
 
-      if (!isDragging.current) {
-        // Continuous smooth auto-rotation
+  const calculateWorldPositions = useCallback((): WorldPosition[] => {
+    const positions = imagePositions.map((pos, index) => {
+      // Convert angles to radians
+      const thetaRad = SPHERE_MATH.degreesToRadians(pos.theta);
+      const phiRad = SPHERE_MATH.degreesToRadians(pos.phi);
+      const rotXRad = SPHERE_MATH.degreesToRadians(rotation.x);
+      const rotYRad = SPHERE_MATH.degreesToRadians(rotation.y);
+
+      // Initial Cartesian position on sphere
+      let x = pos.radius * Math.sin(phiRad) * Math.cos(thetaRad);
+      let y = pos.radius * Math.cos(phiRad);
+      let z = pos.radius * Math.sin(phiRad) * Math.sin(thetaRad);
+
+      // Y-axis rotation (horizontal orbit)
+      const x1 = x * Math.cos(rotYRad) + z * Math.sin(rotYRad);
+      const z1 = -x * Math.sin(rotYRad) + z * Math.cos(rotYRad);
+      x = x1;
+      z = z1;
+
+      // X-axis rotation (vertical tilt)
+      const y2 = y * Math.cos(rotXRad) - z * Math.sin(rotXRad);
+      const z2 = y * Math.sin(rotXRad) + z * Math.cos(rotXRad);
+      y = y2;
+      z = z2;
+
+      const worldPos: Position3D = { x, y, z };
+
+      // Fade zones to hide back-facing items cleanly
+      const fadeZoneStart = 10;
+      const fadeZoneEnd = -actualSphereRadius * 0.45;
+      const isVisible = worldPos.z > fadeZoneEnd;
+
+      let fadeOpacity = 1;
+      if (worldPos.z <= fadeZoneStart) {
+        fadeOpacity = Math.max(0.15, (worldPos.z - fadeZoneEnd) / (fadeZoneStart - fadeZoneEnd));
+      }
+
+      // Check if this item originated from polar angle
+      const isPole = pos.phi < 32 || pos.phi > 148;
+
+      // 2D Distance from screen center
+      const distanceFromCenter = Math.sqrt(worldPos.x * worldPos.x + worldPos.y * worldPos.y);
+      const maxDistance = actualSphereRadius;
+      const distanceRatio = Math.min(distanceFromCenter / maxDistance, 1);
+
+      // Scaling based on distance and Z-depth
+      const distancePenalty = isPole ? 0.35 : 0.6;
+      const centerScale = Math.max(0.35, 1 - distanceRatio * distancePenalty);
+      const depthScale = (worldPos.z + actualSphereRadius) / (2 * actualSphereRadius);
+      const scale = centerScale * Math.max(0.55, 0.75 + depthScale * 0.35);
+
+      return {
+        ...worldPos,
+        scale,
+        zIndex: Math.round(1000 + worldPos.z),
+        isVisible,
+        fadeOpacity,
+        originalIndex: index
+      };
+    });
+
+    // ----------------------------------------------------
+    // COLLISION DETECTION PASS (PREVENTS IMAGE OVERLAPS)
+    // ----------------------------------------------------
+    const adjustedPositions = [...positions];
+
+    for (let i = 0; i < adjustedPositions.length; i++) {
+      const pos = adjustedPositions[i];
+      if (!pos || !pos.isVisible) continue;
+
+      let adjustedScale = pos.scale;
+      const currentSize = baseImageSize * adjustedScale;
+
+      for (let j = 0; j < adjustedPositions.length; j++) {
+        if (i === j) continue;
+
+        const other = adjustedPositions[j];
+        if (!other || !other.isVisible) continue;
+
+        const otherSize = baseImageSize * other.scale;
+
+        // Calculate 2D Euclidean distance on screen
+        const dx = pos.x - other.x;
+        const dy = pos.y - other.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Required separation to avoid overlapping
+        const minDistance = (currentSize + otherSize) / 2 + 14;
+
+        if (distance < minDistance && distance > 0) {
+          const overlap = minDistance - distance;
+          // Apply gentle scale reduction to prevent visual collisions
+          const reductionFactor = Math.max(0.55, 1 - (overlap / minDistance) * 0.45);
+          adjustedScale = Math.min(adjustedScale, adjustedScale * reductionFactor);
+        }
+      }
+
+      adjustedPositions[i] = {
+        ...pos,
+        scale: Math.max(0.38, adjustedScale)
+      };
+    }
+
+    return adjustedPositions;
+  }, [imagePositions, rotation, actualSphereRadius, baseImageSize]);
+
+  const clampRotationSpeed = useCallback((speed: number): number => {
+    return Math.max(-maxRotationSpeed, Math.min(maxRotationSpeed, speed));
+  }, [maxRotationSpeed]);
+
+  // ==========================================
+  // 3. PHYSICS & MOMENTUM TICK
+  // ==========================================
+
+  const updateMomentum = useCallback(() => {
+    if (isDraggingRef.current) return;
+
+    setVelocity(prevVelocity => {
+      const newVelocity = {
+        x: prevVelocity.x * momentumDecay,
+        y: prevVelocity.y * momentumDecay
+      };
+
+      setRotation(prevRotation => {
+        let newY = prevRotation.y;
+
+        // Continuous auto-orbit around Y-axis
         if (autoRotateRef.current) {
-          rotY.current += 0.0055 * (delta / 16);
+          newY += autoRotateSpeed;
         }
 
-        // Apply momentum inertia with velocity decay
-        rotY.current += velocity.current.x * (delta / 16);
-        rotX.current += velocity.current.y * (delta / 16);
+        // Apply momentum velocity
+        newY += clampRotationSpeed(newVelocity.y);
 
-        velocity.current.x *= 0.93;
-        velocity.current.y *= 0.93;
+        // Clamped pitch on X axis to avoid flipping upside down
+        let newX = prevRotation.x + clampRotationSpeed(newVelocity.x);
+        newX = Math.max(-55, Math.min(55, newX));
 
-        // Keep vertical pitch bounded
-        rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
+        return {
+          x: SPHERE_MATH.normalizeAngle(newX),
+          y: SPHERE_MATH.normalizeAngle(newY),
+          z: prevRotation.z
+        };
+      });
+
+      if (!autoRotateRef.current && Math.abs(newVelocity.x) < 0.01 && Math.abs(newVelocity.y) < 0.01) {
+        return { x: 0, y: 0 };
       }
 
-      updatePositions();
-      animFrameId.current = requestAnimationFrame(loop);
-    };
+      return newVelocity;
+    });
+  }, [momentumDecay, autoRotateSpeed, clampRotationSpeed]);
 
-    animFrameId.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animFrameId.current);
-  }, [updatePositions]);
+  // ==========================================
+  // 4. EVENT HANDLERS (MOUSE & TOUCH)
+  // ==========================================
 
-  // Pointer Interaction Handlers (Mouse & Touch with Pointer Capture)
-  const handlePointerDown = (e: React.PointerEvent) => {
-    isDragging.current = true;
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    isDraggingRef.current = true;
     dragDistance.current = 0;
+    setVelocity({ x: 0, y: 0 });
     lastMousePos.current = { x: e.clientX, y: e.clientY };
-    velocity.current = { x: 0, y: 0 };
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-  };
+  }, []);
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging.current) return;
-    const dx = e.clientX - lastMousePos.current.x;
-    const dy = e.clientY - lastMousePos.current.y;
-    dragDistance.current += Math.abs(dx) + Math.abs(dy);
-    lastMousePos.current = { x: e.clientX, y: e.clientY };
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDraggingRef.current) return;
 
-    const sensitivity = 0.005;
-    rotY.current += dx * sensitivity;
-    rotX.current -= dy * sensitivity;
-    rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
+    const deltaX = e.clientX - lastMousePos.current.x;
+    const deltaY = e.clientY - lastMousePos.current.y;
+    dragDistance.current += Math.abs(deltaX) + Math.abs(deltaY);
 
-    velocity.current = {
-      x: dx * sensitivity * 0.8,
-      y: -dy * sensitivity * 0.8
+    const rotationDelta = {
+      x: -deltaY * dragSensitivity,
+      y: deltaX * dragSensitivity
     };
+
+    setRotation(prev => {
+      let newX = prev.x + clampRotationSpeed(rotationDelta.x);
+      newX = Math.max(-55, Math.min(55, newX));
+
+      return {
+        x: SPHERE_MATH.normalizeAngle(newX),
+        y: SPHERE_MATH.normalizeAngle(prev.y + clampRotationSpeed(rotationDelta.y)),
+        z: prev.z
+      };
+    });
+
+    setVelocity({
+      x: clampRotationSpeed(rotationDelta.x),
+      y: clampRotationSpeed(rotationDelta.y)
+    });
+
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+  }, [dragSensitivity, clampRotationSpeed]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+    isDraggingRef.current = false;
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    setIsDragging(true);
+    isDraggingRef.current = true;
+    dragDistance.current = 0;
+    setVelocity({ x: 0, y: 0 });
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isDraggingRef.current) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - lastMousePos.current.x;
+    const deltaY = touch.clientY - lastMousePos.current.y;
+    dragDistance.current += Math.abs(deltaX) + Math.abs(deltaY);
+
+    const rotationDelta = {
+      x: -deltaY * dragSensitivity,
+      y: deltaX * dragSensitivity
+    };
+
+    setRotation(prev => {
+      let newX = prev.x + clampRotationSpeed(rotationDelta.x);
+      newX = Math.max(-55, Math.min(55, newX));
+
+      return {
+        x: SPHERE_MATH.normalizeAngle(newX),
+        y: SPHERE_MATH.normalizeAngle(prev.y + clampRotationSpeed(rotationDelta.y)),
+        z: prev.z
+      };
+    });
+
+    setVelocity({
+      x: clampRotationSpeed(rotationDelta.x),
+      y: clampRotationSpeed(rotationDelta.y)
+    });
+
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY };
+  }, [dragSensitivity, clampRotationSpeed]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+    isDraggingRef.current = false;
+  }, []);
+
+  // ==========================================
+  // 5. EFFECTS & LIFECYCLE
+  // ==========================================
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    setImagePositions(generateSpherePositions());
+  }, [generateSpherePositions]);
+
+  // Main high-frequency animation loop
+  useEffect(() => {
+    const animate = () => {
+      updateMomentum();
+      animationFrame.current = requestAnimationFrame(animate);
+    };
+
+    if (isMounted) {
+      animationFrame.current = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
+  }, [isMounted, updateMomentum]);
+
+  // Attach global drag listeners to document for fluid tracking
+  useEffect(() => {
+    if (!isMounted) return;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isMounted, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+
+  // ==========================================
+  // 6. RENDER HELPERS
+  // ==========================================
+
+  const worldPositions = calculateWorldPositions();
+
+  // Render Tech Badge Node
+  const renderBadgeNode = (badge: TechBadge, index: number) => {
+    const position = worldPositions[index];
+    if (!position || !position.isVisible) return null;
+
+    const nodeSize = baseImageSize * position.scale;
+    const isHovered = hoveredIndex === index;
+    const finalScale = isHovered ? Math.min(1.22, hoverScale / position.scale) : 1;
+
+    // Category filter matching
+    const isCategoryMatch = selectedCategory === 'All' || badge.category === selectedCategory;
+    const finalOpacity = isCategoryMatch ? position.fadeOpacity : position.fadeOpacity * 0.2;
+
+    return (
+      <div
+        key={badge.name}
+        className="absolute cursor-pointer select-none transition-transform duration-150 ease-out flex items-center justify-center group"
+        style={{
+          width: `${nodeSize}px`,
+          height: `${nodeSize}px`,
+          left: `calc(50% + ${position.x}px)`,
+          top: `calc(50% + ${position.y}px)`,
+          opacity: finalOpacity,
+          transform: `translate(-50%, -50%) scale(${finalScale})`,
+          zIndex: position.zIndex,
+          pointerEvents: isCategoryMatch ? 'auto' : 'none'
+        }}
+        onMouseEnter={() => setHoveredIndex(index)}
+        onMouseLeave={() => setHoveredIndex(null)}
+        onClick={() => {
+          if (dragDistance.current > 7) return;
+          setSelectedBadge(badge);
+          if (onItemSelect) onItemSelect(badge);
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: badge.bgColor,
+            color: badge.textColor
+          }}
+          className="relative w-full h-full rounded-full flex flex-col items-center justify-center p-1.5 border-2 border-white/80 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.2),0_4px_10px_rgba(0,0,0,0.08)] overflow-hidden"
+        >
+          {/* Brand Symbol / Icon */}
+          <span className="text-sm sm:text-lg font-black drop-shadow-sm select-none leading-none mb-0.5">
+            {badge.iconSymbol || badge.name.slice(0, 2)}
+          </span>
+
+          {/* Micro Label */}
+          <span className="text-[8px] sm:text-[10px] font-mono font-black uppercase tracking-tight line-clamp-1 select-none text-center leading-tight opacity-95 px-1">
+            {badge.name}
+          </span>
+
+          {/* Spherical Sheen Highlight */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/15 via-transparent to-white/35 pointer-events-none" />
+        </div>
+
+        {/* Hover Tooltip */}
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -bottom-7 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-full bg-black/85 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase pointer-events-none shadow-lg whitespace-nowrap z-50">
+          {badge.name} • {badge.category}
+        </div>
+      </div>
+    );
   };
 
-  const handlePointerUp = (e: React.PointerEvent) => {
-    isDragging.current = false;
-    try {
-      (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
-    } catch {}
+  // Render Image Node (For pure Image-Sphere mode)
+  const renderImageNode = (image: ImageData, index: number) => {
+    const position = worldPositions[index];
+    if (!position || !position.isVisible) return null;
+
+    const imageSize = baseImageSize * position.scale;
+    const isHovered = hoveredIndex === index;
+    const finalScale = isHovered ? Math.min(1.2, 1.2 / position.scale) : 1;
+
+    return (
+      <div
+        key={image.id}
+        className="absolute cursor-pointer select-none transition-transform duration-200 ease-out"
+        style={{
+          width: `${imageSize}px`,
+          height: `${imageSize}px`,
+          left: `calc(50% + ${position.x}px)`,
+          top: `calc(50% + ${position.y}px)`,
+          opacity: position.fadeOpacity,
+          transform: `translate(-50%, -50%) scale(${finalScale})`,
+          zIndex: position.zIndex
+        }}
+        onMouseEnter={() => setHoveredIndex(index)}
+        onMouseLeave={() => setHoveredIndex(null)}
+        onClick={() => {
+          if (dragDistance.current > 7) return;
+          setSelectedImage(image);
+        }}
+      >
+        <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border-2 border-white/60">
+          <img
+            src={image.src}
+            alt={image.alt}
+            className="w-full h-full object-cover"
+            draggable={false}
+            loading={index < 3 ? 'eager' : 'lazy'}
+          />
+        </div>
+      </div>
+    );
   };
+
+  // Modal Inspection View for Selected Item
+  const renderSpotlightModal = () => {
+    if (selectedBadge) {
+      return (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm cursor-default"
+          onClick={() => setSelectedBadge(null)}
+          style={{ animation: 'sphereFadeIn 0.25s ease-out' }}
+        >
+          <div
+            className="bg-white p-7 rounded-3xl border border-neutral-200 max-w-sm w-full shadow-2xl relative text-[#212529]"
+            onClick={e => e.stopPropagation()}
+            style={{ animation: 'sphereScaleIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)' }}
+          >
+            <button
+              onClick={() => setSelectedBadge(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-neutral-100 text-[#495057] hover:text-[#000000] hover:bg-neutral-200 transition-all cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-3.5 mb-4">
+              <div
+                style={{ backgroundColor: selectedBadge.bgColor, color: selectedBadge.textColor }}
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black shadow-md border border-black/10 shrink-0"
+              >
+                {selectedBadge.iconSymbol || selectedBadge.name.slice(0, 2)}
+              </div>
+
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#8e916c] font-bold block">
+                  {selectedBadge.category}
+                </span>
+                <h3 className="text-xl font-extrabold text-[#000000]">
+                  {selectedBadge.name}
+                </h3>
+              </div>
+            </div>
+
+            <p className="text-xs text-[#6c757d] leading-relaxed mb-6 font-normal">
+              {selectedBadge.name} is a core competency utilized across full-stack production, machine learning architectures, and modern cloud deployment pipelines.
+            </p>
+
+            <div className="flex items-center justify-between pt-4 border-t border-neutral-100 text-xs font-mono">
+              <span className="text-emerald-700 font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Active In Production
+              </span>
+
+              <button
+                onClick={() => setSelectedBadge(null)}
+                className="px-4 py-1.5 rounded-full bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-semibold shadow-sm cursor-pointer"
+              >
+                Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (selectedImage) {
+      return (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={() => setSelectedImage(null)}
+          style={{ animation: 'sphereFadeIn 0.25s ease-out' }}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl relative"
+            onClick={e => e.stopPropagation()}
+            style={{ animation: 'sphereScaleIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)' }}
+          >
+            <div className="relative aspect-square">
+              <img
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-3 right-3 w-8 h-8 bg-black/60 rounded-full text-white flex items-center justify-center hover:bg-black/80 transition-all cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {(selectedImage.title || selectedImage.description) && (
+              <div className="p-6">
+                {selectedImage.title && (
+                  <h3 className="text-xl font-bold mb-2">{selectedImage.title}</h3>
+                )}
+                {selectedImage.description && (
+                  <p className="text-gray-600 text-sm">{selectedImage.description}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // ==========================================
+  // EARLY RETURN (LOADING STATE)
+  // ==========================================
+
+  if (!isMounted) {
+    return (
+      <div
+        className="w-full h-[520px] bg-neutral-100 rounded-3xl animate-pulse flex items-center justify-center"
+      >
+        <div className="text-neutral-400 font-mono text-xs">Loading 3D Sphere...</div>
+      </div>
+    );
+  }
+
+  // ==========================================
+  // MAIN RENDER
+  // ==========================================
 
   return (
-    <div 
-      ref={containerRef}
-      className={`relative w-full h-[520px] sm:h-[580px] md:h-[620px] select-none overflow-hidden rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] flex items-center justify-center cursor-grab active:cursor-grabbing ${className}`}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-    >
-      {/* Background Soft Tech Grid */}
-      <div 
-        className="absolute inset-0 opacity-20 pointer-events-none"
+    <>
+      <style>{`
+        @keyframes sphereFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes sphereScaleIn {
+          from { transform: scale(0.85); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
+
+      <div
+        ref={containerRef}
+        className={`relative w-full h-[520px] sm:h-[580px] md:h-[620px] select-none overflow-hidden rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] flex items-center justify-center cursor-grab active:cursor-grabbing ${className}`}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
         style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.15) 1px, transparent 0)',
-          backgroundSize: '24px 24px'
+          perspective: `${perspective}px`
         }}
-      />
+      >
+        {/* Background Soft Tech Grid */}
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.15) 1px, transparent 0)',
+            backgroundSize: '24px 24px'
+          }}
+        />
 
-      {/* Top Floating Controls Bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-        
-        {/* Left: Navigation hint */}
-        <div className="pointer-events-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-          <Compass className="w-3.5 h-3.5 text-[#b1b493] animate-spin" style={{ animationDuration: '8s' }} />
-          <span>Drag 3D sphere to rotate  •  Click node to inspect</span>
-        </div>
+        {/* Top Floating Controls Bar */}
+        <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
+          {/* Left: Navigation Hint */}
+          <div className="pointer-events-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
+            <Compass className="w-3.5 h-3.5 text-[#b1b493] animate-spin" style={{ animationDuration: '8s' }} />
+            <span>Drag 3D sphere to rotate • Click node to inspect</span>
+          </div>
 
-        {/* Right: Auto-spin toggle button */}
-        <div className="pointer-events-auto flex items-center gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setAutoRotate(prev => !prev);
-            }}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono transition-all border shadow-sm ${
-              autoRotate 
-                ? 'bg-[#b1b493]/20 border-[#b1b493]/50 text-[#3a3d24] font-semibold' 
-                : 'bg-white/90 border-neutral-200 text-[#6c757d] hover:text-[#000000]'
-            }`}
-            title="Toggle Auto Rotation"
-          >
-            <RotateCw className={`w-3 h-3 ${autoRotate ? 'text-[#b1b493] animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
-            <span>{autoRotate ? 'Auto-Orbit On' : 'Paused'}</span>
-          </button>
-        </div>
-
-      </div>
-
-      {/* 3D Sphere Stage (Origin at Center) */}
-      <div className="relative w-0 h-0 flex items-center justify-center pointer-events-none">
-        {items.map((item, idx) => (
-          <div
-            key={item.name}
-            ref={el => { itemRefs.current[idx] = el; }}
-            style={{
-              position: 'absolute',
-              transform: 'translate3d(0, 0, 0) scale(1)',
-              willChange: 'transform, opacity, z-index'
-            }}
-            onClick={(e) => {
-              // Ignore clicks that were part of a drag motion
-              if (dragDistance.current > 6) return;
-              e.stopPropagation();
-              setActiveItem(item);
-              if (onItemSelect) onItemSelect(item);
-            }}
-            className="cursor-pointer group flex flex-col items-center justify-center pointer-events-auto"
-          >
-            {/* Circular Bubble Node (Tony Sebastian Image-Sphere Style) */}
-            <div 
-              style={{
-                backgroundColor: item.bgColor,
-                color: item.textColor
+          {/* Right: Auto-Orbit Toggle Button */}
+          <div className="pointer-events-auto flex items-center gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setAutoRotate(prev => !prev);
               }}
-              className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center p-2.5 transition-transform duration-200 group-hover:scale-125 border-2 border-white shadow-[0_12px_30px_-5px_rgba(0,0,0,0.22),0_4px_12px_rgba(0,0,0,0.1)]"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono transition-all border shadow-sm cursor-pointer ${
+                autoRotate
+                  ? 'bg-[#b1b493]/20 border-[#b1b493]/50 text-[#3a3d24] font-semibold'
+                  : 'bg-white/90 border-neutral-200 text-[#6c757d] hover:text-[#000000]'
+              }`}
+              title="Toggle Auto Rotation"
             >
-              {/* Brand Symbol / Icon */}
-              <span className="text-xl sm:text-2xl font-black drop-shadow-sm select-none leading-none mb-0.5">
-                {item.iconSymbol || item.name.slice(0, 2)}
-              </span>
-
-              {/* Micro Label inside node */}
-              <span className="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-tight line-clamp-1 select-none text-center leading-tight opacity-95">
-                {item.name}
-              </span>
-
-              {/* Subtle sheen highlight */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 via-transparent to-white/30 pointer-events-none" />
-            </div>
-
-            {/* Floating Name Tooltip on Hover */}
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-2 px-2.5 py-1 rounded-full bg-black/85 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase pointer-events-none shadow-lg whitespace-nowrap z-50">
-              {item.name} • {item.category}
-            </div>
+              <RotateCw className={`w-3 h-3 ${autoRotate ? 'text-[#b1b493] animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
+              <span>{autoRotate ? 'Auto-Orbit On' : 'Paused'}</span>
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* Bottom Center Indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-          <Sparkles className="w-3 h-3 text-[#b1b493]" />
-          <span>Interactive 3D Tech Sphere • Click any node to explore</span>
+        {/* Central 3D Sphere Container */}
+        <div
+          className="relative pointer-events-none"
+          style={{
+            width: `${containerSize}px`,
+            height: `${containerSize}px`
+          }}
+        >
+          {isBadgeMode
+            ? items.map((badge, index) => renderBadgeNode(badge, index))
+            : images.map((image, index) => renderImageNode(image, index))}
+        </div>
+
+        {/* Bottom Center Indicator */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
+            <Sparkles className="w-3 h-3 text-[#b1b493]" />
+            <span>Fibonacci 3D Lattice • Zero-Overlap Collision Detection</span>
+          </div>
         </div>
       </div>
 
-      {/* Selected Item Quick Inspection Modal */}
-      <AnimatePresence>
-        {activeItem && (
-          <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm cursor-default"
-            onClick={() => setActiveItem(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 15 }}
-              className="bg-white p-7 rounded-3xl border border-neutral-200 max-w-sm w-full shadow-2xl relative text-[#212529]"
-              onClick={e => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setActiveItem(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-neutral-100 text-[#495057] hover:text-[#000000] hover:bg-neutral-200 transition-all"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              <div className="flex items-center gap-3.5 mb-4">
-                <div 
-                  style={{ backgroundColor: activeItem.bgColor, color: activeItem.textColor }}
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black shadow-md border border-black/10 shrink-0"
-                >
-                  {activeItem.iconSymbol || activeItem.name.slice(0, 2)}
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#8e916c] font-bold block">
-                    {activeItem.category}
-                  </span>
-                  <h3 className="text-xl font-extrabold text-[#000000]">
-                    {activeItem.name}
-                  </h3>
-                </div>
-              </div>
-
-              <p className="text-xs text-[#6c757d] leading-relaxed mb-6 font-normal">
-                {activeItem.name} is a core competency utilized across full-stack production, machine learning architectures, and modern cloud deployment pipelines.
-              </p>
-
-              <div className="flex items-center justify-between pt-4 border-t border-neutral-100 text-xs font-mono">
-                <span className="text-emerald-700 font-semibold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  Active In Production
-                </span>
-
-                <button
-                  onClick={() => setActiveItem(null)}
-                  className="px-4 py-1.5 rounded-full bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-semibold shadow-sm"
-                >
-                  Got It
-                </button>
-              </div>
-
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
+      {renderSpotlightModal()}
+    </>
   );
 };
+
+export default TechSphere;
