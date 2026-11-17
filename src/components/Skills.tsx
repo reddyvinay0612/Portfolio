@@ -58,38 +58,17 @@ export const Skills: React.FC = () => {
           </p>
         </div>
 
-        {/* ---------------- 💻 TECH STACK SHOWCASE (3D SPHERE & BADGES) ---------------- */}
+        {/* ---------------- TECH STACK SHOWCASE (3D SPHERE & BADGES) ---------------- */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 bg-white rounded-3xl p-6 sm:p-8 border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)]"
+          className="mb-16"
         >
-          {/* Top Bar: Title & Stats */}
-          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-neutral-100">
-            <span className="text-2xl">💻</span>
-            <div>
-              <h3 className="text-xl font-extrabold text-[#000000] tracking-tight">
-                Tech Stack
-              </h3>
-              <span className="text-xs font-mono text-[#6c757d]">
-                {badges.length} core technologies across software &amp; AI
-              </span>
-            </div>
-          </div>
-
-          {/* 3D TECH SPHERE SHOWCASE */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <TechSphere
-              items={badges}
-              selectedCategory="All"
-            />
-          </motion.div>
-
+          <TechSphere
+            items={badges}
+            selectedCategory="All"
+          />
         </motion.div>
 
         {/* ---------------- STRUCTURED PROFICIENCY MATRIX ---------------- */}
