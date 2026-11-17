@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { LiquidNavbar, NimbusIcons, LiquidNavItem } from './LiquidNavbar';
 
 interface NavbarProps {
   onOpenResumeModal: () => void;
@@ -11,21 +12,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
+  const navItems: LiquidNavItem[] = [
+    { label: 'Home', href: '#home', icon: NimbusIcons.home, fx: 'glow' },
+    { label: 'About', href: '#about', icon: NimbusIcons.user, fx: 'wave' },
+    { label: 'Skills', href: '#skills', icon: NimbusIcons.code, fx: 'spin' },
+    { label: 'Projects', href: '#projects', icon: NimbusIcons.projects, fx: 'plane' },
+    { label: 'Contact', href: '#contact', icon: NimbusIcons.contact, fx: 'drop' },
   ];
+
+  const activeIndex = Math.max(
+    0,
+    navItems.findIndex((item) => item.href === `#${activeSection}`)
+  );
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
       // Scroll spy for active section
-      const scrollPos = window.scrollY + 100;
+      const scrollPos = window.scrollY + 120;
       for (const item of navItems) {
+        if (!item.href) continue;
         const sectionId = item.href.substring(1);
         const el = document.getElementById(sectionId);
         if (el) {
@@ -38,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -46,54 +53,48 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     <header 
       className={`fixed top-0 left-0 right-0 z-[50000] w-full transition-all duration-500 ease-out border-b border-transparent ${
         scrolled 
-          ? 'py-3 bg-black/60 backdrop-blur-xl border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
-          : 'py-6 bg-transparent'
+          ? 'py-2.5 bg-black/70 backdrop-blur-2xl border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
+          : 'py-5 bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         
-        {/* LOGO */}
+        {/* BRAND LOGO */}
         <a href="#home" className="flex items-center text-2xl font-black tracking-tight text-white select-none">
           Vinayprakash<span className="text-[#FF2A2A]">.</span>
         </a>
 
-        {/* CENTER NAVIGATION (DESKTOP) */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-12">
-          {navItems.map((item) => {
-            const sectionId = item.href.substring(1);
-            const isActive = activeSection === sectionId;
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`relative py-2 text-sm font-medium tracking-wide transition-colors duration-300 group ${
-                  isActive ? 'text-white' : 'text-white/70 hover:text-white'
-                }`}
-              >
-                {item.label}
-                {/* Underline grows from left to right */}
-                <span 
-                  className={`absolute bottom-0 left-0 h-[2px] bg-[#FF2A2A] transition-all duration-300 origin-left ${
-                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
-              </a>
-            );
-          })}
-        </nav>
+        {/* CENTER NAVIGATION (DESKTOP) - LIQUID "WATERLINE" NAVBAR */}
+        <div className="hidden md:flex items-center justify-center">
+          <LiquidNavbar 
+            items={navItems}
+            active={activeIndex}
+            tone="dark"
+            sound={true}
+            onChange={(idx, item) => {
+              if (item.href) {
+                const targetId = item.href.substring(1);
+                const el = document.getElementById(targetId);
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }
+            }}
+          />
+        </div>
 
         {/* RIGHT CTA (DESKTOP) */}
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={onOpenResumeModal}
-            className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide border border-white/10 text-white/95 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
+            className="px-6 py-2 rounded-full text-sm font-semibold tracking-wide border border-white/10 text-white/95 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
           >
             Resume
           </button>
           
           <a
             href="#contact"
-            className="relative px-6 py-2.5 rounded-full text-sm font-bold tracking-wide text-white bg-white/10 hover:bg-[#FF2A2A] border border-white/20 hover:border-[#FF2A2A] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] active:scale-95 backdrop-blur-md"
+            className="relative px-6 py-2 rounded-full text-sm font-bold tracking-wide text-white bg-white/10 hover:bg-[#FF2A2A] border border-white/20 hover:border-[#FF2A2A] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] active:scale-95 backdrop-blur-md"
           >
             Hire Me
           </a>
@@ -109,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
         </button>
       </div>
 
-      {/* MOBILE PANEL (Slide down full width, bright red) */}
+      {/* MOBILE PANEL (Slide down full width, red & black theme) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
