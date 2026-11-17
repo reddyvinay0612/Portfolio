@@ -188,19 +188,8 @@ export const Projects: React.FC = () => {
                 <CircularGallery
                   items={galleryItems}
                   bend={bendIntensity}
-                  textColor="#b1b493"
-                  borderRadius={0.06}
-                  itemSize={1.0}
-                  itemAspect={0.78}
-                  gap={0.28}
-                  wave={1.2}
-                  fadeEdges={0.14}
-                  shadow={0.15}
-                  scrollSpeed={2}
-                  scrollEase={0.05}
+                  autoRotateSpeed={0.06}
                   autoScroll={autoRotate ? 0.3 : 0}
-                  openOnClick={true}
-                  showTitles={false}
                   onActiveChange={(index) => setActiveProjectIndex(index)}
                   onItemClick={(item, index) => {
                     const proj = filteredProjects[index];
