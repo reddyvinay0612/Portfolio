@@ -138,11 +138,11 @@ export const About: React.FC = () => {
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Location</span>
-              <span className="text-[#000000] font-bold text-sm mt-0.5">Shivamogga, Karnataka, India</span>
+              <span className="text-[#000000] font-bold text-sm mt-0.5">Kalaburgi, Karnataka, India</span>
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Direct Email</span>
-              <span className="text-[#000000] font-bold text-xs mt-0.5 truncate">reddyvinayprakash@gmail.com</span>
+              <span className="text-[#000000] font-bold text-xs mt-0.5 truncate">vinayprakashvg@gmail.com</span>
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Status</span>

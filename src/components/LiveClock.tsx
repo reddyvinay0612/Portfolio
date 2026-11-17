@@ -38,7 +38,7 @@ export const LiveClock: React.FC = () => {
     <div className="inline-flex items-center gap-3 glass-pill px-4 py-2 rounded-full text-xs font-mono text-gray-300 shadow-lg border border-purple-500/20">
       <div className="flex items-center gap-1.5 text-purple-400 font-semibold">
         <MapPin className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-        <span>Shivamogga, IN</span>
+        <span>Kalaburgi, IN</span>
       </div>
       <span className="text-gray-600">|</span>
       <div className="flex items-center gap-1.5 text-gray-300">
