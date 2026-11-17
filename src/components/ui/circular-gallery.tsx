@@ -727,6 +727,11 @@ const CircularGallery = ({
 
     const placeLabels = (metrics: Metrics) => {
       const s = settingsRef.current;
+      if (!s.showTitles) {
+        labelLayer.style.display = 'none';
+        return;
+      }
+      labelLayer.style.display = '';
       ensurePool(metrics.spacing);
       const used = new Set<LabelSlot>();
       const font = fontRef.current;

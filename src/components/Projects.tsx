@@ -190,9 +190,9 @@ export const Projects: React.FC = () => {
                   bend={bendIntensity}
                   textColor="#FF2A2A"
                   borderRadius={0.06}
-                  itemSize={1.05}
+                  itemSize={1.0}
                   itemAspect={0.78}
-                  gap={0.24}
+                  gap={0.28}
                   wave={1.2}
                   fadeEdges={0.14}
                   shadow={0.35}
@@ -200,6 +200,7 @@ export const Projects: React.FC = () => {
                   scrollEase={0.05}
                   autoScroll={autoRotate ? 0.3 : 0}
                   openOnClick={true}
+                  showTitles={false}
                   onActiveChange={(index) => setActiveProjectIndex(index)}
                   onItemClick={(item, index) => {
                     const proj = filteredProjects[index];
