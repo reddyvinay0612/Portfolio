@@ -24,16 +24,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: #f2f7fa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b1b493;
+  background: #3b82a6;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9a9d7c;
+  background: #2d6785;
 }
 
 /* Clyde Theme Card Styles */
@@ -48,30 +48,30 @@
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(177, 180, 147, 0.7);
-  box-shadow: 0 16px 40px -4px rgba(177, 180, 147, 0.25);
+  border-color: rgba(59, 130, 166, 0.7);
+  box-shadow: 0 16px 40px -4px rgba(59, 130, 166, 0.25);
   transform: translateY(-4px);
 }
 
 .glass-pill {
-  background: #f8f9fa;
+  background: #f2f7fa;
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #000000 0%, #b1b493 100%);
+  background: linear-gradient(135deg, #000000 0%, #3b82a6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .clyde-accent {
-  color: #b1b493;
+  color: #3b82a6;
 }
 
 .clyde-bg-accent {
-  background-color: #b1b493;
+  background-color: #3b82a6;
 }
 
 .clyde-border-accent {
-  border-color: #b1b493;
+  border-color: #3b82a6;
 }

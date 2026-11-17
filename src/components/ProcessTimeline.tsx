@@ -75,20 +75,20 @@ export const ProcessTimeline: React.FC = () => {
     <section 
       ref={containerRef}
       id="process" 
-      className="relative py-28 bg-[#f8f9fa] text-[#212529] overflow-hidden z-10 select-none"
+      className="relative py-28 bg-[#f2f7fa] text-[#212529] overflow-hidden z-10 select-none"
       style={{
         backgroundImage: 'radial-gradient(rgba(0,0,0,0.05) 1px, transparent 0)',
         backgroundSize: '28px 28px'
       }}
     >
       {/* Background ambient sage glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#b1b493]/15 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#3b82a6]/15 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* HEADER SECTION */}
         <div className="flex flex-col items-center text-center mb-24 relative">
-          <span className="inline-block px-4 py-1.5 rounded-full border border-[#b1b493]/35 text-xs font-mono font-bold uppercase tracking-widest shadow-sm bg-[#b1b493]/15 text-[#5a5d40] mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full border border-[#3b82a6]/35 text-xs font-mono font-bold uppercase tracking-widest shadow-sm bg-[#3b82a6]/15 text-[#163e54] mb-4">
             How we work
           </span>
           
@@ -101,7 +101,7 @@ export const ProcessTimeline: React.FC = () => {
           </p>
 
           {/* Hand-drawn SVG Arrow */}
-          <div className="hidden lg:block absolute right-16 top-6 text-[#b1b493]">
+          <div className="hidden lg:block absolute right-16 top-6 text-[#3b82a6]">
             <svg className="w-16 h-16 transform rotate-[15deg]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 100 100">
               <path d="M10,80 Q40,30 90,20" strokeDasharray="5,5" />
               <path d="M70,15 L90,20 L85,40" />
@@ -125,7 +125,7 @@ export const ProcessTimeline: React.FC = () => {
               {/* Active animated sage dashed line */}
               <motion.path 
                 d="M 400 0 C 680 250, 680 450, 400 700 C 120 950, 120 1150, 400 1400" 
-                stroke="#b1b493" 
+                stroke="#3b82a6" 
                 strokeWidth="4" 
                 strokeDasharray="12 12"
                 style={{ pathLength }}
@@ -135,7 +135,7 @@ export const ProcessTimeline: React.FC = () => {
 
           {/* VERTICAL TIMELINE FOR MOBILE */}
           <div className="md:hidden absolute left-4 top-0 bottom-0 w-1 z-0 pointer-events-none">
-            <div className="w-full h-full bg-neutral-200 border-l-2 border-dashed border-[#b1b493]" />
+            <div className="w-full h-full bg-neutral-200 border-l-2 border-dashed border-[#3b82a6]" />
           </div>
 
           {/* PROCESS CARDS GRID */}
@@ -168,8 +168,8 @@ export const ProcessTimeline: React.FC = () => {
                     transition={{ type: "spring", stiffness: 300, damping: 15 }}
                     className={`relative p-8 rounded-[2rem] border transition-all duration-500 shadow-xl cursor-default ${step.rotation} ${
                       isActive 
-                        ? 'bg-[#b1b493] text-white border-[#b1b493] shadow-[0_20px_45px_rgba(177,180,147,0.35)]' 
-                        : 'bg-white text-[#212529] border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:border-[#b1b493]'
+                        ? 'bg-[#3b82a6] text-white border-[#3b82a6] shadow-[0_20px_45px_rgba(59, 130, 166,0.35)]' 
+                        : 'bg-white text-[#212529] border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:border-[#3b82a6]'
                     }`}
                   >
                     {/* HOLE PUNCH DETAILED GRAPHIC */}
@@ -179,7 +179,7 @@ export const ProcessTimeline: React.FC = () => {
 
                     {/* Step Number in Italic Serif Typography */}
                     <div className={`text-5xl font-serif italic font-normal tracking-wide mt-4 mb-2 ${
-                      isActive ? 'text-white/90' : 'text-[#8e916c]'
+                      isActive ? 'text-white/90' : 'text-[#2c6585]'
                     }`}>
                       {step.number}
                     </div>
@@ -206,7 +206,7 @@ export const ProcessTimeline: React.FC = () => {
           <motion.h4 
             whileInView={{ rotate: -2, scale: 1.05 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-serif italic text-[#8e916c] tracking-wide select-none font-medium transform -rotate-3"
+            className="text-3xl md:text-4xl font-serif italic text-[#2c6585] tracking-wide select-none font-medium transform -rotate-3"
             style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
           >
             "Ready to be delivered!"

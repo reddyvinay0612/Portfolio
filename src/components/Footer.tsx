@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
             className="text-xs font-semibold text-neutral-400 hover:text-white relative group py-1"
           >
             View Work
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#3b82a6] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 
@@ -52,8 +52,8 @@ export const Footer: React.FC = () => {
           <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
             Availability Status
           </span>
-          <div className="text-sm font-semibold text-[#b1b493] flex items-center md:justify-end gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#b1b493] animate-pulse" />
+          <div className="text-sm font-semibold text-[#3b82a6] flex items-center md:justify-end gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#3b82a6] animate-pulse" />
             Available for Opportunities
           </div>
           <div className="text-xs text-neutral-400 font-mono">
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
       <div className="w-full text-center my-6 relative overflow-hidden">
         <motion.h3
           style={{ y: yOffset, opacity }}
-          className="text-[12vw] font-black tracking-tighter leading-none lowercase text-neutral-800 select-none cursor-default transition-all duration-700 hover:text-[#b1b493] hover:drop-shadow-[0_0_40px_rgba(177,180,147,0.4)]"
+          className="text-[12vw] font-black tracking-tighter leading-none lowercase text-neutral-800 select-none cursor-default transition-all duration-700 hover:text-[#3b82a6] hover:drop-shadow-[0_0_40px_rgba(59, 130, 166,0.4)]"
         >
           vinayprakash
         </motion.h3>
@@ -86,10 +86,10 @@ export const Footer: React.FC = () => {
         <div className="flex justify-start md:justify-center">
           <a 
             href="mailto:vinayprakashvg@gmail.com" 
-            className="text-neutral-400 hover:text-[#b1b493] font-medium relative group transition-colors duration-300 py-1"
+            className="text-neutral-400 hover:text-[#3b82a6] font-medium relative group transition-colors duration-300 py-1"
           >
             vinayprakashvg@gmail.com
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#3b82a6] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 
@@ -100,7 +100,7 @@ export const Footer: React.FC = () => {
             className="hover:text-white transition-colors duration-300 relative group py-1"
           >
             Back to Top
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#3b82a6] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 

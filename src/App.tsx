@@ -25,7 +25,7 @@ export const App: React.FC = () => {
       </AnimatePresence>
 
       {/* 2. PORTFOLIO WEBSITE CONTENT - CLYDE THEME */}
-      <div className="relative min-h-screen bg-white text-[#212529] selection:bg-[#b1b493] selection:text-white font-sans overflow-x-hidden">
+      <div className="relative min-h-screen bg-white text-[#212529] selection:bg-[#3b82a6] selection:text-white font-sans overflow-x-hidden">
         {/* Sticky Header Navbar */}
         <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
 

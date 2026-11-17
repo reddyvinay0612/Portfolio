@@ -338,14 +338,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   renderItem(rawItem, i, isFront)
                 ) : project ? (
                   /* 2. Structured Clyde Project Card (Matching Screenshot) */
-                  <div className="relative w-full h-full rounded-[26px] bg-white border border-neutral-200/90 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14)] p-6 flex flex-col justify-between overflow-hidden text-[#212529] hover:border-[#b1b493] transition-all cursor-pointer group">
+                  <div className="relative w-full h-full rounded-[26px] bg-white border border-neutral-200/90 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14)] p-6 flex flex-col justify-between overflow-hidden text-[#212529] hover:border-[#3b82a6] transition-all cursor-pointer group">
                     {/* Top Ambient Glow */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#b1b493]/10 rounded-full blur-2xl pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#3b82a6]/10 rounded-full blur-2xl pointer-events-none" />
 
                     <div>
                       {/* Category Badge & Period */}
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/30 text-[#5a5d40] text-[10px] font-mono font-bold uppercase tracking-wider">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/30 text-[#163e54] text-[10px] font-mono font-bold uppercase tracking-wider">
                           {project.category}
                         </span>
                         {project.period && (
@@ -356,13 +356,13 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                       </div>
 
                       {/* Project Title */}
-                      <h3 className="text-lg sm:text-xl font-extrabold text-[#000000] tracking-tight leading-snug group-hover:text-[#8e916c] transition-colors">
+                      <h3 className="text-lg sm:text-xl font-extrabold text-[#000000] tracking-tight leading-snug group-hover:text-[#2c6585] transition-colors">
                         {project.title}
                       </h3>
 
                       {/* Status / Recognition Badge */}
                       {project.statusBadge && (
-                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#b1b493]/20 border border-[#b1b493]/35 text-[#3a3d24] text-[10px] font-mono font-bold">
+                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#3b82a6]/20 border border-[#3b82a6]/35 text-[#0c2838] text-[10px] font-mono font-bold">
                           <span>★ {project.statusBadge}</span>
                         </div>
                       )}
@@ -377,7 +377,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                         <div className="mt-3 space-y-1">
                           {project.highlights.slice(0, 2).map((hl, hIdx) => (
                             <div key={hIdx} className="flex items-start gap-1.5 text-[11px] text-[#495057] line-clamp-1">
-                              <span className="text-[#8e916c] font-bold">✦</span>
+                              <span className="text-[#2c6585] font-bold">✦</span>
                               <span>{hl}</span>
                             </div>
                           ))}
@@ -390,7 +390,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                           {project.technologies.slice(0, 5).map((tech) => (
                             <span
                               key={tech}
-                              className="px-2 py-0.5 rounded-md bg-[#f8f9fa] border border-neutral-200 text-[10px] font-mono text-[#495057] font-semibold"
+                              className="px-2 py-0.5 rounded-md bg-[#f2f7fa] border border-neutral-200 text-[10px] font-mono text-[#495057] font-semibold"
                             >
                               {tech}
                             </span>
@@ -406,7 +406,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
 
                     {/* Bottom Action Footer */}
                     <div className="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
-                      <div className="w-full py-2 rounded-xl bg-[#b1b493] group-hover:bg-[#9a9d7c] text-white text-[10px] font-mono font-bold uppercase tracking-widest text-center shadow-sm transition-all flex items-center justify-center gap-1.5">
+                      <div className="w-full py-2 rounded-xl bg-[#3b82a6] group-hover:bg-[#2d6785] text-white text-[10px] font-mono font-bold uppercase tracking-widest text-center shadow-sm transition-all flex items-center justify-center gap-1.5">
                         <Sparkles className="w-3 h-3" />
                         <span>Drag to rotate • Click to expand</span>
                       </div>

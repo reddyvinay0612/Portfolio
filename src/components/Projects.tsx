@@ -60,18 +60,18 @@ export const Projects: React.FC = () => {
     <section id="projects" className="py-24 px-4 md:px-8 relative z-10 bg-white overflow-hidden">
       
       {/* Background ambient sage glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#b1b493]/15 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#3b82a6]/15 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#5a5d40] text-xs font-mono uppercase tracking-widest mb-3">
-            <Code2 className="w-3.5 h-3.5 text-[#8e916c]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54] text-xs font-mono uppercase tracking-widest mb-3">
+            <Code2 className="w-3.5 h-3.5 text-[#2c6585]" />
             <span>Interactive 3D Showcase</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-[#000000] tracking-tight">
-            Featured <span className="text-[#b1b493]">Projects</span>
+            Featured <span className="text-[#3b82a6]">Projects</span>
           </h2>
           <p className="mt-3 text-[#6c757d] max-w-2xl text-sm md:text-base">
             Explore innovative engineering work spanning explainable machine learning, biometric spoofing defense, educational intelligence, and computer vision.
@@ -86,8 +86,8 @@ export const Projects: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                 selectedCategory === cat
-                  ? 'bg-[#b1b493] text-white shadow-md shadow-[#b1b493]/30'
-                  : 'bg-[#f8f9fa] text-[#6c757d] border border-neutral-200/80 hover:text-[#000000] hover:border-[#b1b493]'
+                  ? 'bg-[#3b82a6] text-white shadow-md shadow-[#3b82a6]/30'
+                  : 'bg-[#f2f7fa] text-[#6c757d] border border-neutral-200/80 hover:text-[#000000] hover:border-[#3b82a6]'
               }`}
             >
               {cat}
@@ -99,7 +99,7 @@ export const Projects: React.FC = () => {
         <div className="space-y-6">
             
             {/* Gallery Stage Container */}
-            <div className="relative w-full h-[520px] sm:h-[580px] md:h-[640px] rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
+            <div className="relative w-full h-[520px] sm:h-[580px] md:h-[640px] rounded-3xl bg-[#f2f7fa] border border-neutral-200/80 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
               
               {/* Subtle tech background grid */}
               <div 
@@ -135,24 +135,24 @@ export const Projects: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#b1b493]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#3b82a6]/10 rounded-full blur-3xl pointer-events-none" />
 
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                   
                   {/* Left: Project Info */}
                   <div className="flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-2.5">
-                      <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#4e5135]">
+                      <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54]">
                         {activeProject.category}
                       </span>
                       {activeProject.statusBadge && (
-                        <span className="text-[10px] font-mono uppercase tracking-wider font-bold px-2.5 py-0.5 rounded-full bg-[#b1b493]/20 text-[#3a3d24] border border-[#b1b493]/40">
+                        <span className="text-[10px] font-mono uppercase tracking-wider font-bold px-2.5 py-0.5 rounded-full bg-[#3b82a6]/20 text-[#0c2838] border border-[#3b82a6]/40">
                           {activeProject.statusBadge}
                         </span>
                       )}
                       {activeProject.role && (
-                        <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#f8f9fa] text-[#495057] border border-neutral-200 flex items-center gap-1">
-                          <Users className="w-3 h-3 text-[#b1b493]" />
+                        <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#f2f7fa] text-[#495057] border border-neutral-200 flex items-center gap-1">
+                          <Users className="w-3 h-3 text-[#3b82a6]" />
                           {activeProject.role}
                         </span>
                       )}
@@ -173,7 +173,7 @@ export const Projects: React.FC = () => {
                       {activeProject.technologies.slice(0, 6).map((tech) => (
                         <span
                           key={tech}
-                          className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[#f8f9fa] text-[#495057] border border-neutral-200/80"
+                          className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-[#f2f7fa] text-[#495057] border border-neutral-200/80"
                         >
                           {tech}
                         </span>
@@ -189,17 +189,17 @@ export const Projects: React.FC = () => {
                         href={activeProject.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2.5 rounded-xl bg-[#f8f9fa] hover:bg-neutral-100 text-[#212529] border border-neutral-200 hover:border-[#b1b493] transition-all flex items-center gap-2 text-xs font-mono font-semibold"
+                        className="px-4 py-2.5 rounded-xl bg-[#f2f7fa] hover:bg-neutral-100 text-[#212529] border border-neutral-200 hover:border-[#3b82a6] transition-all flex items-center gap-2 text-xs font-mono font-semibold"
                         title="View GitHub Repository"
                       >
-                        <Github className="w-4 h-4 text-[#b1b493]" />
+                        <Github className="w-4 h-4 text-[#3b82a6]" />
                         <span>Code</span>
                       </a>
                     )}
 
                     <button
                       onClick={() => setSelectedProject(activeProject)}
-                      className="flex-1 md:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#b1b493] hover:bg-[#9a9d7c] text-white text-xs font-semibold shadow-md shadow-[#b1b493]/20 transition-all"
+                      className="flex-1 md:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#3b82a6] hover:bg-[#2d6785] text-white text-xs font-semibold shadow-md shadow-[#3b82a6]/20 transition-all"
                     >
                       <Eye className="w-4 h-4" />
                       <span>View Technical Details</span>
@@ -233,7 +233,7 @@ export const Projects: React.FC = () => {
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="inline-block px-3 py-1 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#4e5135] text-xs font-mono mb-3">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54] text-xs font-mono mb-3">
                 {selectedProject.category}
               </div>
 
@@ -243,7 +243,7 @@ export const Projects: React.FC = () => {
 
               <div className="flex items-center gap-4 text-xs font-mono text-[#6c757d] mb-6">
                 <span>Period: {selectedProject.period}</span>
-                {selectedProject.role && <span className="text-[#8e916c]">Role: {selectedProject.role}</span>}
+                {selectedProject.role && <span className="text-[#2c6585]">Role: {selectedProject.role}</span>}
               </div>
 
               <div className="space-y-4 text-[#495057] text-sm leading-relaxed mb-6">
@@ -255,8 +255,8 @@ export const Projects: React.FC = () => {
               </h4>
               <ul className="space-y-2 mb-6">
                 {selectedProject.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-[#212529] bg-[#f8f9fa] p-2.5 rounded-xl border border-neutral-200/80">
-                    <Sparkles className="w-4 h-4 text-[#b1b493] shrink-0 mt-0.5" />
+                  <li key={i} className="flex items-start gap-2 text-xs text-[#212529] bg-[#f2f7fa] p-2.5 rounded-xl border border-neutral-200/80">
+                    <Sparkles className="w-4 h-4 text-[#3b82a6] shrink-0 mt-0.5" />
                     <span>{h}</span>
                   </li>
                 ))}
@@ -267,7 +267,7 @@ export const Projects: React.FC = () => {
               </h4>
               <div className="flex flex-wrap gap-2 mb-8">
                 {selectedProject.technologies.map(t => (
-                  <span key={t} className="px-3 py-1 rounded-lg bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#4e5135] text-xs font-mono">
+                  <span key={t} className="px-3 py-1 rounded-lg bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54] text-xs font-mono">
                     {t}
                   </span>
                 ))}
@@ -279,9 +279,9 @@ export const Projects: React.FC = () => {
                     href={selectedProject.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#f8f9fa] hover:bg-neutral-100 text-[#212529] font-mono text-xs font-bold transition-all border border-neutral-200 hover:border-[#b1b493]"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#f2f7fa] hover:bg-neutral-100 text-[#212529] font-mono text-xs font-bold transition-all border border-neutral-200 hover:border-[#3b82a6]"
                   >
-                    <Github className="w-4 h-4 text-[#b1b493]" />
+                    <Github className="w-4 h-4 text-[#3b82a6]" />
                     <span>View GitHub Repo</span>
                     <ExternalLink className="w-3.5 h-3.5 text-[#6c757d]" />
                   </a>
@@ -289,7 +289,7 @@ export const Projects: React.FC = () => {
 
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-semibold text-xs transition-colors shadow-sm"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#3b82a6] hover:bg-[#2d6785] text-white font-semibold text-xs transition-colors shadow-sm"
                 >
                   Close Window
                 </button>

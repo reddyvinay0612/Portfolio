@@ -42,7 +42,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
           {/* Action Bar Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-neutral-100 print:hidden">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#b1b493]/15 text-[#5a5d40] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-[#3b82a6]/15 text-[#163e54] flex items-center justify-center">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
@@ -53,7 +53,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             <button
               onClick={handleDownloadClick}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-semibold text-xs shadow-md shadow-[#b1b493]/30 hover:scale-105 active:scale-95 transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3b82a6] hover:bg-[#2d6785] text-white font-semibold text-xs shadow-md shadow-[#3b82a6]/30 hover:scale-105 active:scale-95 transition-all"
             >
               <Download className="w-4 h-4" />
               <span>Print / Download Resume</span>
@@ -79,7 +79,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             {/* Education */}
             <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#5a5d40] print:text-black font-bold mb-3 pb-1 border-b border-[#b1b493]/40 print:border-black">
+              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
                 Education
               </h3>
               <div className="space-y-2">
@@ -89,7 +89,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                 </div>
                 <div className="flex justify-between items-center text-xs text-[#495057] print:text-black">
                   <span>{PORTFOLIO_DATA.education.degree}</span>
-                  <span className="font-mono text-[#5a5d40] font-bold print:text-black">{PORTFOLIO_DATA.education.graduation}</span>
+                  <span className="font-mono text-[#163e54] font-bold print:text-black">{PORTFOLIO_DATA.education.graduation}</span>
                 </div>
                 <div className="text-xs text-[#6c757d] print:text-black">
                   Concentrations: {PORTFOLIO_DATA.education.concentrations.join(', ')} | <strong>GPA: {PORTFOLIO_DATA.education.gpa}</strong>
@@ -102,7 +102,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             {/* Projects */}
             <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#5a5d40] print:text-black font-bold mb-3 pb-1 border-b border-[#b1b493]/40 print:border-black">
+              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
                 Projects
               </h3>
               <div className="space-y-4">
@@ -110,7 +110,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                   <div key={proj.id} className="space-y-1">
                     <div className="flex justify-between items-baseline">
                       <span className="font-bold text-[#000000] print:text-black">
-                        {proj.title} {proj.role && <span className="text-xs font-normal text-[#8e916c]">({proj.role})</span>}
+                        {proj.title} {proj.role && <span className="text-xs font-normal text-[#2c6585]">({proj.role})</span>}
                       </span>
                       <span className="text-xs font-mono text-[#6c757d] print:text-black">{proj.period}</span>
                     </div>
@@ -124,7 +124,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             {/* Events Participated */}
             <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#5a5d40] print:text-black font-bold mb-3 pb-1 border-b border-[#b1b493]/40 print:border-black">
+              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
                 Events Participated &amp; Industrial Exposure
               </h3>
               <div className="space-y-3">
@@ -159,7 +159,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             {/* Skills */}
             <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#5a5d40] print:text-black font-bold mb-3 pb-1 border-b border-[#b1b493]/40 print:border-black">
+              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
                 Skills &amp; Languages
               </h3>
               <div className="text-xs text-[#495057] print:text-black space-y-1">

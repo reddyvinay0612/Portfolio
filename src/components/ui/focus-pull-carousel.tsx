@@ -299,7 +299,7 @@ const FP_CSS = `
   color: #6c757d;
 }
 .fp-count b {
-  color: #8e916c;
+  color: #2c6585;
   font-weight: 700;
 }
 .fp-nav {
@@ -322,17 +322,17 @@ const FP_CSS = `
   box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 .fp-btn:hover {
-  background: #b1b493;
-  border-color: #b1b493;
+  background: #3b82a6;
+  border-color: #3b82a6;
   color: #ffffff;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(177, 180, 147, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 130, 166, 0.4);
 }
 .fp-btn:active {
   transform: scale(0.96);
 }
 .fp-btn:focus-visible {
-  outline: 2px solid #b1b493;
+  outline: 2px solid #3b82a6;
   outline-offset: 2px;
 }
 .fp-bar {
@@ -347,7 +347,7 @@ const FP_CSS = `
   position: absolute;
   inset: 0 auto 0 0;
   width: 100%;
-  background: #b1b493;
+  background: #3b82a6;
   transform-origin: left;
   transform: scaleX(var(--fp-p, 0));
   transition: transform 0.1s linear;

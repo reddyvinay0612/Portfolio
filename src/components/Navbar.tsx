@@ -62,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
         
         {/* BRAND LOGO */}
         <a href="#home" className="flex items-center text-2xl font-black tracking-tight text-[#000000] select-none">
-          Vinayprakash<span className="text-[#b1b493]">.</span>
+          Vinayprakash<span className="text-[#3b82a6]">.</span>
         </a>
 
         {/* CENTER NAVIGATION (DESKTOP) - LIQUID "WATERLINE" NAVBAR */}
@@ -88,14 +88,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={onOpenResumeModal}
-            className="px-6 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase border border-neutral-300 text-neutral-800 bg-[#f8f9fa] hover:bg-[#b1b493] hover:text-white hover:border-[#b1b493] transition-all hover:scale-105 active:scale-95 shadow-sm"
+            className="px-6 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase border border-neutral-300 text-neutral-800 bg-[#f2f7fa] hover:bg-[#3b82a6] hover:text-white hover:border-[#3b82a6] transition-all hover:scale-105 active:scale-95 shadow-sm"
           >
             Resume
           </button>
           
           <a
             href="#contact"
-            className="relative px-6 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase text-white bg-[#b1b493] hover:bg-[#9a9d7c] border border-[#b1b493] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#b1b493]/30 active:scale-95 shadow-md shadow-[#b1b493]/20"
+            className="relative px-6 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase text-white bg-[#3b82a6] hover:bg-[#2d6785] border border-[#3b82a6] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#3b82a6]/30 active:scale-95 shadow-md shadow-[#3b82a6]/20"
           >
             Hire Me
           </a>
@@ -127,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-4xl sm:text-5xl font-black text-black hover:text-[#b1b493] transition-colors duration-300 tracking-tighter"
+                  className="text-4xl sm:text-5xl font-black text-black hover:text-[#3b82a6] transition-colors duration-300 tracking-tighter"
                 >
                   {item.label}
                 </a>
@@ -140,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                   setMobileMenuOpen(false);
                   onOpenResumeModal();
                 }}
-                className="px-8 py-4 rounded-full text-base font-bold text-black bg-[#f8f9fa] border border-neutral-300 text-center shadow-lg hover:scale-105 transition-transform"
+                className="px-8 py-4 rounded-full text-base font-bold text-black bg-[#f2f7fa] border border-neutral-300 text-center shadow-lg hover:scale-105 transition-transform"
               >
                 View Resume
               </button>
@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-8 py-4 rounded-full text-base font-bold text-white bg-[#b1b493] hover:bg-[#9a9d7c] text-center shadow-xl hover:scale-105 transition-transform"
+                className="px-8 py-4 rounded-full text-base font-bold text-white bg-[#3b82a6] hover:bg-[#2d6785] text-center shadow-xl hover:scale-105 transition-transform"
               >
                 Let's Talk
               </a>

@@ -680,7 +680,7 @@ export const TechSphere: React.FC<TechSphereProps> = ({
               </div>
 
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#8e916c] font-bold block">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#2c6585] font-bold block">
                   {selectedBadge.category}
                 </span>
                 <h3 className="text-xl font-extrabold text-[#000000]">
@@ -701,7 +701,7 @@ export const TechSphere: React.FC<TechSphereProps> = ({
 
               <button
                 onClick={() => setSelectedBadge(null)}
-                className="px-4 py-1.5 rounded-full bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-semibold shadow-sm cursor-pointer"
+                className="px-4 py-1.5 rounded-full bg-[#3b82a6] hover:bg-[#2d6785] text-white font-semibold shadow-sm cursor-pointer"
               >
                 Got It
               </button>
@@ -788,7 +788,7 @@ export const TechSphere: React.FC<TechSphereProps> = ({
 
       <div
         ref={containerRef}
-        className={`relative w-full h-[520px] sm:h-[580px] md:h-[620px] select-none overflow-hidden rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] flex items-center justify-center cursor-grab active:cursor-grabbing ${className}`}
+        className={`relative w-full h-[520px] sm:h-[580px] md:h-[620px] select-none overflow-hidden rounded-3xl bg-[#f2f7fa] border border-neutral-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] flex items-center justify-center cursor-grab active:cursor-grabbing ${className}`}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         style={{

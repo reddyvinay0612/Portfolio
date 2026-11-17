@@ -305,7 +305,7 @@ const CD_CSS = `
   flex-shrink: 0;
 }
 .cd-count b {
-  color: #8e916c;
+  color: #2c6585;
   font-weight: 700;
 }
 .cd-btn {
@@ -324,17 +324,17 @@ const CD_CSS = `
   transition: all .2s cubic-bezier(.2,.8,.2,1);
 }
 .cd-btn:hover {
-  background: #b1b493;
-  border-color: #b1b493;
+  background: #3b82a6;
+  border-color: #3b82a6;
   color: #ffffff;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(177, 180, 147, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 130, 166, 0.4);
 }
 .cd-btn:active {
   transform: scale(0.96);
 }
 .cd-btn:focus-visible {
-  outline: 2px solid #b1b493;
+  outline: 2px solid #3b82a6;
   outline-offset: 2px;
 }
 .cd-sr {
@@ -640,7 +640,7 @@ export default function CardDeckCarousel<T = any>({
               if (idx !== top) jumpTo(idx);
             }}
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              idx === top ? "w-6 bg-[#b1b493]" : "w-1.5 bg-neutral-300 hover:bg-neutral-400"
+              idx === top ? "w-6 bg-[#3b82a6]" : "w-1.5 bg-neutral-300 hover:bg-neutral-400"
             }`}
             aria-label={`Go to card ${idx + 1}`}
           />

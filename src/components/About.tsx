@@ -8,11 +8,11 @@ export const About: React.FC = () => {
   return (
     <section 
       id="about" 
-      className="relative min-h-screen py-24 bg-[#f8f9fa] text-[#212529] flex items-center justify-center overflow-hidden z-20 border-b border-neutral-200/80"
+      className="relative min-h-screen py-24 bg-[#f2f7fa] text-[#212529] flex items-center justify-center overflow-hidden z-20 border-b border-neutral-200/80"
     >
       {/* CLYDE AMBIENT LIGHT ACCENTS */}
       <div className="absolute inset-0 pointer-events-none -z-0 overflow-hidden">
-        <div className="absolute top-1/3 left-10 w-[400px] h-[400px] bg-[#b1b493]/10 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/3 left-10 w-[400px] h-[400px] bg-[#3b82a6]/10 rounded-full blur-[130px] pointer-events-none" />
         <div 
           className="absolute inset-0 opacity-[0.35]" 
           style={{
@@ -53,7 +53,7 @@ export const About: React.FC = () => {
             <div className="w-10 h-3 bg-black border border-neutral-700 rounded-full mb-6 z-30" />
             
             {/* PROFILE PHOTO FRAME */}
-            <div className="w-36 h-36 rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#b1b493]/50 shadow-inner mb-4">
+            <div className="w-36 h-36 rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#3b82a6]/50 shadow-inner mb-4">
               <img
                 src={profileImg}
                 alt="Vinayprakash"
@@ -65,7 +65,7 @@ export const About: React.FC = () => {
             {/* BADGE METADATA */}
             <div className="text-center w-full flex-grow flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-bold tracking-[0.2em] text-[#b1b493] uppercase block mb-1 font-mono">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#3b82a6] uppercase block mb-1 font-mono">
                   Developer ID
                 </span>
                 <h4 className="text-lg font-black tracking-tight text-white uppercase">
@@ -101,15 +101,15 @@ export const About: React.FC = () => {
           
           {/* Subheading Pill */}
           <div className="mb-2">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#555a3c] text-xs font-mono font-bold tracking-widest uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-[#b1b493]" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54] text-xs font-mono font-bold tracking-widest uppercase">
+              <Sparkles className="w-3.5 h-3.5 text-[#3b82a6]" />
               <span>My Intro</span>
             </span>
           </div>
 
           {/* Main Heading */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#000000] tracking-tight mb-5">
-            About <span className="text-[#b1b493]">Me</span>
+            About <span className="text-[#3b82a6]">Me</span>
           </h2>
 
           {/* Intro Paragraphs */}
@@ -134,7 +134,7 @@ export const About: React.FC = () => {
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Cumulative GPA</span>
-              <span className="text-[#555a3c] font-bold text-sm mt-0.5">8.02 / 10.00</span>
+              <span className="text-[#163e54] font-bold text-sm mt-0.5">8.02 / 10.00</span>
             </div>
             <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Location</span>
@@ -163,7 +163,7 @@ export const About: React.FC = () => {
               {/* React SVG Logo */}
               <motion.div
                 whileHover={{ scale: 1.08, y: -2 }}
-                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#b1b493]"
+                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#3b82a6]"
                 title="React"
               >
                 <svg className="w-8 h-8 text-cyan-600 fill-none" viewBox="-11.5 -10.23174 23 20.46348">
@@ -179,7 +179,7 @@ export const About: React.FC = () => {
               {/* Node.js SVG Logo */}
               <motion.div
                 whileHover={{ scale: 1.08, y: -2 }}
-                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#b1b493]"
+                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#3b82a6]"
                 title="Node.js"
               >
                 <svg className="w-8 h-8 text-green-600 fill-current" viewBox="0 0 24 24">
@@ -190,7 +190,7 @@ export const About: React.FC = () => {
               {/* Python SVG */}
               <motion.div
                 whileHover={{ scale: 1.08, y: -2 }}
-                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#b1b493]"
+                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#3b82a6]"
                 title="Python"
               >
                 <svg className="w-8 h-8 text-amber-600 fill-current" viewBox="0 0 24 24">
@@ -201,7 +201,7 @@ export const About: React.FC = () => {
               {/* Database / SQL */}
               <motion.div
                 whileHover={{ scale: 1.08, y: -2 }}
-                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#b1b493]"
+                className="w-13 h-13 p-3 rounded-xl bg-white border border-neutral-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-[#3b82a6]"
                 title="Database / SQL"
               >
                 <svg className="w-8 h-8 text-emerald-600 fill-current" viewBox="0 0 24 24">

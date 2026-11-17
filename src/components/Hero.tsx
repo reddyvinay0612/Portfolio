@@ -167,7 +167,7 @@ export const Hero: React.FC<HeroProps> = () => {
           <div className="parallax__fade absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none z-25 flex flex-col items-center justify-end pb-4">
             <div className="flex flex-col items-center gap-1 text-white/50 hover:text-white/80 transition-colors pointer-events-auto">
               <span className="text-[10px] font-mono tracking-[0.28em] uppercase">Scroll to explore</span>
-              <ChevronDown className="w-4 h-4 text-[#b1b493] animate-bounce" />
+              <ChevronDown className="w-4 h-4 text-[#3b82a6] animate-bounce" />
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         y: '-100%',
         transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }
       }}
-      className="fixed inset-0 w-full h-full bg-[#b1b493] z-[100000] flex items-center justify-center overflow-hidden select-none"
+      className="fixed inset-0 w-full h-full bg-[#3b82a6] z-[100000] flex items-center justify-center overflow-hidden select-none"
     >
       <div className="relative flex flex-col items-center">
         {/* TEXT LOGO CONTAINER */}

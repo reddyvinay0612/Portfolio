@@ -14,12 +14,12 @@ export const Certifications: React.FC = () => {
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#5a5d40] text-xs font-mono uppercase tracking-widest mb-3">
-            <Award className="w-3.5 h-3.5 text-[#8e916c]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3b82a6]/15 border border-[#3b82a6]/35 text-[#163e54] text-xs font-mono uppercase tracking-widest mb-3">
+            <Award className="w-3.5 h-3.5 text-[#2c6585]" />
             <span>Professional Growth</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-[#000000] tracking-tight">
-            Certifications &amp; <span className="text-[#b1b493]">Trainings</span>
+            Certifications &amp; <span className="text-[#3b82a6]">Trainings</span>
           </h2>
           <p className="mt-3 text-[#6c757d] max-w-xl text-sm md:text-base">
             Verified development programs in full-stack engineering, Bosch Industry 4.0 IoT, enterprise Java, cybersecurity techniques, and national-level hackathons.
@@ -49,7 +49,7 @@ export const Certifications: React.FC = () => {
               <div
                 className={`w-full h-full p-5 sm:p-6 rounded-[28px] bg-white border transition-all duration-300 flex flex-col justify-between overflow-hidden text-left ${
                   isCenter
-                    ? 'border-[#b1b493] shadow-[0_22px_50px_-10px_rgba(0,0,0,0.16)] ring-1 ring-[#b1b493]/40'
+                    ? 'border-[#3b82a6] shadow-[0_22px_50px_-10px_rgba(0,0,0,0.16)] ring-1 ring-[#3b82a6]/40'
                     : 'border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
                 }`}
               >
@@ -57,7 +57,7 @@ export const Certifications: React.FC = () => {
                   {/* ENTIRE LANDSCAPE CERTIFICATE (100% VISIBLE, NO CROPPING) */}
                   <div 
                     onClick={() => setSelectedCert(cert)}
-                    className="relative w-full aspect-[1.4/1] rounded-2xl overflow-hidden mb-4 bg-[#f8f9fa] border border-neutral-200/90 cursor-pointer group shadow-sm hover:shadow-md transition-all flex items-center justify-center p-1"
+                    className="relative w-full aspect-[1.4/1] rounded-2xl overflow-hidden mb-4 bg-[#f2f7fa] border border-neutral-200/90 cursor-pointer group shadow-sm hover:shadow-md transition-all flex items-center justify-center p-1"
                   >
                     <img 
                       src={cert.image} 
@@ -69,7 +69,7 @@ export const Certifications: React.FC = () => {
                     {/* Hover Overlay with Enlarge CTA */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-end justify-between p-3 pointer-events-none">
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-white text-[11px] font-mono font-medium flex items-center gap-1.5 shadow-lg">
-                        <Maximize2 className="w-3.5 h-3.5 text-[#b1b493]" />
+                        <Maximize2 className="w-3.5 h-3.5 text-[#3b82a6]" />
                         <span>Enlarge Certificate</span>
                       </span>
                       {cert.credentialId && (
@@ -82,11 +82,11 @@ export const Certifications: React.FC = () => {
 
                   {/* Header Row: Issuer + Period */}
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-mono text-[#8e916c] font-bold uppercase tracking-wider truncate">
+                    <span className="text-xs font-mono text-[#2c6585] font-bold uppercase tracking-wider truncate">
                       {cert.issuer}
                     </span>
-                    <span className="text-[11px] font-mono text-neutral-500 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#f8f9fa] border border-neutral-200 flex-shrink-0">
-                      <Calendar className="w-3 h-3 text-[#b1b493]" />
+                    <span className="text-[11px] font-mono text-neutral-500 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#f2f7fa] border border-neutral-200 flex-shrink-0">
+                      <Calendar className="w-3 h-3 text-[#3b82a6]" />
                       <span>{cert.date || cert.period}</span>
                     </span>
                   </div>
@@ -106,13 +106,13 @@ export const Certifications: React.FC = () => {
                     {cert.skills.slice(0, 5).map((skill) => (
                       <span
                         key={skill}
-                        className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-[#f8f9fa] border border-neutral-200/80 text-neutral-700 font-medium"
+                        className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-[#f2f7fa] border border-neutral-200/80 text-neutral-700 font-medium"
                       >
                         {skill}
                       </span>
                     ))}
                     {cert.skills.length > 5 && (
-                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-[#b1b493]/15 text-[#5a5d40] font-semibold">
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-[#3b82a6]/15 text-[#163e54] font-semibold">
                         +{cert.skills.length - 5}
                       </span>
                     )}
@@ -124,12 +124,12 @@ export const Certifications: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setSelectedCert(cert)}
-                    className="flex items-center gap-1.5 text-[#5a5d40] hover:text-black font-semibold transition-colors"
+                    className="flex items-center gap-1.5 text-[#163e54] hover:text-black font-semibold transition-colors"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#8e916c]" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#2c6585]" />
                     <span className="text-[11px]">{cert.verificationBadge || 'Verified Certificate'}</span>
                   </button>
-                  <span className="text-[#8e916c] font-bold text-[11px] opacity-80">
+                  <span className="text-[#2c6585] font-bold text-[11px] opacity-80">
                     {idx + 1 < 10 ? `0${idx + 1}` : idx + 1} / {certs.length < 10 ? `0${certs.length}` : certs.length}
                   </span>
                 </div>
@@ -164,14 +164,14 @@ export const Certifications: React.FC = () => {
               {/* Modal Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-[#fafafa]">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#b1b493]/15 border border-[#b1b493]/35 flex items-center justify-center text-[#5a5d40]">
-                    <ShieldCheck className="w-5 h-5 text-[#8e916c]" />
+                  <div className="w-9 h-9 rounded-xl bg-[#3b82a6]/15 border border-[#3b82a6]/35 flex items-center justify-center text-[#163e54]">
+                    <ShieldCheck className="w-5 h-5 text-[#2c6585]" />
                   </div>
                   <div>
                     <h4 className="text-base font-bold text-neutral-900 leading-tight">
                       {selectedCert.title}
                     </h4>
-                    <p className="text-xs font-mono text-[#8e916c]">
+                    <p className="text-xs font-mono text-[#2c6585]">
                       {selectedCert.issuer} {selectedCert.partner ? `• ${selectedCert.partner}` : ''}
                     </p>
                   </div>
@@ -200,11 +200,11 @@ export const Certifications: React.FC = () => {
                 {/* Certificate Meta Details */}
                 <div className="w-full mt-4 p-4 rounded-2xl bg-white border border-neutral-200 text-left">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-mono font-bold text-[#8e916c] uppercase">
+                    <span className="text-xs font-mono font-bold text-[#2c6585] uppercase">
                       Period: {selectedCert.period}
                     </span>
                     {selectedCert.credentialId && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#f8f9fa] border border-neutral-200 text-xs font-mono font-medium text-neutral-700">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#f2f7fa] border border-neutral-200 text-xs font-mono font-medium text-neutral-700">
                         {selectedCert.credentialId}
                       </span>
                     )}
@@ -216,7 +216,7 @@ export const Certifications: React.FC = () => {
                     {selectedCert.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f8f9fa] border border-neutral-200 text-neutral-700 font-medium"
+                        className="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f2f7fa] border border-neutral-200 text-neutral-700 font-medium"
                       >
                         {skill}
                       </span>

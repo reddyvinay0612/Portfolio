@@ -2,7 +2,7 @@ import { Project } from '../data/portfolioData';
 
 /**
  * Generates an ultra-crisp, high-DPI raster texture for a Project card
- * formatted in the Clyde signature luxury light & sage (#b1b493) aesthetic.
+ * formatted in the Clyde signature luxury light & sage (#3b82a6) aesthetic.
  * Renders into an offscreen HTML5 Canvas and returns a PNG data URL.
  */
 export function generateProjectCardTexture(project: Project): string {
@@ -25,19 +25,19 @@ export function generateProjectCardTexture(project: Project): string {
   roundRect(ctx, 0, 0, width, height, 40);
   ctx.fill();
 
-  // 2. Sage (#b1b493) Ambient Glow from Top-Right
+  // 2. Sage (#3b82a6) Ambient Glow from Top-Right
   const glow = ctx.createRadialGradient(width - 80, 80, 20, width - 80, 80, 360);
-  glow.addColorStop(0, 'rgba(177, 180, 147, 0.28)');
-  glow.addColorStop(0.5, 'rgba(177, 180, 147, 0.08)');
-  glow.addColorStop(1, 'rgba(177, 180, 147, 0)');
+  glow.addColorStop(0, 'rgba(59, 130, 166, 0.28)');
+  glow.addColorStop(0.5, 'rgba(59, 130, 166, 0.08)');
+  glow.addColorStop(1, 'rgba(59, 130, 166, 0)');
   ctx.fillStyle = glow;
   roundRect(ctx, 0, 0, width, height, 40);
   ctx.fill();
 
   // 3. Sage Ambient Glow from Bottom-Left
   const bGlow = ctx.createRadialGradient(80, height - 80, 20, 80, height - 80, 320);
-  bGlow.addColorStop(0, 'rgba(177, 180, 147, 0.18)');
-  bGlow.addColorStop(1, 'rgba(177, 180, 147, 0)');
+  bGlow.addColorStop(0, 'rgba(59, 130, 166, 0.18)');
+  bGlow.addColorStop(1, 'rgba(59, 130, 166, 0)');
   ctx.fillStyle = bGlow;
   roundRect(ctx, 0, 0, width, height, 40);
   ctx.fill();
@@ -52,10 +52,10 @@ export function generateProjectCardTexture(project: Project): string {
 
   // 5. Card Border with Clyde Sage Gradient
   const borderGrad = ctx.createLinearGradient(0, 0, width, height);
-  borderGrad.addColorStop(0, 'rgba(177, 180, 147, 0.75)');
-  borderGrad.addColorStop(0.35, 'rgba(177, 180, 147, 0.35)');
+  borderGrad.addColorStop(0, 'rgba(59, 130, 166, 0.75)');
+  borderGrad.addColorStop(0.35, 'rgba(59, 130, 166, 0.35)');
   borderGrad.addColorStop(0.7, 'rgba(0, 0, 0, 0.08)');
-  borderGrad.addColorStop(1, 'rgba(177, 180, 147, 0.6)');
+  borderGrad.addColorStop(1, 'rgba(59, 130, 166, 0.6)');
   ctx.strokeStyle = borderGrad;
   ctx.lineWidth = 2.5;
   roundRect(ctx, 1.5, 1.5, width - 3, height - 3, 40);
@@ -72,15 +72,15 @@ export function generateProjectCardTexture(project: Project): string {
   const pillPadX = 18;
   const pillHeight = 36;
   
-  ctx.fillStyle = 'rgba(177, 180, 147, 0.18)';
+  ctx.fillStyle = 'rgba(59, 130, 166, 0.18)';
   roundRect(ctx, padX, cursorY, catWidth + pillPadX * 2, pillHeight, 18);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(177, 180, 147, 0.5)';
+  ctx.strokeStyle = 'rgba(59, 130, 166, 0.5)';
   ctx.lineWidth = 1.2;
   roundRect(ctx, padX, cursorY, catWidth + pillPadX * 2, pillHeight, 18);
   ctx.stroke();
 
-  ctx.fillStyle = '#4e5135';
+  ctx.fillStyle = '#163e54';
   ctx.fillText(catText, padX + pillPadX, cursorY + 24);
 
   // Period / Role on Top Right
@@ -115,7 +115,7 @@ export function generateProjectCardTexture(project: Project): string {
   if (titleLine) titleLines.push(titleLine);
 
   for (let i = 0; i < titleLines.length; i++) {
-    ctx.fillStyle = i === 0 ? '#000000' : '#8e916c';
+    ctx.fillStyle = i === 0 ? '#000000' : '#2c6585';
     ctx.fillText(titleLines[i], padX, cursorY + 32);
     cursorY += 40;
   }
@@ -129,15 +129,15 @@ export function generateProjectCardTexture(project: Project): string {
     const badgeW = ctx.measureText(badgeText).width;
     const bHeight = 32;
 
-    ctx.fillStyle = 'rgba(177, 180, 147, 0.22)';
+    ctx.fillStyle = 'rgba(59, 130, 166, 0.22)';
     roundRect(ctx, padX, cursorY, badgeW + 28, bHeight, 16);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(177, 180, 147, 0.55)';
+    ctx.strokeStyle = 'rgba(59, 130, 166, 0.55)';
     ctx.lineWidth = 1;
     roundRect(ctx, padX, cursorY, badgeW + 28, bHeight, 16);
     ctx.stroke();
 
-    ctx.fillStyle = '#4e5135';
+    ctx.fillStyle = '#163e54';
     ctx.fillText(badgeText, padX + 14, cursorY + 21);
     cursorY += 48;
   }
@@ -171,7 +171,7 @@ export function generateProjectCardTexture(project: Project): string {
   ctx.font = '500 17px "Poppins", -apple-system, system-ui, sans-serif';
   const highlights = project.highlights.slice(0, 3);
   for (const hl of highlights) {
-    ctx.fillStyle = '#b1b493';
+    ctx.fillStyle = '#3b82a6';
     ctx.fillText('✦', padX, cursorY + 20);
 
     ctx.fillStyle = '#212529';
@@ -205,12 +205,12 @@ export function generateProjectCardTexture(project: Project): string {
     ctx.fillStyle = '#f4f5ee';
     roundRect(ctx, pillX, pillRowY, pW, pH, 8);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(177, 180, 147, 0.45)';
+    ctx.strokeStyle = 'rgba(59, 130, 166, 0.45)';
     ctx.lineWidth = 1;
     roundRect(ctx, pillX, pillRowY, pW, pH, 8);
     ctx.stroke();
 
-    ctx.fillStyle = '#3a3d24';
+    ctx.fillStyle = '#0c2838';
     ctx.fillText(tech, pillX + 12, pillRowY + 21);
     pillX += pW + 10;
   }
@@ -218,13 +218,13 @@ export function generateProjectCardTexture(project: Project): string {
   // 12. Bottom CTA Bar
   const ctaY = height - 64;
   const ctaGrad = ctx.createLinearGradient(padX, ctaY, width - padX, ctaY);
-  ctaGrad.addColorStop(0, '#b1b493');
-  ctaGrad.addColorStop(0.5, '#9a9d7c');
-  ctaGrad.addColorStop(1, '#b1b493');
+  ctaGrad.addColorStop(0, '#3b82a6');
+  ctaGrad.addColorStop(0.5, '#2d6785');
+  ctaGrad.addColorStop(1, '#3b82a6');
   ctx.fillStyle = ctaGrad;
   roundRect(ctx, padX, ctaY, width - padX * 2, 40, 20);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(177, 180, 147, 0.9)';
+  ctx.strokeStyle = 'rgba(59, 130, 166, 0.9)';
   ctx.lineWidth = 1.2;
   roundRect(ctx, padX, ctaY, width - padX * 2, 40, 20);
   ctx.stroke();
