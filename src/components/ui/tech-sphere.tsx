@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RotateCw, Compass, Maximize2, Sparkles, X, ExternalLink } from 'lucide-react';
+import { RotateCw, Compass, Sparkles, X } from 'lucide-react';
 import { TechBadge } from '../../data/portfolioData';
 
 export interface TechSphereProps {
@@ -26,29 +26,48 @@ export const TechSphere: React.FC<TechSphereProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [radius, setRadius] = useState<number>(200);
+  const radiusRef = useRef<number>(200);
   const [autoRotate, setAutoRotate] = useState<boolean>(true);
+  const autoRotateRef = useRef<boolean>(true);
   const [activeItem, setActiveItem] = useState<TechBadge | null>(null);
 
-  // Rotation angles (in radians)
-  const rotX = useRef<number>(-0.15);
+  // Synchronize state to refs for high-frequency 60fps animation loop
+  useEffect(() => {
+    radiusRef.current = radius;
+  }, [radius]);
+
+  useEffect(() => {
+    autoRotateRef.current = autoRotate;
+  }, [autoRotate]);
+
+  const selectedCategoryRef = useRef<string>(selectedCategory);
+  useEffect(() => {
+    selectedCategoryRef.current = selectedCategory;
+  }, [selectedCategory]);
+
+  // Array of DOM node refs for direct zero-overhead 3D transforms
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // 3D Rotation angles (in radians) and physics velocity
+  const rotX = useRef<number>(-0.12);
   const rotY = useRef<number>(0.2);
-  const velocity = useRef<{ x: number; y: number }>({ x: 0.003, y: 0 });
+  const velocity = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const isDragging = useRef<boolean>(false);
   const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const dragDistance = useRef<number>(0);
   const animFrameId = useRef<number>(0);
-  const [, setTick] = useState<number>(0);
 
-  // Dynamically compute sphere radius based on container size
+  // Responsive radius calculation based on container width
   useEffect(() => {
     const updateSize = () => {
       if (!containerRef.current) return;
       const width = containerRef.current.clientWidth;
       if (width < 450) {
-        setRadius(140);
+        setRadius(135);
       } else if (width < 768) {
-        setRadius(180);
+        setRadius(175);
       } else {
-        setRadius(220);
+        setRadius(215);
       }
     };
 
@@ -77,84 +96,26 @@ export const TechSphere: React.FC<TechSphereProps> = ({
     return points;
   }, [items.length]);
 
-  // Main 3D animation loop with inertia momentum physics & auto-spin
-  useEffect(() => {
-    let lastTime = performance.now();
-
-    const loop = (currentTime: number) => {
-      const delta = Math.min(32, currentTime - lastTime);
-      lastTime = currentTime;
-
-      if (!isDragging.current) {
-        // Auto-rotation around vertical Y-axis
-        if (autoRotate) {
-          rotY.current += 0.0028 * (delta / 16);
-        }
-
-        // Apply momentum inertia with velocity damping
-        rotY.current += velocity.current.x * (delta / 16);
-        rotX.current += velocity.current.y * (delta / 16);
-
-        velocity.current.x *= 0.94;
-        velocity.current.y *= 0.94;
-
-        // Clamp vertical pitch to prevent gimbal disorientations
-        rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
-      }
-
-      setTick(t => (t + 1) % 100000);
-      animFrameId.current = requestAnimationFrame(loop);
-    };
-
-    animFrameId.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animFrameId.current);
-  }, [autoRotate]);
-
-  // Mouse & Touch Drag Interaction Handlers
-  const handlePointerDown = useCallback((clientX: number, clientY: number) => {
-    isDragging.current = true;
-    lastMousePos.current = { x: clientX, y: clientY };
-    velocity.current = { x: 0, y: 0 };
-  }, []);
-
-  const handlePointerMove = useCallback((clientX: number, clientY: number) => {
-    if (!isDragging.current) return;
-    const dx = clientX - lastMousePos.current.x;
-    const dy = clientY - lastMousePos.current.y;
-
-    lastMousePos.current = { x: clientX, y: clientY };
-
-    // Update rotation directly with sensitivity tuning
-    const sensitivity = 0.005;
-    rotY.current += dx * sensitivity;
-    rotX.current -= dy * sensitivity;
-
-    rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
-
-    // Store velocity for smooth inertial throw
-    velocity.current = {
-      x: dx * sensitivity * 0.7,
-      y: -dy * sensitivity * 0.7
-    };
-  }, []);
-
-  const handlePointerUp = useCallback(() => {
-    isDragging.current = false;
-  }, []);
-
-  // Compute current screen projections for each item
-  const projectedItems = useMemo(() => {
+  // 60FPS Direct-DOM 3D Projections update function
+  const updatePositions = useCallback(() => {
     const cosY = Math.cos(rotY.current);
     const sinY = Math.sin(rotY.current);
     const cosX = Math.cos(rotX.current);
     const sinX = Math.sin(rotX.current);
     const cameraDistance = 500;
+    const currentRadius = radiusRef.current;
+    const activeCategory = selectedCategoryRef.current;
 
-    return items.map((item, idx) => {
-      const p = basePoints[idx] || { x: 0, y: 0, z: 0 };
-      const scaledX = p.x * radius;
-      const scaledY = p.y * radius;
-      const scaledZ = p.z * radius;
+    for (let i = 0; i < items.length; i++) {
+      const el = itemRefs.current[i];
+      if (!el) continue;
+
+      const p = basePoints[i];
+      if (!p) continue;
+
+      const scaledX = p.x * currentRadius;
+      const scaledY = p.y * currentRadius;
+      const scaledZ = p.z * currentRadius;
 
       // 1. Rotate around Y-axis
       const x1 = scaledX * cosY + scaledZ * sinY;
@@ -170,42 +131,103 @@ export const TechSphere: React.FC<TechSphereProps> = ({
       const screenX = x2 * perspective;
       const screenY = y2 * perspective;
 
-      // 4. Depth factors (from 0 at back to 1 at front)
-      const depthFactor = Math.max(0, Math.min(1, (z2 + radius) / (2 * radius)));
-      const scale = (0.5 + 0.65 * depthFactor) * Math.min(1.25, perspective);
-      const opacity = 0.3 + 0.7 * depthFactor;
+      // 4. Depth factors (from 0 in back to 1 at front)
+      const depthFactor = Math.max(0, Math.min(1, (z2 + currentRadius) / (2 * currentRadius)));
+      const scale = (0.52 + 0.65 * depthFactor) * Math.min(1.22, perspective);
+      const baseOpacity = 0.35 + 0.65 * depthFactor;
+      const isMatch = activeCategory === 'All' || items[i].category === activeCategory;
+      const opacity = isMatch ? baseOpacity : baseOpacity * 0.22;
       const zIndex = Math.round(depthFactor * 1000);
 
-      const isCategoryMatch = selectedCategory === 'All' || item.category === selectedCategory;
+      el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) scale(${scale})`;
+      el.style.zIndex = `${zIndex}`;
+      el.style.opacity = `${opacity}`;
+      el.style.pointerEvents = isMatch ? 'auto' : 'none';
 
-      return {
-        item,
-        screenX,
-        screenY,
-        scale,
-        opacity: isCategoryMatch ? opacity : opacity * 0.25,
-        zIndex,
-        depthFactor,
-        isCategoryMatch
-      };
-    });
-  }, [items, basePoints, radius, selectedCategory]);
+      // Enhanced shadow for front-facing nodes
+      if (depthFactor > 0.6) {
+        el.classList.add('tech-sphere-front');
+      } else {
+        el.classList.remove('tech-sphere-front');
+      }
+    }
+  }, [items, basePoints]);
+
+  // Main high-frequency animation loop with momentum physics & continuous rotation
+  useEffect(() => {
+    let lastTime = performance.now();
+
+    const loop = (currentTime: number) => {
+      const delta = Math.min(32, currentTime - lastTime);
+      lastTime = currentTime;
+
+      if (!isDragging.current) {
+        // Continuous smooth auto-rotation
+        if (autoRotateRef.current) {
+          rotY.current += 0.0055 * (delta / 16);
+        }
+
+        // Apply momentum inertia with velocity decay
+        rotY.current += velocity.current.x * (delta / 16);
+        rotX.current += velocity.current.y * (delta / 16);
+
+        velocity.current.x *= 0.93;
+        velocity.current.y *= 0.93;
+
+        // Keep vertical pitch bounded
+        rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
+      }
+
+      updatePositions();
+      animFrameId.current = requestAnimationFrame(loop);
+    };
+
+    animFrameId.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animFrameId.current);
+  }, [updatePositions]);
+
+  // Pointer Interaction Handlers (Mouse & Touch with Pointer Capture)
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDragging.current = true;
+    dragDistance.current = 0;
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+    velocity.current = { x: 0, y: 0 };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - lastMousePos.current.x;
+    const dy = e.clientY - lastMousePos.current.y;
+    dragDistance.current += Math.abs(dx) + Math.abs(dy);
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+
+    const sensitivity = 0.005;
+    rotY.current += dx * sensitivity;
+    rotX.current -= dy * sensitivity;
+    rotX.current = Math.max(-1.1, Math.min(1.1, rotX.current));
+
+    velocity.current = {
+      x: dx * sensitivity * 0.8,
+      y: -dy * sensitivity * 0.8
+    };
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    isDragging.current = false;
+    try {
+      (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    } catch {}
+  };
 
   return (
     <div 
       ref={containerRef}
       className={`relative w-full h-[520px] sm:h-[580px] md:h-[620px] select-none overflow-hidden rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] flex items-center justify-center cursor-grab active:cursor-grabbing ${className}`}
-      onMouseDown={e => handlePointerDown(e.clientX, e.clientY)}
-      onMouseMove={e => handlePointerMove(e.clientX, e.clientY)}
-      onMouseUp={handlePointerUp}
-      onMouseLeave={handlePointerUp}
-      onTouchStart={e => {
-        if (e.touches[0]) handlePointerDown(e.touches[0].clientX, e.touches[0].clientY);
-      }}
-      onTouchMove={e => {
-        if (e.touches[0]) handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
-      }}
-      onTouchEnd={handlePointerUp}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
     >
       {/* Background Soft Tech Grid */}
       <div 
@@ -248,59 +270,52 @@ export const TechSphere: React.FC<TechSphereProps> = ({
 
       {/* 3D Sphere Stage (Origin at Center) */}
       <div className="relative w-0 h-0 flex items-center justify-center pointer-events-none">
-        {projectedItems.map(({ item, screenX, screenY, scale, opacity, zIndex, depthFactor, isCategoryMatch }) => {
-          const isFront = depthFactor > 0.55;
-
-          return (
-            <div
-              key={item.name}
+        {items.map((item, idx) => (
+          <div
+            key={item.name}
+            ref={el => { itemRefs.current[idx] = el; }}
+            style={{
+              position: 'absolute',
+              transform: 'translate3d(0, 0, 0) scale(1)',
+              willChange: 'transform, opacity, z-index'
+            }}
+            onClick={(e) => {
+              // Ignore clicks that were part of a drag motion
+              if (dragDistance.current > 6) return;
+              e.stopPropagation();
+              setActiveItem(item);
+              if (onItemSelect) onItemSelect(item);
+            }}
+            className="cursor-pointer group flex flex-col items-center justify-center pointer-events-auto"
+          >
+            {/* Circular Bubble Node (Tony Sebastian Image-Sphere Style) */}
+            <div 
               style={{
-                position: 'absolute',
-                transform: `translate3d(${screenX}px, ${screenY}px, 0) scale(${scale})`,
-                zIndex,
-                opacity,
-                pointerEvents: isCategoryMatch ? 'auto' : 'none'
+                backgroundColor: item.bgColor,
+                color: item.textColor
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveItem(item);
-                if (onItemSelect) onItemSelect(item);
-              }}
-              className="cursor-pointer group flex flex-col items-center justify-center transition-opacity duration-300"
+              className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center p-2.5 transition-transform duration-200 group-hover:scale-125 border-2 border-white shadow-[0_12px_30px_-5px_rgba(0,0,0,0.22),0_4px_12px_rgba(0,0,0,0.1)]"
             >
-              {/* Circular Bubble Node (Tony Sebastian Image-Sphere Style) */}
-              <div 
-                style={{
-                  backgroundColor: item.bgColor,
-                  color: item.textColor
-                }}
-                className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center p-2.5 transition-transform duration-200 group-hover:scale-125 border-2 ${
-                  isFront 
-                    ? 'border-white shadow-[0_12px_30px_-5px_rgba(0,0,0,0.22),0_4px_12px_rgba(0,0,0,0.1)]' 
-                    : 'border-white/60 shadow-md'
-                }`}
-              >
-                {/* Brand Symbol / Icon */}
-                <span className="text-xl sm:text-2xl font-black drop-shadow-sm select-none leading-none mb-0.5">
-                  {item.iconSymbol || item.name.slice(0, 2)}
-                </span>
+              {/* Brand Symbol / Icon */}
+              <span className="text-xl sm:text-2xl font-black drop-shadow-sm select-none leading-none mb-0.5">
+                {item.iconSymbol || item.name.slice(0, 2)}
+              </span>
 
-                {/* Micro Label inside node */}
-                <span className="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-tight line-clamp-1 select-none text-center leading-tight opacity-95">
-                  {item.name}
-                </span>
+              {/* Micro Label inside node */}
+              <span className="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-tight line-clamp-1 select-none text-center leading-tight opacity-95">
+                {item.name}
+              </span>
 
-                {/* Subtle sheen highlight */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 via-transparent to-white/30 pointer-events-none" />
-              </div>
-
-              {/* Floating Name Tooltip on Hover */}
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-2 px-2.5 py-1 rounded-full bg-black/85 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase pointer-events-none shadow-lg whitespace-nowrap z-50">
-                {item.name} • {item.category}
-              </div>
+              {/* Subtle sheen highlight */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 via-transparent to-white/30 pointer-events-none" />
             </div>
-          );
-        })}
+
+            {/* Floating Name Tooltip on Hover */}
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-2 px-2.5 py-1 rounded-full bg-black/85 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase pointer-events-none shadow-lg whitespace-nowrap z-50">
+              {item.name} • {item.category}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Bottom Center Indicator */}
