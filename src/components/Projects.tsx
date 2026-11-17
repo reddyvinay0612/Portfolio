@@ -8,10 +8,7 @@ import {
   ChevronRight, 
   X, 
   Users,
-  RotateCw, 
-  Compass, 
-  Eye, 
-  Maximize2
+  Eye
 } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 import { CircularGallery, GalleryItem } from './ui/circular-gallery';
@@ -113,41 +110,6 @@ export const Projects: React.FC = () => {
                 }}
               />
 
-              {/* Top Interactive Controls Bar */}
-              <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-                
-                {/* Left: Navigation hint */}
-                <div className="pointer-events-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-                  <Compass className="w-3.5 h-3.5 text-[#b1b493] animate-spin" style={{ animationDuration: '8s' }} />
-                  <span>Drag horizontally to rotate  •  Scroll wheel to spin</span>
-                </div>
-
-                {/* Right: Quick Settings (Auto-rotate toggle & Bend) */}
-                <div className="pointer-events-auto flex items-center gap-2">
-                  <button
-                    onClick={() => setAutoRotate(!autoRotate)}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono transition-all border shadow-sm ${
-                      autoRotate 
-                        ? 'bg-[#b1b493]/20 border-[#b1b493]/50 text-[#3a3d24] font-semibold' 
-                        : 'bg-white/90 border-neutral-200 text-[#6c757d] hover:text-[#000000]'
-                    }`}
-                    title="Toggle Auto Rotation"
-                  >
-                    <RotateCw className={`w-3 h-3 ${autoRotate ? 'text-[#b1b493] animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
-                    <span>{autoRotate ? 'Auto-Spin On' : 'Paused'}</span>
-                  </button>
-
-                  <button
-                    onClick={() => setBendIntensity(prev => prev === 3 ? 4.2 : prev === 4.2 ? 1.8 : 3)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white border border-neutral-200 hover:border-[#b1b493] text-[11px] font-mono text-[#495057] hover:text-[#000000] transition-all shadow-sm"
-                    title="Change Circular Curvature"
-                  >
-                    <span>Curvature: {bendIntensity}x</span>
-                  </button>
-                </div>
-
-              </div>
-
               {/* The WebGL Circular Gallery */}
               <div className="w-full h-full">
                 <CircularGallery
@@ -162,15 +124,6 @@ export const Projects: React.FC = () => {
                   }}
                 />
               </div>
-
-              {/* Bottom Instructions Pill */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-                  <Maximize2 className="w-3 h-3 text-[#b1b493]" />
-                  <span>Click any card to inspect full technical specs</span>
-                </div>
-              </div>
-
             </div>
 
             {/* Active Project Live Spotlight Card */}

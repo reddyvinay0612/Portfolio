@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { X, Compass, RotateCw, Sparkles } from 'lucide-react';
+import { X } from 'lucide-react';
 import { TechBadge } from '../../data/portfolioData';
 
 /**
@@ -804,34 +804,6 @@ export const TechSphere: React.FC<TechSphereProps> = ({
           }}
         />
 
-        {/* Top Floating Controls Bar */}
-        <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-          {/* Left: Navigation Hint */}
-          <div className="pointer-events-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-            <Compass className="w-3.5 h-3.5 text-[#b1b493] animate-spin" style={{ animationDuration: '8s' }} />
-            <span>Drag 3D sphere to rotate • Click node to inspect</span>
-          </div>
-
-          {/* Right: Auto-Orbit Toggle Button */}
-          <div className="pointer-events-auto flex items-center gap-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setAutoRotate(prev => !prev);
-              }}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono transition-all border shadow-sm cursor-pointer ${
-                autoRotate
-                  ? 'bg-[#b1b493]/20 border-[#b1b493]/50 text-[#3a3d24] font-semibold'
-                  : 'bg-white/90 border-neutral-200 text-[#6c757d] hover:text-[#000000]'
-              }`}
-              title="Toggle Auto Rotation"
-            >
-              <RotateCw className={`w-3 h-3 ${autoRotate ? 'text-[#b1b493] animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
-              <span>{autoRotate ? 'Auto-Orbit On' : 'Paused'}</span>
-            </button>
-          </div>
-        </div>
-
         {/* Central 3D Sphere Container */}
         <div
           className="relative pointer-events-none"
@@ -843,14 +815,6 @@ export const TechSphere: React.FC<TechSphereProps> = ({
           {isBadgeMode
             ? items.map((badge, index) => renderBadgeNode(badge, index))
             : images.map((image, index) => renderImageNode(image, index))}
-        </div>
-
-        {/* Bottom Center Indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[11px] font-mono text-[#495057] shadow-sm">
-            <Sparkles className="w-3 h-3 text-[#b1b493]" />
-            <span>Fibonacci 3D Lattice • Zero-Overlap Collision Detection</span>
-          </div>
         </div>
       </div>
 
