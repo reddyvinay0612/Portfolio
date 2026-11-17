@@ -20,21 +20,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252538;
+  background: #22222a;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7b2cbf;
+  background: #FF2A2A;
 }
 
-/* Glassmorphism card styles */
+/* Glassmorphism Red & Black Card Styles */
 .glass-panel {
-  background: rgba(18, 18, 28, 0.65);
+  background: rgba(15, 15, 20, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .glass-panel-hover {
@@ -42,39 +42,41 @@
 }
 
 .glass-panel-hover:hover {
-  background: rgba(28, 28, 42, 0.85);
-  border-color: rgba(157, 78, 223, 0.35);
-  box-shadow: 0 12px 40px 0 rgba(123, 44, 191, 0.2);
+  background: rgba(22, 22, 30, 0.9);
+  border-color: rgba(255, 42, 42, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(255, 42, 42, 0.25);
   transform: translateY(-3px);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #d1d5db 50%, #9d4edf 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ff8080 50%, #FF2A2A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-purple-gradient {
-  background: linear-gradient(135deg, #c77dff 0%, #9d4edf 50%, #00f5d4 100%);
+.text-purple-gradient,
+.text-red-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #ff5252 50%, #FF2A2A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.glow-purple {
-  box-shadow: 0 0 50px -10px rgba(157, 78, 223, 0.4);
+.glow-purple,
+.glow-red {
+  box-shadow: 0 0 50px -10px rgba(255, 42, 42, 0.45);
 }
 
 /* Animated gradient border */
 .gradient-border {
   position: relative;
   border-radius: 1rem;
-  background: linear-gradient(#12121c, #12121c) padding-box,
-              linear-gradient(135deg, rgba(157, 78, 223, 0.6), rgba(0, 245, 212, 0.4)) border-box;
+  background: linear-gradient(#0e0e14, #0e0e14) padding-box,
+              linear-gradient(135deg, rgba(255, 42, 42, 0.7), rgba(255, 255, 255, 0.2)) border-box;
   border: 1px solid transparent;
 }

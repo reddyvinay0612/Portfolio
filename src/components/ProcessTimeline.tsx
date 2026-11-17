@@ -75,25 +75,28 @@ export const ProcessTimeline: React.FC = () => {
     <section 
       ref={containerRef}
       id="process" 
-      className="relative py-28 bg-white text-black overflow-hidden z-10 select-none"
+      className="relative py-28 bg-[#0B0B0E] text-white overflow-hidden z-10 select-none"
       style={{
-        backgroundImage: 'radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0)',
-        backgroundSize: '24px 24px'
+        backgroundImage: 'radial-gradient(rgba(255,42,42,0.06) 1px, transparent 0)',
+        backgroundSize: '28px 28px'
       }}
     >
+      {/* Background ambient red glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#FF2A2A]/5 rounded-full blur-[160px] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* HEADER SECTION */}
         <div className="flex flex-col items-center text-center mb-24 relative">
-          <span className="inline-block px-4 py-1.5 rounded-full border border-black/10 text-xs font-bold uppercase tracking-widest shadow-sm bg-neutral-50 mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full border border-[#FF2A2A]/40 text-xs font-mono font-bold uppercase tracking-widest shadow-sm bg-[#FF2A2A]/10 text-[#FF2A2A] mb-4">
             How we work
           </span>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none text-black max-w-3xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none text-white max-w-3xl">
             Let us show you how we drive your brand to new heights
           </h2>
 
-          <p className="mt-6 text-neutral-600 max-w-xl text-sm md:text-base font-light">
+          <p className="mt-6 text-neutral-400 max-w-xl text-sm md:text-base font-light">
             A structured workflow ensures high performance, minimal friction, and beautiful production-ready code.
           </p>
 
@@ -112,17 +115,17 @@ export const ProcessTimeline: React.FC = () => {
           {/* GIANT S-CURVE TIMELINE SVG PATH (Desktop-only) */}
           <div className="hidden md:block absolute inset-0 w-full h-full z-0 pointer-events-none">
             <svg className="w-full h-full" viewBox="0 0 800 1400" fill="none" preserveAspectRatio="none">
-              {/* Background gray dashed line */}
+              {/* Background dark dashed line */}
               <path 
                 d="M 400 0 C 680 250, 680 450, 400 700 C 120 950, 120 1150, 400 1400" 
-                stroke="#e5e7eb" 
+                stroke="#22222a" 
                 strokeWidth="4" 
                 strokeDasharray="12 12"
               />
-              {/* Active animated black dashed line */}
+              {/* Active animated bright red dashed line */}
               <motion.path 
                 d="M 400 0 C 680 250, 680 450, 400 700 C 120 950, 120 1150, 400 1400" 
-                stroke="#000000" 
+                stroke="#FF2A2A" 
                 strokeWidth="4" 
                 strokeDasharray="12 12"
                 style={{ pathLength }}
@@ -132,7 +135,7 @@ export const ProcessTimeline: React.FC = () => {
 
           {/* VERTICAL TIMELINE FOR MOBILE */}
           <div className="md:hidden absolute left-4 top-0 bottom-0 w-1 z-0 pointer-events-none">
-            <div className="w-full h-full bg-neutral-100 border-l-2 border-dashed border-neutral-300" />
+            <div className="w-full h-full bg-neutral-900 border-l-2 border-dashed border-[#FF2A2A]/40" />
           </div>
 
           {/* PROCESS CARDS GRID */}
@@ -165,17 +168,19 @@ export const ProcessTimeline: React.FC = () => {
                     transition={{ type: "spring", stiffness: 300, damping: 15 }}
                     className={`relative p-8 rounded-[2rem] border transition-all duration-500 shadow-2xl cursor-default ${step.rotation} ${
                       isActive 
-                        ? 'bg-[#FF2A2A] text-white border-[#FF2A2A] shadow-[0_20px_45px_rgba(255,42,42,0.3)]' 
-                        : 'bg-white text-black border-neutral-100 shadow-neutral-100/80'
+                        ? 'bg-[#FF2A2A] text-white border-[#FF2A2A] shadow-[0_20px_45px_rgba(255,42,42,0.4)]' 
+                        : 'bg-[#121217] text-white border-neutral-800 shadow-neutral-950/80 hover:border-neutral-700'
                     }`}
                   >
                     {/* HOLE PUNCH DETAILED GRAPHIC */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full border border-neutral-200 bg-neutral-100 shadow-inner flex items-center justify-center">
-                      <div className="w-2.5 h-2.5 rounded-full bg-neutral-300" />
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full border border-neutral-700 bg-neutral-900 shadow-inner flex items-center justify-center">
+                      <div className="w-2.5 h-2.5 rounded-full bg-neutral-800" />
                     </div>
 
                     {/* Step Number in Italic Serif Typography */}
-                    <div className="text-5xl font-serif italic font-normal tracking-wide opacity-80 mt-4 mb-2">
+                    <div className={`text-5xl font-serif italic font-normal tracking-wide mt-4 mb-2 ${
+                      isActive ? 'text-white/90' : 'text-neutral-500'
+                    }`}>
                       {step.number}
                     </div>
 
@@ -184,7 +189,7 @@ export const ProcessTimeline: React.FC = () => {
                     </h4>
 
                     <p className={`text-xs md:text-sm leading-relaxed ${
-                      isActive ? 'text-white/95' : 'text-neutral-500'
+                      isActive ? 'text-white/95' : 'text-neutral-400'
                     }`}>
                       {step.description}
                     </p>
