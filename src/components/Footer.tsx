@@ -24,10 +24,10 @@ export const Footer: React.FC = () => {
         
         {/* Left Column: Creative Services */}
         <div className="flex flex-col space-y-2.5 font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-400">
-          <div className="hover:text-white transition-colors duration-300">Cinematic Production</div>
-          <div className="hover:text-white transition-colors duration-300">Motion Graphics</div>
-          <div className="hover:text-white transition-colors duration-300">Web Development</div>
-          <div className="hover:text-white transition-colors duration-300">UI/UX Design</div>
+          <div className="hover:text-white transition-colors duration-300">Scalable Web Systems</div>
+          <div className="hover:text-white transition-colors duration-300">Explainable AI &amp; XAI</div>
+          <div className="hover:text-white transition-colors duration-300">FinTech Security &amp; Biometrics</div>
+          <div className="hover:text-white transition-colors duration-300">Computer Vision &amp; Deep Learning</div>
         </div>
 
         {/* Center Column: Experience & Projects Showcase */}
@@ -36,14 +36,14 @@ export const Footer: React.FC = () => {
             Projects Showcase
           </span>
           <div className="text-lg font-bold text-white leading-none">
-            2+ Years of Software Projects
+            6+ Featured Engineering Projects
           </div>
           <a 
             href="#projects" 
             className="text-xs font-semibold text-neutral-400 hover:text-white relative group py-1"
           >
             View Work
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#FF2A2A] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 
@@ -52,9 +52,9 @@ export const Footer: React.FC = () => {
           <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
             Availability Status
           </span>
-          <div className="text-sm font-semibold text-[#FF2A2A] flex items-center md:justify-end gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#FF2A2A] animate-pulse" />
-            Available Worldwide
+          <div className="text-sm font-semibold text-[#b1b493] flex items-center md:justify-end gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#b1b493] animate-pulse" />
+            Available for Opportunities
           </div>
           <div className="text-xs text-neutral-400 font-mono">
             EST. 2026
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
       <div className="w-full text-center my-6 relative overflow-hidden">
         <motion.h3
           style={{ y: yOffset, opacity }}
-          className="text-[12vw] font-black tracking-tighter leading-none lowercase text-neutral-800/60 select-none cursor-default transition-all duration-700 hover:text-white hover:drop-shadow-[0_0_40px_rgba(255,42,42,0.6)]"
+          className="text-[12vw] font-black tracking-tighter leading-none lowercase text-neutral-800 select-none cursor-default transition-all duration-700 hover:text-[#b1b493] hover:drop-shadow-[0_0_40px_rgba(177,180,147,0.4)]"
         >
           vinayprakash
         </motion.h3>
@@ -86,21 +86,21 @@ export const Footer: React.FC = () => {
         <div className="flex justify-start md:justify-center">
           <a 
             href="mailto:vinayprakashvg@gmail.com" 
-            className="text-neutral-400 hover:text-white font-medium relative group transition-colors duration-300 py-1"
+            className="text-neutral-400 hover:text-[#b1b493] font-medium relative group transition-colors duration-300 py-1"
           >
             vinayprakashvg@gmail.com
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 
-        {/* Right: Privacy Policy */}
+        {/* Right: Back to top */}
         <div className="flex justify-start md:justify-end">
           <a 
             href="#home" 
             className="hover:text-white transition-colors duration-300 relative group py-1"
           >
-            Privacy Policy
-            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-neutral-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+            Back to Top
+            <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b1b493] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
           </a>
         </div>
 

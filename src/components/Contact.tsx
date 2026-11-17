@@ -42,19 +42,19 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-4 md:px-8 relative z-10 bg-[#070709]">
+    <section id="contact" className="py-24 px-4 md:px-8 relative z-10 bg-[#f8f9fa]">
       <div className="max-w-6xl mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF2A2A]/10 border border-[#FF2A2A]/30 text-[#FF2A2A] text-xs font-mono uppercase tracking-widest mb-3">
-            <Mail className="w-3.5 h-3.5 text-[#FF2A2A]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#5a5d40] text-xs font-mono uppercase tracking-widest mb-3">
+            <Mail className="w-3.5 h-3.5 text-[#8e916c]" />
             <span>Get In Touch</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-            Let's Build Something <span className="text-[#FF2A2A]">Extraordinary</span>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-[#000000] tracking-tight">
+            Let's Build Something <span className="text-[#b1b493]">Extraordinary</span>
           </h2>
-          <p className="mt-3 text-neutral-400 max-w-xl text-sm md:text-base">
+          <p className="mt-3 text-[#6c757d] max-w-xl text-sm md:text-base">
             Whether you have a project inquiry, hackathon collaboration, or internship opportunity, feel free to reach out!
           </p>
         </div>
@@ -70,18 +70,18 @@ export const Contact: React.FC = () => {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="glass-panel p-6 rounded-3xl border-white/10 glass-panel-hover hover:border-[#FF2A2A]/40"
+              className="bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)] hover:border-[#b1b493] transition-all"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#FF2A2A]/10 border border-[#FF2A2A]/30 flex items-center justify-center text-[#FF2A2A] shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-[#b1b493]/15 border border-[#b1b493]/30 flex items-center justify-center text-[#5a5d40] shrink-0">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">Email Address</div>
+                    <div className="text-[11px] font-mono text-[#6c757d] uppercase tracking-wider">Email Address</div>
                     <a
                       href={`mailto:${PORTFOLIO_DATA.personal.email}`}
-                      className="text-base font-bold text-white hover:text-[#FF2A2A] transition-colors"
+                      className="text-base font-bold text-[#000000] hover:text-[#8e916c] transition-colors"
                     >
                       {PORTFOLIO_DATA.personal.email}
                     </a>
@@ -90,10 +90,10 @@ export const Contact: React.FC = () => {
 
                 <button
                   onClick={handleCopyEmail}
-                  className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition-all"
+                  className="p-2 rounded-xl bg-[#f8f9fa] border border-neutral-200 text-[#6c757d] hover:text-[#000000] hover:border-[#b1b493] transition-all"
                   title="Copy Email"
                 >
-                  {copiedEmail ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {copiedEmail ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </motion.div>
@@ -104,18 +104,18 @@ export const Contact: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="glass-panel p-6 rounded-3xl border-white/10 glass-panel-hover hover:border-[#FF2A2A]/40"
+              className="bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)] hover:border-[#b1b493] transition-all"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#FF2A2A]/10 border border-[#FF2A2A]/30 flex items-center justify-center text-[#FF2A2A] shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-[#b1b493]/15 border border-[#b1b493]/30 flex items-center justify-center text-[#5a5d40] shrink-0">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">Phone / WhatsApp</div>
+                    <div className="text-[11px] font-mono text-[#6c757d] uppercase tracking-wider">Phone / WhatsApp</div>
                     <a
                       href={`tel:${PORTFOLIO_DATA.personal.phone}`}
-                      className="text-base font-bold text-white hover:text-[#FF2A2A] transition-colors"
+                      className="text-base font-bold text-[#000000] hover:text-[#8e916c] transition-colors"
                     >
                       {PORTFOLIO_DATA.personal.phone}
                     </a>
@@ -124,10 +124,10 @@ export const Contact: React.FC = () => {
 
                 <button
                   onClick={handleCopyPhone}
-                  className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition-all"
+                  className="p-2 rounded-xl bg-[#f8f9fa] border border-neutral-200 text-[#6c757d] hover:text-[#000000] hover:border-[#b1b493] transition-all"
                   title="Copy Phone"
                 >
-                  {copiedPhone ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {copiedPhone ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </motion.div>
@@ -138,15 +138,15 @@ export const Contact: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="glass-panel p-6 rounded-3xl border-white/10"
+              className="bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)]"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#FF2A2A]/10 border border-[#FF2A2A]/30 flex items-center justify-center text-[#FF2A2A] shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#b1b493]/15 border border-[#b1b493]/30 flex items-center justify-center text-[#5a5d40] shrink-0">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">Location</div>
-                  <div className="text-base font-bold text-white">
+                  <div className="text-[11px] font-mono text-[#6c757d] uppercase tracking-wider">Location</div>
+                  <div className="text-base font-bold text-[#000000]">
                     {PORTFOLIO_DATA.personal.location}
                   </div>
                 </div>
@@ -159,26 +159,26 @@ export const Contact: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="glass-panel p-6 rounded-3xl border-white/10 flex items-center justify-between"
+              className="bg-white p-6 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] flex items-center justify-between"
             >
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">Connect Online</span>
+              <span className="text-xs font-mono text-[#6c757d] uppercase tracking-wider">Connect Online</span>
               <div className="flex items-center gap-3">
                 <a
                   href={PORTFOLIO_DATA.personal.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl glass-pill text-xs font-semibold text-neutral-300 hover:text-white hover:border-[#FF2A2A]/50 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 text-xs font-semibold text-[#212529] hover:border-[#b1b493] hover:text-[#000000] transition-all"
                 >
-                  <Github className="w-4 h-4 text-[#FF2A2A]" />
+                  <Github className="w-4 h-4 text-[#8e916c]" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href={PORTFOLIO_DATA.personal.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl glass-pill text-xs font-semibold text-neutral-300 hover:text-white hover:border-[#FF2A2A]/50 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 text-xs font-semibold text-[#212529] hover:border-[#b1b493] hover:text-[#000000] transition-all"
                 >
-                  <Linkedin className="w-4 h-4 text-[#FF2A2A]" />
+                  <Linkedin className="w-4 h-4 text-[#8e916c]" />
                   <span>LinkedIn</span>
                 </a>
               </div>
@@ -191,86 +191,86 @@ export const Contact: React.FC = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 glass-panel p-8 md:p-10 rounded-3xl border-white/10 hover:border-[#FF2A2A]/30 shadow-2xl relative overflow-hidden transition-colors"
+            className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-neutral-200/80 hover:border-[#b1b493] shadow-[0_15px_35px_rgba(0,0,0,0.05)] relative overflow-hidden transition-colors"
           >
             {submitted ? (
               <div className="py-12 text-center flex flex-col items-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#FF2A2A] flex items-center justify-center text-white shadow-xl shadow-[#FF2A2A]/40 animate-bounce">
+                <div className="w-16 h-16 rounded-full bg-[#b1b493] flex items-center justify-center text-white shadow-lg shadow-[#b1b493]/40 animate-bounce">
                   <Sparkles className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Message Received!</h3>
-                <p className="text-neutral-300 max-w-md text-sm">
-                  Thank you for reaching out, <span className="text-[#FF2A2A] font-semibold">{formData.name}</span>! I'll get back to you shortly at <span className="text-white font-medium">{formData.email}</span>.
+                <h3 className="text-2xl font-bold text-[#000000]">Message Received!</h3>
+                <p className="text-[#6c757d] max-w-md text-sm">
+                  Thank you for reaching out, <span className="text-[#8e916c] font-semibold">{formData.name}</span>! I'll get back to you shortly at <span className="text-[#000000] font-medium">{formData.email}</span>.
                 </p>
                 <button
                   onClick={() => {
                     setSubmitted(false);
                     setFormData({ name: '', email: '', subject: '', message: '' });
                   }}
-                  className="mt-4 px-6 py-2.5 rounded-full bg-white/10 text-xs text-neutral-300 hover:text-white hover:bg-white/20 transition-all font-semibold"
+                  className="mt-4 px-6 py-2.5 rounded-full bg-[#f8f9fa] border border-neutral-200 text-xs text-[#495057] hover:text-[#000000] hover:border-[#b1b493] transition-all font-semibold"
                 >
                   Send Another Message
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="flex items-center gap-2 text-sm font-mono text-[#FF2A2A] uppercase tracking-wider mb-2">
+                <div className="flex items-center gap-2 text-sm font-mono text-[#8e916c] uppercase tracking-wider mb-2">
                   <MessageSquare className="w-4 h-4" />
                   <span>Quick Message</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-mono text-neutral-400 mb-1.5">Your Name *</label>
+                    <label className="block text-xs font-mono text-[#6c757d] mb-1.5">Your Name *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Adarsh"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-[#FF2A2A] focus:ring-1 focus:ring-[#FF2A2A] transition-all"
+                      className="w-full px-4 py-3 rounded-xl bg-[#f8f9fa] border border-neutral-200/90 text-[#212529] placeholder-neutral-400 text-sm focus:outline-none focus:border-[#b1b493] focus:ring-1 focus:ring-[#b1b493] transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-neutral-400 mb-1.5">Your Email *</label>
+                    <label className="block text-xs font-mono text-[#6c757d] mb-1.5">Your Email *</label>
                     <input
                       type="email"
                       required
                       placeholder="e.g. adarsh@example.com"
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-[#FF2A2A] focus:ring-1 focus:ring-[#FF2A2A] transition-all"
+                      className="w-full px-4 py-3 rounded-xl bg-[#f8f9fa] border border-neutral-200/90 text-[#212529] placeholder-neutral-400 text-sm focus:outline-none focus:border-[#b1b493] focus:ring-1 focus:ring-[#b1b493] transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-neutral-400 mb-1.5">Subject</label>
+                  <label className="block text-xs font-mono text-[#6c757d] mb-1.5">Subject</label>
                   <input
                     type="text"
                     placeholder="Project Inquiry / Hackathon Collaboration"
                     value={formData.subject}
                     onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-[#FF2A2A] focus:ring-1 focus:ring-[#FF2A2A] transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-[#f8f9fa] border border-neutral-200/90 text-[#212529] placeholder-neutral-400 text-sm focus:outline-none focus:border-[#b1b493] focus:ring-1 focus:ring-[#b1b493] transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-neutral-400 mb-1.5">Message *</label>
+                  <label className="block text-xs font-mono text-[#6c757d] mb-1.5">Message *</label>
                   <textarea
                     required
                     rows={4}
                     placeholder="Hi Vinay, I'd like to talk about..."
                     value={formData.message}
                     onChange={e => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-[#FF2A2A] focus:ring-1 focus:ring-[#FF2A2A] transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-[#f8f9fa] border border-neutral-200/90 text-[#212529] placeholder-neutral-400 text-sm focus:outline-none focus:border-[#b1b493] focus:ring-1 focus:ring-[#b1b493] transition-all resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#FF2A2A] hover:bg-red-600 text-white font-bold text-sm shadow-xl shadow-[#FF2A2A]/30 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#b1b493] hover:bg-[#9a9d7c] text-white font-bold text-sm shadow-md shadow-[#b1b493]/30 hover:scale-[1.01] active:scale-[0.99] transition-all"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send Message</span>

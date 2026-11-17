@@ -95,24 +95,25 @@ const PAD = 14; // canvas bleed around the pill, for shadows and ripples
 
 /* ---------- styles ---------- */
 const NIMBUS_CSS = `
-.nimbus-nav{--n-tint:rgba(255,255,255,.08);--n-fg:#ffffff;--n-fg-soft:rgba(255,255,255,.65);--n-rim:rgba(255,255,255,.4);
+.nimbus-nav{--n-tint:rgba(0,0,0,.04);--n-fg:#000000;--n-fg-soft:rgba(0,0,0,.6);--n-rim:rgba(177,180,147,.5);
   position:relative;display:inline-flex;align-items:center;gap:2px;padding:5px 6px;border-radius:999px;isolation:isolate;
   font-family:ui-sans-serif,-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent}
+.nimbus-nav[data-tone="light"]{--n-tint:rgba(0,0,0,.04);--n-fg:#000000;--n-fg-soft:rgba(0,0,0,.6);--n-rim:rgba(177,180,147,.5)}
 .nimbus-nav[data-tone="dark"]{--n-tint:rgba(18,18,24,.45);--n-fg:#FFFFFF;--n-fg-soft:rgba(255,255,255,.65);--n-rim:rgba(255,255,255,.3)}
 .nimbus-glass{position:absolute;inset:0;border-radius:inherit;z-index:-2;overflow:hidden;background:var(--n-tint);
-  -webkit-backdrop-filter:blur(14px) saturate(1.3) brightness(1.08);backdrop-filter:blur(14px) saturate(1.3) brightness(1.08);
-  box-shadow:inset 0 1px 1px var(--n-rim),inset 0 0 0 1px rgba(255,255,255,.12),0 12px 32px -14px rgba(0,0,0,.7),0 2px 6px rgba(0,0,0,.3)}
+  -webkit-backdrop-filter:blur(14px) saturate(1.3) brightness(1.04);backdrop-filter:blur(14px) saturate(1.3) brightness(1.04);
+  box-shadow:inset 0 1px 1px var(--n-rim),inset 0 0 0 1px rgba(0,0,0,.06),0 8px 24px -10px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.04)}
 .nimbus-nav[data-refract="on"] .nimbus-glass{-webkit-backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08);backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08)}
 .nimbus-water{position:absolute;left:${-PAD}px;top:${-PAD}px;z-index:-1;pointer-events:none}
 .nimbus-nav[data-gl="off"] .nimbus-water{display:none}
 .nimbus-drop{display:none;position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;z-index:-1;pointer-events:none;will-change:transform,width;
-  background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),rgba(255,255,255,.3);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -2px 6px rgba(255,42,42,.25),inset 0 0 0 1px rgba(255,255,255,.4),0 6px 16px -6px rgba(0,0,0,.5)}
+  background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.95),rgba(255,255,255,.2) 55%),rgba(177,180,147,.45);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -2px 6px rgba(177,180,147,.3),inset 0 0 0 1px rgba(177,180,147,.5),0 6px 16px -6px rgba(0,0,0,.15)}
 .nimbus-nav[data-gl="off"] .nimbus-drop{display:block}
 .nimbus-item{position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 15px;border:0;border-radius:999px;background:none;color:var(--n-fg-soft);
   font-family:inherit;font-weight:600;font-size:13.5px;line-height:1;letter-spacing:-.01em;text-decoration:none;cursor:pointer;transition:color .25s}
 .nimbus-item:hover,.nimbus-item[aria-current="page"]{color:var(--n-fg)}
-.nimbus-item:focus-visible{outline:2px solid #FF2A2A;outline-offset:2px}
+.nimbus-item:focus-visible{outline:2px solid #b1b493;outline-offset:2px}
 .nv-ico{position:relative;display:inline-flex;flex:none}
 .nv-ico svg{transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
 .nimbus-item[aria-current="page"] .nv-ico svg{transform:translateY(-1px) scale(1.08)}

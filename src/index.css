@@ -3,38 +3,44 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
   body {
-    background-color: #070709;
-    color: #f3f4f6;
-    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #6c757d;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.8;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Clyde Theme Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #070709;
+  background: #f8f9fa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #22222a;
+  background: #b1b493;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF2A2A;
+  background: #9a9d7c;
 }
 
-/* Glassmorphism Red & Black Card Styles */
+/* Clyde Theme Card Styles */
 .glass-panel {
-  background: rgba(15, 15, 20, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05);
 }
 
 .glass-panel-hover {
@@ -42,41 +48,30 @@
 }
 
 .glass-panel-hover:hover {
-  background: rgba(22, 22, 30, 0.9);
-  border-color: rgba(255, 42, 42, 0.4);
-  box-shadow: 0 12px 40px 0 rgba(255, 42, 42, 0.25);
-  transform: translateY(-3px);
+  border-color: rgba(177, 180, 147, 0.7);
+  box-shadow: 0 16px 40px -4px rgba(177, 180, 147, 0.25);
+  transform: translateY(-4px);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #ff8080 50%, #FF2A2A 100%);
+  background: linear-gradient(135deg, #000000 0%, #b1b493 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-purple-gradient,
-.text-red-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #ff5252 50%, #FF2A2A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.clyde-accent {
+  color: #b1b493;
 }
 
-.glow-purple,
-.glow-red {
-  box-shadow: 0 0 50px -10px rgba(255, 42, 42, 0.45);
+.clyde-bg-accent {
+  background-color: #b1b493;
 }
 
-/* Animated gradient border */
-.gradient-border {
-  position: relative;
-  border-radius: 1rem;
-  background: linear-gradient(#0e0e14, #0e0e14) padding-box,
-              linear-gradient(135deg, rgba(255, 42, 42, 0.7), rgba(255, 255, 255, 0.2)) border-box;
-  border: 1px solid transparent;
+.clyde-border-accent {
+  border-color: #b1b493;
 }
