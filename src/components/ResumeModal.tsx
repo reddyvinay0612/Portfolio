@@ -164,10 +164,13 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               </h3>
               <div className="text-xs text-[#495057] print:text-black space-y-1">
                 <div>
-                  <strong>Programming Languages:</strong> {PORTFOLIO_DATA.skillCategories[0].skills.map(s => s.name).join(', ')}
+                  <strong>Programming Languages:</strong> {PORTFOLIO_DATA.skillCategories[0]?.skills.map(s => s.name).join(', ')}
                 </div>
                 <div>
-                  <strong>Frameworks &amp; Platforms:</strong> {PORTFOLIO_DATA.skillCategories[1].skills.concat(PORTFOLIO_DATA.skillCategories[2].skills).map(s => s.name).join(', ')}
+                  <strong>Frameworks, AI &amp; Libraries:</strong> {PORTFOLIO_DATA.skillCategories[1]?.skills.concat(PORTFOLIO_DATA.skillCategories[2]?.skills || [], PORTFOLIO_DATA.skillCategories[3]?.skills || []).map(s => s.name).join(', ')}
+                </div>
+                <div>
+                  <strong>Databases, Cloud &amp; Tools:</strong> {PORTFOLIO_DATA.skillCategories[4]?.skills.concat(PORTFOLIO_DATA.skillCategories[5]?.skills || []).map(s => s.name).join(', ')}
                 </div>
                 <div>
                   <strong>Languages Known:</strong> {PORTFOLIO_DATA.personal.spokenLanguages.join(', ')}

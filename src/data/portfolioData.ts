@@ -51,6 +51,14 @@ export interface StatCounter {
   description: string;
 }
 
+export interface TechBadge {
+  name: string;
+  category: 'Languages' | 'Frontend' | 'Backend' | 'AI & Data' | 'Cloud & DB' | 'Tools';
+  bgColor: string;
+  textColor: string;
+  iconSymbol?: string;
+}
+
 export interface SkillCategory {
   title: string;
   iconName: string;
@@ -265,38 +273,104 @@ export const PORTFOLIO_DATA = {
     }
   ] as Project[],
 
+  techStackBadges: [
+    // Row 1
+    { name: "C", category: "Languages", bgColor: "#00599C", textColor: "#FFFFFF", iconSymbol: "C" },
+    { name: "CSS3", category: "Languages", bgColor: "#1572B6", textColor: "#FFFFFF", iconSymbol: "CSS3" },
+    { name: "JAVA", category: "Languages", bgColor: "#ED8B00", textColor: "#FFFFFF", iconSymbol: "☕" },
+    { name: "JAVASCRIPT", category: "Languages", bgColor: "#F7DF1E", textColor: "#000000", iconSymbol: "JS" },
+    { name: "PYTHON", category: "Languages", bgColor: "#3776AB", textColor: "#FFFFFF", iconSymbol: "🐍" },
+    { name: "HTML5", category: "Languages", bgColor: "#E34F26", textColor: "#FFFFFF", iconSymbol: "5" },
+    { name: "FIREBASE", category: "Cloud & DB", bgColor: "#039BE5", textColor: "#FFFFFF", iconSymbol: "🔥" },
+    { name: "AWS", category: "Cloud & DB", bgColor: "#FF9900", textColor: "#000000", iconSymbol: "☁" },
+    { name: "ANGULAR.JS", category: "Frontend", bgColor: "#DD0031", textColor: "#FFFFFF", iconSymbol: "A" },
+
+    // Row 2
+    { name: "DJANGO", category: "Backend", bgColor: "#092E20", textColor: "#FFFFFF", iconSymbol: "dj" },
+    { name: "FASTAPI", category: "Backend", bgColor: "#009688", textColor: "#FFFFFF", iconSymbol: "⚡" },
+    { name: "EXPRESS.JS", category: "Backend", bgColor: "#1C1C1C", textColor: "#FFFFFF", iconSymbol: "ex" },
+    { name: "NODE.JS", category: "Backend", bgColor: "#339933", textColor: "#FFFFFF", iconSymbol: "⬢" },
+    { name: "REACT", category: "Frontend", bgColor: "#20232A", textColor: "#61DAFB", iconSymbol: "⚛" },
+    { name: "MYSQL", category: "Cloud & DB", bgColor: "#4479A1", textColor: "#FFFFFF", iconSymbol: "🐬" },
+    { name: "MONGODB", category: "Cloud & DB", bgColor: "#47A248", textColor: "#FFFFFF", iconSymbol: "🍃" },
+
+    // Row 3
+    { name: "SUPABASE", category: "Cloud & DB", bgColor: "#3ECF8E", textColor: "#000000", iconSymbol: "⚡" },
+    { name: "SQLITE", category: "Cloud & DB", bgColor: "#003B57", textColor: "#FFFFFF", iconSymbol: "🗄" },
+    { name: "FIGMA", category: "Frontend", bgColor: "#F24E1E", textColor: "#FFFFFF", iconSymbol: "❖" },
+    { name: "MATPLOTLIB", category: "AI & Data", bgColor: "#11557C", textColor: "#FFFFFF", iconSymbol: "📊" },
+    { name: "PANDAS", category: "AI & Data", bgColor: "#150458", textColor: "#FFFFFF", iconSymbol: "🐼" },
+    { name: "NUMPY", category: "AI & Data", bgColor: "#013243", textColor: "#4DABCF", iconSymbol: "🔢" },
+    { name: "PYTORCH", category: "AI & Data", bgColor: "#EE4C2C", textColor: "#FFFFFF", iconSymbol: "🔥" },
+
+    // Row 4
+    { name: "SCIKIT-LEARN", category: "AI & Data", bgColor: "#F7931E", textColor: "#FFFFFF", iconSymbol: "⚙" },
+    { name: "GITHUB", category: "Tools", bgColor: "#181717", textColor: "#FFFFFF", iconSymbol: "🐙" }
+  ] as TechBadge[],
+
   skillCategories: [
     {
-      title: "Programming Languages",
+      title: "Core Programming Languages",
       iconName: "Code",
       skills: [
-        { name: "Python", level: 94 },
-        { name: "JavaScript / TypeScript", level: 90 },
-        { name: "Java", level: 88 },
-        { name: "C", level: 85 },
-        { name: "HTML5 & Modern CSS", level: 95 }
+        { name: "Python", level: 95 },
+        { name: "Java", level: 90 },
+        { name: "JavaScript", level: 92 },
+        { name: "C", level: 88 },
+        { name: "HTML5 & CSS3", level: 96 }
       ]
     },
     {
-      title: "AI, ML & Explainability",
+      title: "Frontend & UI/UX Frameworks",
+      iconName: "Layout",
+      skills: [
+        { name: "React", level: 94 },
+        { name: "Angular.js", level: 82 },
+        { name: "Figma UI/UX Design", level: 90 },
+        { name: "Tailwind CSS & Framer Motion", level: 95 },
+        { name: "Modern Web Interfaces", level: 92 }
+      ]
+    },
+    {
+      title: "Backend & Server Architecture",
+      iconName: "Cpu",
+      skills: [
+        { name: "Node.js & Express.js", level: 92 },
+        { name: "FastAPI & RESTful APIs", level: 90 },
+        { name: "Django Web Framework", level: 86 },
+        { name: "Flask Microframework", level: 88 }
+      ]
+    },
+    {
+      title: "AI, Machine Learning & Data Science",
       iconName: "BrainCircuit",
       skills: [
-        { name: "XGBoost & Scikit-Learn", level: 92 },
-        { name: "TreeSHAP (Explainable AI)", level: 90 },
-        { name: "TensorFlow / Keras (CNN)", level: 86 },
-        { name: "FastAPI & Flask Services", level: 92 },
-        { name: "OpenCV & Computer Vision", level: 85 }
+        { name: "PyTorch & Deep Learning", level: 88 },
+        { name: "Scikit-Learn & XGBoost", level: 95 },
+        { name: "Pandas & NumPy", level: 94 },
+        { name: "Matplotlib Data Visualizations", level: 90 },
+        { name: "TreeSHAP (Explainable AI)", level: 92 }
       ]
     },
     {
-      title: "Full Stack & DevOps",
+      title: "Databases & Cloud Platforms",
+      iconName: "Database",
+      skills: [
+        { name: "MySQL & Relational DBs", level: 92 },
+        { name: "MongoDB NoSQL", level: 88 },
+        { name: "Supabase & Firebase", level: 90 },
+        { name: "SQLite Embedded", level: 92 },
+        { name: "AWS Cloud Infrastructure", level: 85 }
+      ]
+    },
+    {
+      title: "Developer Tools & Version Control",
       iconName: "Wrench",
       skills: [
-        { name: "React 18 & Vite", level: 92 },
-        { name: "Tailwind CSS & Framer Motion", level: 95 },
-        { name: "SQLAlchemy & PostgreSQL", level: 86 },
-        { name: "Docker & Containerization", level: 84 },
-        { name: "Git & Version Control", level: 92 }
+        { name: "GitHub & Version Control", level: 96 },
+        { name: "Git Workflow & Branching", level: 95 },
+        { name: "Docker Containerization", level: 85 },
+        { name: "API Testing & Deployment", level: 90 }
       ]
     }
   ] as SkillCategory[],
