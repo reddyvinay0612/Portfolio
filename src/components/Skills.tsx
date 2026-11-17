@@ -10,12 +10,15 @@ import {
   Layout, 
   Database, 
   Terminal, 
-  CheckCircle2 
+  Orbit, 
+  LayoutGrid 
 } from 'lucide-react';
 import { PORTFOLIO_DATA, TechBadge } from '../data/portfolioData';
+import { TechSphere } from './ui/tech-sphere';
 
 export const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [viewMode, setViewMode] = useState<'sphere' | 'grid'>('sphere');
   const categories = PORTFOLIO_DATA.skillCategories;
   const badges = PORTFOLIO_DATA.techStackBadges || [];
 
@@ -63,15 +66,17 @@ export const Skills: React.FC = () => {
           </p>
         </div>
 
-        {/* ---------------- 💻 TECH STACK BADGES SHOWCASE ---------------- */}
+        {/* ---------------- 💻 TECH STACK SHOWCASE (3D SPHERE & BADGES) ---------------- */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16 bg-white rounded-3xl p-6 sm:p-8 border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)]"
         >
-          {/* Top Bar: Title & Filter Tabs */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-6 border-b border-neutral-100">
+          {/* Top Bar: Title, Filters & View Mode Switcher */}
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-neutral-100">
+            
+            {/* Title & Stats */}
             <div className="flex items-center gap-3">
               <span className="text-2xl">💻</span>
               <div>
@@ -84,59 +89,116 @@ export const Skills: React.FC = () => {
               </div>
             </div>
 
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              {badgeFilterCategories.map((cat) => {
-                const count = cat === 'All' 
-                  ? badges.length 
-                  : badges.filter(b => b.category === cat).length;
+            {/* Controls: Filter Pills & 3D Switcher */}
+            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end">
+              
+              {/* Category Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5">
+                {badgeFilterCategories.map((cat) => {
+                  const count = cat === 'All' 
+                    ? badges.length 
+                    : badges.filter(b => b.category === cat).length;
 
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
-                      selectedCategory === cat
-                        ? 'bg-[#b1b493] text-white shadow-sm font-semibold'
-                        : 'bg-[#f8f9fa] text-[#6c757d] hover:text-[#000000] border border-neutral-200/80'
-                    }`}
-                  >
-                    <span>{cat}</span>
-                    <span className="ml-1 opacity-75 text-[10px]">({count})</span>
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
+                        selectedCategory === cat
+                          ? 'bg-[#b1b493] text-white shadow-sm font-semibold'
+                          : 'bg-[#f8f9fa] text-[#6c757d] hover:text-[#000000] border border-neutral-200/80'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      <span className="ml-1 opacity-75 text-[10px]">({count})</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* View Switcher: 3D Sphere vs Grid */}
+              <div className="inline-flex p-1 rounded-2xl bg-[#f8f9fa] border border-neutral-200/80 shrink-0">
+                <button
+                  onClick={() => setViewMode('sphere')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
+                    viewMode === 'sphere'
+                      ? 'bg-[#b1b493] text-white shadow-sm'
+                      : 'text-[#6c757d] hover:text-[#000000]'
+                  }`}
+                  title="3D Image Sphere View"
+                >
+                  <Orbit className="w-3.5 h-3.5" />
+                  <span>3D Sphere</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
+                    viewMode === 'grid'
+                      ? 'bg-[#b1b493] text-white shadow-sm'
+                      : 'text-[#6c757d] hover:text-[#000000]'
+                  }`}
+                  title="Badge Wall View"
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>Badges</span>
+                </button>
+              </div>
+
             </div>
+
           </div>
 
-          {/* Badges Grid */}
-          <motion.div layout className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-            <AnimatePresence mode="popLayout">
-              {filteredBadges.map((badge) => (
-                <motion.div
-                  key={badge.name}
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  whileHover={{ scale: 1.06, y: -2 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  style={{
-                    backgroundColor: badge.bgColor,
-                    color: badge.textColor
-                  }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg shadow-sm border border-black/10 select-none cursor-default font-mono font-bold text-xs uppercase tracking-wider"
-                >
-                  {badge.iconSymbol && (
-                    <span className="text-sm leading-none opacity-90 drop-shadow-sm">
-                      {badge.iconSymbol}
-                    </span>
-                  )}
-                  <span>{badge.name}</span>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          {/* 1. 3D TECH SPHERE VIEW (Tony Sebastian Image-Sphere Style) */}
+          {viewMode === 'sphere' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <TechSphere
+                items={badges}
+                selectedCategory={selectedCategory}
+              />
+            </motion.div>
+          )}
+
+          {/* 2. FLAT BADGE GRID VIEW */}
+          {viewMode === 'grid' && (
+            <motion.div 
+              layout 
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-wrap items-center gap-2.5 sm:gap-3 p-4 bg-[#f8f9fa] rounded-3xl border border-neutral-200/80 min-h-[220px]"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredBadges.map((badge) => (
+                  <motion.div
+                    key={badge.name}
+                    layout
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    whileHover={{ scale: 1.06, y: -2 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                    style={{
+                      backgroundColor: badge.bgColor,
+                      color: badge.textColor
+                    }}
+                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg shadow-sm border border-black/10 select-none cursor-default font-mono font-bold text-xs uppercase tracking-wider"
+                  >
+                    {badge.iconSymbol && (
+                      <span className="text-sm leading-none opacity-90 drop-shadow-sm">
+                        {badge.iconSymbol}
+                      </span>
+                    )}
+                    <span>{badge.name}</span>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
         </motion.div>
 
         {/* ---------------- STRUCTURED PROFICIENCY MATRIX ---------------- */}
