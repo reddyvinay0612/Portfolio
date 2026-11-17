@@ -16,24 +16,8 @@ import { TechSphere } from './ui/tech-sphere';
 import CardDeckCarousel from './ui/card-deck-carousel';
 
 export const Skills: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  
   const categories = PORTFOLIO_DATA.skillCategories;
   const badges = PORTFOLIO_DATA.techStackBadges || [];
-
-  const badgeFilterCategories = [
-    'All',
-    'Languages',
-    'Frontend',
-    'Backend',
-    'AI & Data',
-    'Cloud & DB',
-    'Tools'
-  ];
-
-  const filteredBadges = selectedCategory === 'All'
-    ? badges
-    : badges.filter(b => b.category === selectedCategory);
 
   const getCategoryIcon = (iconName: string) => {
     switch (iconName) {
@@ -81,46 +65,17 @@ export const Skills: React.FC = () => {
           viewport={{ once: true }}
           className="mb-16 bg-white rounded-3xl p-6 sm:p-8 border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)]"
         >
-          {/* Top Bar: Title, Filters & View Mode Switcher */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-neutral-100">
-            
-            {/* Title & Stats */}
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">💻</span>
-              <div>
-                <h3 className="text-xl font-extrabold text-[#000000] tracking-tight">
-                  Tech Stack
-                </h3>
-                <span className="text-xs font-mono text-[#6c757d]">
-                  {badges.length} core technologies across software &amp; AI
-                </span>
-              </div>
+          {/* Top Bar: Title & Stats */}
+          <div className="flex items-center gap-3 mb-6 pb-6 border-b border-neutral-100">
+            <span className="text-2xl">💻</span>
+            <div>
+              <h3 className="text-xl font-extrabold text-[#000000] tracking-tight">
+                Tech Stack
+              </h3>
+              <span className="text-xs font-mono text-[#6c757d]">
+                {badges.length} core technologies across software &amp; AI
+              </span>
             </div>
-
-            {/* Controls: Filter Pills */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              {badgeFilterCategories.map((cat) => {
-                const count = cat === 'All' 
-                  ? badges.length 
-                  : badges.filter(b => b.category === cat).length;
-
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
-                      selectedCategory === cat
-                        ? 'bg-[#b1b493] text-white shadow-sm font-semibold'
-                        : 'bg-[#f8f9fa] text-[#6c757d] hover:text-[#000000] border border-neutral-200/80'
-                    }`}
-                  >
-                    <span>{cat}</span>
-                    <span className="ml-1 opacity-75 text-[10px]">({count})</span>
-                  </button>
-                );
-              })}
-            </div>
-
           </div>
 
           {/* 3D TECH SPHERE SHOWCASE */}
@@ -131,7 +86,7 @@ export const Skills: React.FC = () => {
           >
             <TechSphere
               items={badges}
-              selectedCategory={selectedCategory}
+              selectedCategory="All"
             />
           </motion.div>
 
