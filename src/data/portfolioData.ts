@@ -91,7 +91,7 @@ export const PORTFOLIO_DATA = {
     email: "vinayprakashvg@gmail.com",
     phone: "+91 9353642283",
     github: "https://github.com/reddyvinay0612",
-    linkedin: "https://linkedin.com",
+    linkedin: "https://linkedin.com/in/vinayprakash-gummat-8495b3396",
     spokenLanguages: ["English", "Kannada", "Hindi"]
   },
 

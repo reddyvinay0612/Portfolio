@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, FileText, CheckCircle2, Sparkles, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { X, Download, FileText, ExternalLink, Mail, Phone, Github, Linkedin } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ResumeModalProps {
@@ -10,176 +9,168 @@ interface ResumeModalProps {
 }
 
 export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
+  // Close on Escape key and lock background scroll
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  const handleDownloadClick = () => {
+  const handleDownloadConfetti = () => {
     confetti({
-      particleCount: 60,
-      spread: 80,
-      origin: { y: 0.5 }
+      particleCount: 50,
+      spread: 70,
+      origin: { y: 0.6 }
     });
-
-    window.print();
   };
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+      <div 
+        className="fixed inset-0 z-[60000] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/75 backdrop-blur-md"
+        onClick={onClose}
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="bg-white p-6 sm:p-10 rounded-3xl border border-neutral-200/80 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl my-8 text-[#212529] print:text-black print:bg-white print:p-0 print:border-none print:shadow-none"
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white rounded-3xl border border-neutral-200/90 max-w-5xl w-full max-h-[96vh] h-[92vh] flex flex-col shadow-2xl relative overflow-hidden"
         >
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="absolute top-6 right-6 p-2 rounded-full bg-neutral-100 text-[#495057] hover:text-[#000000] hover:bg-neutral-200 transition-all print:hidden"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
           {/* Action Bar Header */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-neutral-100 print:hidden">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-8 py-3.5 border-b border-neutral-200 bg-[#f8fafc]">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#3b82a6]/15 text-[#163e54] flex items-center justify-center">
-                <FileText className="w-5 h-5" />
+                <FileText className="w-5 h-5 text-[#2c6585]" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[#000000]">Curriculum Vitae</h2>
-                <p className="text-xs text-[#6c757d] font-mono">VINAYPRAKASH.pdf</p>
+                <h2 className="text-base sm:text-lg font-bold text-neutral-900 leading-tight">
+                  Vinayprakash — Resume
+                </h2>
+                <p className="text-xs text-[#2c6585] font-mono">
+                  VINAYPRAKASH_Resume.pdf • Computer Science &amp; Design
+                </p>
               </div>
             </div>
 
-            <button
-              onClick={handleDownloadClick}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3b82a6] hover:bg-[#2d6785] text-white font-semibold text-xs shadow-md shadow-[#3b82a6]/30 hover:scale-105 active:scale-95 transition-all"
-            >
-              <Download className="w-4 h-4" />
-              <span>Print / Download Resume</span>
-            </button>
+            {/* Quick Action Buttons */}
+            <div className="flex items-center gap-2">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-mono font-medium transition-all hover:scale-105 shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Open in Tab</span>
+              </a>
+
+              <a
+                href="/resume.pdf"
+                download="Vinayprakash_Resume.pdf"
+                onClick={handleDownloadConfetti}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3b82a6] hover:bg-[#2c6585] text-white text-xs font-mono font-semibold transition-all hover:scale-105 active:scale-95 shadow-md shadow-[#3b82a6]/30"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download PDF</span>
+              </a>
+
+              <button
+                onClick={onClose}
+                className="w-9 h-9 rounded-full bg-neutral-200/70 hover:bg-neutral-300 text-neutral-700 flex items-center justify-center transition-colors ml-1"
+                aria-label="Close resume modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          {/* RESUME PAPER CONTENT */}
-          <div className="space-y-6 text-sm">
-            
-            {/* Header */}
-            <div className="text-center pb-6 border-b border-neutral-200 print:border-black">
-              <h1 className="text-3xl font-extrabold text-[#000000] print:text-black tracking-tight">
-                {PORTFOLIO_DATA.personal.name}
-              </h1>
-              <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-[#6c757d] print:text-black mt-2 font-mono">
-                <span>{PORTFOLIO_DATA.personal.location}</span>
-                <span>•</span>
-                <span>{PORTFOLIO_DATA.personal.email}</span>
-                <span>•</span>
-                <span>{PORTFOLIO_DATA.personal.phone}</span>
-              </div>
-            </div>
-
-            {/* Education */}
-            <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
-                Education
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between items-start font-semibold text-[#000000] print:text-black">
-                  <span>{PORTFOLIO_DATA.education.institution}</span>
-                  <span className="text-xs font-mono text-[#6c757d] print:text-black">{PORTFOLIO_DATA.education.location}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs text-[#495057] print:text-black">
-                  <span>{PORTFOLIO_DATA.education.degree}</span>
-                  <span className="font-mono text-[#163e54] font-bold print:text-black">{PORTFOLIO_DATA.education.graduation}</span>
-                </div>
-                <div className="text-xs text-[#6c757d] print:text-black">
-                  Concentrations: {PORTFOLIO_DATA.education.concentrations.join(', ')} | <strong>GPA: {PORTFOLIO_DATA.education.gpa}</strong>
-                </div>
-                <div className="text-xs text-[#6c757d] print:text-black">
-                  Coursework: {PORTFOLIO_DATA.education.coursework.join(', ')}
-                </div>
-              </div>
-            </div>
-
-            {/* Projects */}
-            <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
-                Projects
-              </h3>
-              <div className="space-y-4">
-                {PORTFOLIO_DATA.projects.map((proj) => (
-                  <div key={proj.id} className="space-y-1">
-                    <div className="flex justify-between items-baseline">
-                      <span className="font-bold text-[#000000] print:text-black">
-                        {proj.title} {proj.role && <span className="text-xs font-normal text-[#2c6585]">({proj.role})</span>}
-                      </span>
-                      <span className="text-xs font-mono text-[#6c757d] print:text-black">{proj.period}</span>
-                    </div>
-                    <p className="text-xs text-[#495057] print:text-black leading-relaxed">
-                      {proj.longDescription || proj.description}
+          {/* PDF Viewer Body */}
+          <div className="flex-1 w-full bg-neutral-100 p-2 sm:p-4 overflow-hidden flex flex-col">
+            <div className="w-full h-full rounded-2xl overflow-hidden border border-neutral-300/80 bg-white shadow-inner relative flex flex-col">
+              <object
+                data="/resume.pdf#view=FitH"
+                type="application/pdf"
+                className="w-full h-full"
+              >
+                {/* Fallback if browser doesn't natively render PDFs */}
+                <iframe
+                  src="/resume.pdf#view=FitH"
+                  title="Vinayprakash Resume"
+                  className="w-full h-full border-0"
+                >
+                  <div className="p-8 text-center flex flex-col items-center justify-center h-full">
+                    <FileText className="w-12 h-12 text-[#3b82a6] mb-3" />
+                    <p className="text-sm font-semibold text-neutral-800 mb-1">
+                      Resume PDF Ready for Viewing
                     </p>
+                    <p className="text-xs text-neutral-500 mb-4 max-w-sm">
+                      Your browser does not support embedded PDF previewing.
+                    </p>
+                    <a
+                      href="/resume.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-full bg-[#3b82a6] text-white text-xs font-semibold shadow-md"
+                    >
+                      Open PDF in New Window
+                    </a>
                   </div>
-                ))}
-              </div>
+                </iframe>
+              </object>
             </div>
-
-            {/* Events Participated */}
-            <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
-                Events Participated &amp; Industrial Exposure
-              </h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-xs font-bold text-[#000000] print:text-black mb-1">Student Development Programs:</div>
-                  <ul className="list-disc list-inside text-xs text-[#495057] print:text-black space-y-0.5">
-                    {PORTFOLIO_DATA.certifications.map(c => (
-                      <li key={c.title}><strong>{c.title}</strong> — {c.issuer} ({c.period})</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <div className="text-xs font-bold text-[#000000] print:text-black mb-1">Hackathons:</div>
-                  <ul className="list-disc list-inside text-xs text-[#495057] print:text-black space-y-0.5">
-                    {PORTFOLIO_DATA.eventsAndVisits.filter(e => e.category === 'Hackathon').map(h => (
-                      <li key={h.title}><strong>{h.title}</strong>: {h.description}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <div className="text-xs font-bold text-[#000000] print:text-black mb-1">Industrial Visits:</div>
-                  <ul className="list-disc list-inside text-xs text-[#495057] print:text-black space-y-0.5">
-                    {PORTFOLIO_DATA.eventsAndVisits.filter(e => e.category === 'Industrial Visit').map(iv => (
-                      <li key={iv.title}><strong>{iv.title}</strong>: {iv.description}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div>
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#163e54] print:text-black font-bold mb-3 pb-1 border-b border-[#3b82a6]/40 print:border-black">
-                Skills &amp; Languages
-              </h3>
-              <div className="text-xs text-[#495057] print:text-black space-y-1">
-                <div>
-                  <strong>Programming Languages:</strong> {PORTFOLIO_DATA.skillCategories[0]?.skills.map(s => s.name).join(', ')}
-                </div>
-                <div>
-                  <strong>Frameworks, AI &amp; Libraries:</strong> {PORTFOLIO_DATA.skillCategories[1]?.skills.concat(PORTFOLIO_DATA.skillCategories[2]?.skills || [], PORTFOLIO_DATA.skillCategories[3]?.skills || []).map(s => s.name).join(', ')}
-                </div>
-                <div>
-                  <strong>Databases, Cloud &amp; Tools:</strong> {PORTFOLIO_DATA.skillCategories[4]?.skills.concat(PORTFOLIO_DATA.skillCategories[5]?.skills || []).map(s => s.name).join(', ')}
-                </div>
-                <div>
-                  <strong>Languages Known:</strong> {PORTFOLIO_DATA.personal.spokenLanguages.join(', ')}
-                </div>
-              </div>
-            </div>
-
           </div>
 
+          {/* Clean Footer Bar with verified contact info */}
+          <div className="px-5 sm:px-8 py-2.5 border-t border-neutral-200 bg-white flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-neutral-600">
+            <div className="flex items-center gap-4">
+              <a 
+                href="mailto:vinayprakashvg@gmail.com" 
+                className="hover:text-[#3b82a6] transition-colors flex items-center gap-1.5"
+              >
+                <Mail className="w-3.5 h-3.5 text-[#2c6585]" />
+                <span>vinayprakashvg@gmail.com</span>
+              </a>
+              <span className="hidden sm:inline text-neutral-300">•</span>
+              <span className="hidden sm:inline flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#2c6585]" />
+                <span>+91 9353642283</span>
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/reddyvinay0612"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#3b82a6] transition-colors flex items-center gap-1"
+              >
+                <Github className="w-3.5 h-3.5" />
+                <span>GitHub</span>
+              </a>
+              <span className="text-neutral-300">•</span>
+              <a
+                href="https://linkedin.com/in/vinayprakash-gummat-8495b3396"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#3b82a6] transition-colors flex items-center gap-1"
+              >
+                <Linkedin className="w-3.5 h-3.5" />
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </AnimatePresence>

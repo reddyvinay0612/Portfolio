@@ -88,6 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={onOpenResumeModal}
+            title="View & Download Vinayprakash's Resume"
             className="px-6 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase border border-neutral-300 text-neutral-800 bg-[#f2f7fa] hover:bg-[#3b82a6] hover:text-white hover:border-[#3b82a6] transition-all hover:scale-105 active:scale-95 shadow-sm"
           >
             Resume
