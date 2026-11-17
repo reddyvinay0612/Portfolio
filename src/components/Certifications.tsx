@@ -22,7 +22,7 @@ export const Certifications: React.FC = () => {
             Certifications &amp; <span className="text-[#b1b493]">Trainings</span>
           </h2>
           <p className="mt-3 text-[#6c757d] max-w-xl text-sm md:text-base">
-            Verified development programs in full-stack engineering, Bosch Industry 4.0 IoT, enterprise Java, and cybersecurity techniques.
+            Verified development programs in full-stack engineering, Bosch Industry 4.0 IoT, enterprise Java, cybersecurity techniques, and national-level hackathons.
           </p>
         </div>
 

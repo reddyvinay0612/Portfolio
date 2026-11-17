@@ -486,6 +486,18 @@ export const PORTFOLIO_DATA = {
       image: "/certificates/cert-malnad-hackathon.jpg",
       skills: ["Hackathon Sprint", "DevOps Integration", "Rapid Prototyping", "Team Leadership"],
       verificationBadge: "Verified by MCE Hassan"
+    },
+    {
+      id: "nitte-hackfest",
+      title: "HackFest 26' (36-Hour National Hackathon)",
+      issuer: "NMAM Institute of Technology",
+      partner: "NITTE Deemed to be University • Finite Loop Club",
+      period: "17-19 April 2026",
+      date: "Apr 2026",
+      description: "Participated in HackFest 26', an intensive 36-hour national-level hackathon, demonstrating dedication, creativity, collaborative problem-solving, and innovative engineering solutions within a rapid sprint timeframe.",
+      image: "/certificates/cert-nitte-hackfest.jpg",
+      skills: ["FinTech Hackathon", "Collaborative Problem Solving", "Rapid Prototyping", "Teamwork", "Critical Thinking"],
+      verificationBadge: "Verified by NMAMIT & Finite Loop"
     }
   ] as Certification[]
 };
