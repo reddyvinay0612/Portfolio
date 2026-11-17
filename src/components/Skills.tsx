@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Wrench, 
   Code, 
   BrainCircuit, 
   Cpu, 
   Sparkles, 
-  Laptop, 
   Layout, 
   Database, 
   Terminal, 
-  Orbit, 
-  LayoutGrid,
-  Layers,
   Hand
 } from 'lucide-react';
 import { PORTFOLIO_DATA, TechBadge, SkillCategory } from '../data/portfolioData';
@@ -21,8 +17,6 @@ import CardDeckCarousel from './ui/card-deck-carousel';
 
 export const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [viewMode, setViewMode] = useState<'sphere' | 'grid'>('sphere');
-  const [matrixViewMode, setMatrixViewMode] = useState<'deck' | 'grid'>('deck');
   
   const categories = PORTFOLIO_DATA.skillCategories;
   const badges = PORTFOLIO_DATA.techStackBadges || [];
@@ -103,166 +97,63 @@ export const Skills: React.FC = () => {
               </div>
             </div>
 
-            {/* Controls: Filter Pills & 3D Switcher */}
-            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end">
-              
-              {/* Category Filter Pills */}
-              <div className="flex flex-wrap items-center gap-1.5">
-                {badgeFilterCategories.map((cat) => {
-                  const count = cat === 'All' 
-                    ? badges.length 
-                    : badges.filter(b => b.category === cat).length;
+            {/* Controls: Filter Pills */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              {badgeFilterCategories.map((cat) => {
+                const count = cat === 'All' 
+                  ? badges.length 
+                  : badges.filter(b => b.category === cat).length;
 
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
-                        selectedCategory === cat
-                          ? 'bg-[#b1b493] text-white shadow-sm font-semibold'
-                          : 'bg-[#f8f9fa] text-[#6c757d] hover:text-[#000000] border border-neutral-200/80'
-                      }`}
-                    >
-                      <span>{cat}</span>
-                      <span className="ml-1 opacity-75 text-[10px]">({count})</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* View Switcher: 3D Sphere vs Grid */}
-              <div className="inline-flex p-1 rounded-2xl bg-[#f8f9fa] border border-neutral-200/80 shrink-0">
-                <button
-                  onClick={() => setViewMode('sphere')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
-                    viewMode === 'sphere'
-                      ? 'bg-[#b1b493] text-white shadow-sm'
-                      : 'text-[#6c757d] hover:text-[#000000]'
-                  }`}
-                  title="3D Image Sphere View"
-                >
-                  <Orbit className="w-3.5 h-3.5" />
-                  <span>3D Sphere</span>
-                </button>
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
-                    viewMode === 'grid'
-                      ? 'bg-[#b1b493] text-white shadow-sm'
-                      : 'text-[#6c757d] hover:text-[#000000]'
-                  }`}
-                  title="Badge Wall View"
-                >
-                  <LayoutGrid className="w-3.5 h-3.5" />
-                  <span>Badges</span>
-                </button>
-              </div>
-
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
+                      selectedCategory === cat
+                        ? 'bg-[#b1b493] text-white shadow-sm font-semibold'
+                        : 'bg-[#f8f9fa] text-[#6c757d] hover:text-[#000000] border border-neutral-200/80'
+                    }`}
+                  >
+                    <span>{cat}</span>
+                    <span className="ml-1 opacity-75 text-[10px]">({count})</span>
+                  </button>
+                );
+              })}
             </div>
 
           </div>
 
-          {/* 1. 3D TECH SPHERE VIEW */}
-          {viewMode === 'sphere' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <TechSphere
-                items={badges}
-                selectedCategory={selectedCategory}
-              />
-            </motion.div>
-          )}
-
-          {/* 2. FLAT BADGE GRID VIEW */}
-          {viewMode === 'grid' && (
-            <motion.div 
-              layout 
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-              className="flex flex-wrap items-center gap-2.5 sm:gap-3 p-4 bg-[#f8f9fa] rounded-3xl border border-neutral-200/80 min-h-[220px]"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredBadges.map((badge) => (
-                  <motion.div
-                    key={badge.name}
-                    layout
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    whileHover={{ scale: 1.06, y: -2 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                    style={{
-                      backgroundColor: badge.bgColor,
-                      color: badge.textColor
-                    }}
-                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg shadow-sm border border-black/10 select-none cursor-default font-mono font-bold text-xs uppercase tracking-wider"
-                  >
-                    {badge.iconSymbol && (
-                      <span className="text-sm leading-none opacity-90 drop-shadow-sm">
-                        {badge.iconSymbol}
-                      </span>
-                    )}
-                    <span>{badge.name}</span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
+          {/* 3D TECH SPHERE SHOWCASE */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <TechSphere
+              items={badges}
+              selectedCategory={selectedCategory}
+            />
+          </motion.div>
 
         </motion.div>
 
         {/* ---------------- STRUCTURED PROFICIENCY MATRIX ---------------- */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <h3 className="text-2xl font-extrabold text-[#000000] tracking-tight">
-              Domain Proficiency Matrix
-            </h3>
-            <p className="text-xs sm:text-sm text-[#6c757d] mt-1 font-mono">
-              6 core engineering domains • Interactive loose card deck with gesture throwing physics
-            </p>
-          </div>
-
-          {/* View Mode Switcher: Card Deck Stack vs Grid */}
-          <div className="inline-flex p-1 rounded-2xl bg-white border border-neutral-200/80 shadow-sm shrink-0">
-            <button
-              onClick={() => setMatrixViewMode('deck')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
-                matrixViewMode === 'deck'
-                  ? 'bg-[#b1b493] text-white shadow-sm'
-                  : 'text-[#6c757d] hover:text-[#000000]'
-              }`}
-              title="Interactive Card Deck View"
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Card Deck</span>
-            </button>
-            <button
-              onClick={() => setMatrixViewMode('grid')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold font-mono transition-all ${
-                matrixViewMode === 'grid'
-                  ? 'bg-[#b1b493] text-white shadow-sm'
-                  : 'text-[#6c757d] hover:text-[#000000]'
-              }`}
-              title="All Domain Cards Grid View"
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Grid View</span>
-            </button>
-          </div>
+        <div className="flex flex-col items-center text-center mb-8">
+          <h3 className="text-2xl font-extrabold text-[#000000] tracking-tight">
+            Domain Proficiency Matrix
+          </h3>
+          <p className="text-xs sm:text-sm text-[#6c757d] mt-1 font-mono">
+            6 core engineering domains • Interactive loose card deck with gesture throwing physics
+          </p>
         </div>
 
-        {/* 1. INTERACTIVE CARD DECK VIEW (PHYSICAL DECK CAROUSEL) */}
-        {matrixViewMode === 'deck' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="py-4"
-          >
+        {/* INTERACTIVE CARD DECK VIEW (PHYSICAL DECK CAROUSEL) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="py-4"
+        >
             <CardDeckCarousel<SkillCategory>
               items={categories}
               cardWidth="min(92vw, 470px)"
@@ -347,78 +238,6 @@ export const Skills: React.FC = () => {
               }}
             />
           </motion.div>
-        )}
-
-        {/* 2. STRUCTURED 6-CARD GRID VIEW */}
-        {matrixViewMode === 'grid' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {categories.map((cat, catIdx) => {
-              const IconComp = getCategoryIcon(cat.iconName);
-
-              return (
-                <div
-                  key={cat.title}
-                  className="bg-white p-7 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)] hover:border-[#b1b493] transition-all flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Category Title */}
-                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-neutral-100">
-                      <div className="w-10 h-10 rounded-xl bg-[#b1b493]/15 border border-[#b1b493]/30 flex items-center justify-center text-[#5a5d40] shrink-0">
-                        <IconComp className="w-5 h-5 text-[#8e916c]" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#8e916c] font-bold block">
-                          0{catIdx + 1} // DOMAIN
-                        </span>
-                        <h3 className="text-lg font-bold text-[#000000] tracking-tight">
-                          {cat.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Skill List with Progress Bars */}
-                    <div className="space-y-4">
-                      {cat.skills.map((skill) => (
-                        <div key={skill.name} className="space-y-1.5">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-[#212529] flex items-center gap-1.5">
-                              <Sparkles className="w-3 h-3 text-[#b1b493]" />
-                              {skill.name}
-                            </span>
-                            {skill.level && (
-                              <span className="font-mono text-[11px] text-[#8e916c] font-bold">
-                                {skill.level}%
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Progress Bar (Clyde Sage) */}
-                          <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden p-[1px] border border-neutral-200/60">
-                            <div
-                              style={{ width: `${skill.level || 85}%` }}
-                              className="h-full rounded-full bg-gradient-to-r from-[#b1b493] to-[#9a9d7c] shadow-sm shadow-[#b1b493]/30 transition-all duration-700"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-5 mt-6 border-t border-neutral-100 flex items-center justify-between text-xs font-mono text-[#6c757d]">
-                    <span className="text-[10px] uppercase tracking-wider text-[#8e916c]">Domain Specialization</span>
-                    <span>0{catIdx + 1} / 06</span>
-                  </div>
-
-                </div>
-              );
-            })}
-          </motion.div>
-        )}
 
       </div>
     </section>

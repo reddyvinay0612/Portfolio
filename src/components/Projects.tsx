@@ -7,9 +7,7 @@ import {
   Github, 
   ChevronRight, 
   X, 
-  Users, 
-  Orbit, 
-  LayoutGrid, 
+  Users,
   RotateCw, 
   Compass, 
   Eye, 
@@ -22,7 +20,6 @@ import { generateProjectCardTexture } from '../utils/projectCardCanvas';
 export const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [viewMode, setViewMode] = useState<'circular' | 'grid'>('circular');
   const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0);
   const [autoRotate, setAutoRotate] = useState<boolean>(true);
   const [bendIntensity, setBendIntensity] = useState<number>(3);
@@ -84,57 +81,25 @@ export const Projects: React.FC = () => {
           </p>
         </div>
 
-        {/* Top Controls: View Switcher & Category Filters */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
-          
-          {/* Category Filters */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                  selectedCategory === cat
-                    ? 'bg-[#b1b493] text-white shadow-md shadow-[#b1b493]/30'
-                    : 'bg-[#f8f9fa] text-[#6c757d] border border-neutral-200/80 hover:text-[#000000] hover:border-[#b1b493]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* View Mode Switcher: 3D Circular Orbit vs Grid */}
-          <div className="inline-flex p-1 rounded-2xl bg-[#f8f9fa] border border-neutral-200/80 shrink-0">
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+          {categories.map((cat) => (
             <button
-              onClick={() => setViewMode('circular')}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                viewMode === 'circular'
-                  ? 'bg-[#b1b493] text-white shadow-sm'
-                  : 'text-[#6c757d] hover:text-[#000000]'
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                selectedCategory === cat
+                  ? 'bg-[#b1b493] text-white shadow-md shadow-[#b1b493]/30'
+                  : 'bg-[#f8f9fa] text-[#6c757d] border border-neutral-200/80 hover:text-[#000000] hover:border-[#b1b493]'
               }`}
             >
-              <Orbit className="w-3.5 h-3.5" />
-              <span>3D Circular Gallery</span>
+              {cat}
             </button>
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                viewMode === 'grid'
-                  ? 'bg-[#b1b493] text-white shadow-sm'
-                  : 'text-[#6c757d] hover:text-[#000000]'
-              }`}
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Grid View</span>
-            </button>
-          </div>
-
+          ))}
         </div>
 
-        {/* ---------------- 3D CIRCULAR GALLERY VIEW ---------------- */}
-        {viewMode === 'circular' && (
-          <div className="space-y-6">
+        {/* ---------------- 3D CIRCULAR GALLERY SHOWCASE ---------------- */}
+        <div className="space-y-6">
             
             {/* Gallery Stage Container */}
             <div className="relative w-full h-[520px] sm:h-[580px] md:h-[640px] rounded-3xl bg-[#f8f9fa] border border-neutral-200/80 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
@@ -295,114 +260,6 @@ export const Projects: React.FC = () => {
             )}
 
           </div>
-        )}
-
-        {/* ---------------- CLASSIC GRID VIEW ---------------- */}
-        {viewMode === 'grid' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-7 rounded-3xl border border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)] flex flex-col justify-between relative group overflow-hidden hover:border-[#b1b493] transition-all"
-              >
-                {/* Subtle sage background glow on hover */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-[#b1b493]/5 rounded-full blur-3xl group-hover:bg-[#b1b493]/15 transition-all duration-500 pointer-events-none" />
-
-                <div>
-                  {/* Header Badge & Period */}
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-[#b1b493]/15 border border-[#b1b493]/35 text-[#4e5135]">
-                      {project.category}
-                    </span>
-                    
-                    <div className="flex items-center gap-2">
-                      {project.role && (
-                        <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-md bg-[#f8f9fa] text-[#495057] border border-neutral-200 flex items-center gap-1">
-                          <Users className="w-3 h-3 text-[#b1b493]" />
-                          {project.role}
-                        </span>
-                      )}
-                      <span className="text-xs font-mono text-[#6c757d]">
-                        {project.period}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Project Title */}
-                  <h3 className="text-2xl font-bold text-[#000000] mb-3 group-hover:text-[#8e916c] transition-colors flex items-center justify-between">
-                    <span>{project.title}</span>
-                  </h3>
-
-                  {/* Status Badge */}
-                  {project.statusBadge && (
-                    <div className="inline-block mb-3">
-                      <span className="text-[10px] font-mono uppercase tracking-wider font-bold px-2.5 py-0.5 rounded-full bg-[#b1b493]/20 text-[#3a3d24] border border-[#b1b493]/40">
-                        {project.statusBadge}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Short Description */}
-                  <p className="text-[#6c757d] text-sm leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Highlights List */}
-                  <ul className="space-y-2 mb-6">
-                    {project.highlights.map((highlight, hIdx) => (
-                      <li key={hIdx} className="flex items-start gap-2 text-xs text-[#495057]">
-                        <Sparkles className="w-3.5 h-3.5 text-[#b1b493] shrink-0 mt-0.5" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Footer: Tech Stack & View Details CTA */}
-                <div className="pt-5 border-t border-neutral-100 flex flex-col gap-4">
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#f8f9fa] text-[#495057] border border-neutral-200/80"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-3.5 py-2.5 rounded-xl bg-[#f8f9fa] hover:bg-neutral-100 text-[#212529] border border-neutral-200 hover:border-[#b1b493] transition-all flex items-center gap-1.5 text-xs font-mono font-semibold shrink-0"
-                        title="Open GitHub Repository"
-                      >
-                        <Github className="w-3.5 h-3.5 text-[#b1b493]" />
-                        <span>Code</span>
-                      </a>
-                    )}
-
-                    <button
-                      onClick={() => setSelectedProject(project)}
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#b1b493]/15 hover:bg-[#b1b493] border border-[#b1b493]/35 text-[#4e5135] hover:text-white text-xs font-semibold transition-all group-hover:border-[#b1b493]"
-                    >
-                      <span>View Technical Details</span>
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-
-              </motion.div>
-            ))}
-          </div>
-        )}
 
       </div>
 
