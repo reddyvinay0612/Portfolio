@@ -59,6 +59,13 @@ export interface TechBadge {
   iconSymbol?: string;
 }
 
+export interface Certification {
+  title: string;
+  issuer: string;
+  period: string;
+  description: string;
+}
+
 export interface SkillCategory {
   title: string;
   iconName: string;
