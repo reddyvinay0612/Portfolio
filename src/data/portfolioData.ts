@@ -112,7 +112,7 @@ export const PORTFOLIO_DATA = {
     },
     {
       id: "fintech-security",
-      title: "Domain(FinTech) HackFest",
+      title: "AI-Driven Fraud Prevention | FinTech HackFest",
       category: "FinTech & AI Security",
       period: "July 2026",
       statusBadge: "Next-Gen Defense",
