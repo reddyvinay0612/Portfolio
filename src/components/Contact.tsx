@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Copy, Check, Sparkles, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Copy, Check, Sparkles, MessageSquare, Loader2 } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import confetti from 'canvas-confetti';
 
@@ -15,6 +15,7 @@ export const Contact: React.FC = () => {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleCopyPhone = () => {
     navigator.clipboard.writeText(PORTFOLIO_DATA.personal.phone);
@@ -28,17 +29,52 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
+    setIsSubmitting(true);
 
-    setSubmitted(true);
+    try {
+      // Dispatches the message directly to vinayprakashvg@gmail.com via FormSubmit AJAX service
+      const response = await fetch("https://formsubmit.co/ajax/vinayprakashvg@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _replyto: formData.email,
+          _subject: `Portfolio Message from ${formData.name}: ${formData.subject || 'New Inquiry'}`,
+          message: formData.message,
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok || result.success === "true" || result.success === true) {
+        confetti({
+          particleCount: 90,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        setSubmitted(true);
+      } else {
+        throw new Error(result.message || "Could not dispatch message");
+      }
+    } catch (err) {
+      console.warn("FormSubmit fetch error, falling back to direct email client:", err);
+      // Fallback: trigger standard mailto so the inquiry is never missed
+      const mailtoUrl = `mailto:vinayprakashvg@gmail.com?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry from ' + formData.name)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+      window.open(mailtoUrl, '_blank');
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -196,21 +232,30 @@ export const Contact: React.FC = () => {
             {submitted ? (
               <div className="py-12 text-center flex flex-col items-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-[#3b82a6] flex items-center justify-center text-white shadow-lg shadow-[#3b82a6]/40 animate-bounce">
-                  <Sparkles className="w-8 h-8" />
+                  <Check className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#000000]">Message Received!</h3>
-                <p className="text-[#6c757d] max-w-md text-sm">
-                  Thank you for reaching out, <span className="text-[#2c6585] font-semibold">{formData.name}</span>! I'll get back to you shortly at <span className="text-[#000000] font-medium">{formData.email}</span>.
+                <h3 className="text-2xl font-bold text-[#000000]">Message Sent to Vinay!</h3>
+                <p className="text-[#6c757d] max-w-md text-sm leading-relaxed">
+                  Thank you, <span className="text-[#2c6585] font-semibold">{formData.name}</span>! Your message has been dispatched directly to <span className="text-[#000000] font-medium font-mono">vinayprakashvg@gmail.com</span>. I'll get back to you shortly at <span className="text-[#000000] font-medium">{formData.email}</span>.
                 </p>
-                <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({ name: '', email: '', subject: '', message: '' });
-                  }}
-                  className="mt-4 px-6 py-2.5 rounded-full bg-[#f2f7fa] border border-neutral-200 text-xs text-[#495057] hover:text-[#000000] hover:border-[#3b82a6] transition-all font-semibold"
-                >
-                  Send Another Message
-                </button>
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', subject: '', message: '' });
+                    }}
+                    className="px-6 py-2.5 rounded-full bg-[#f2f7fa] border border-neutral-200 text-xs text-[#495057] hover:text-[#000000] hover:border-[#3b82a6] transition-all font-semibold"
+                  >
+                    Send Another Message
+                  </button>
+                  <a
+                    href={`mailto:vinayprakashvg@gmail.com?subject=${encodeURIComponent(formData.subject || 'Follow up on inquiry')}&body=${encodeURIComponent(`Hi Vinay,\n\nRegarding my message:\n${formData.message}`)}`}
+                    className="px-5 py-2.5 rounded-full bg-[#3b82a6]/15 hover:bg-[#3b82a6]/25 border border-[#3b82a6]/35 text-xs text-[#163e54] font-semibold transition-all flex items-center gap-1.5"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-[#2c6585]" />
+                    <span>Open in Email App</span>
+                  </a>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -270,10 +315,20 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#3b82a6] hover:bg-[#2d6785] text-white font-bold text-sm shadow-md shadow-[#3b82a6]/30 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#3b82a6] hover:bg-[#2d6785] disabled:opacity-75 disabled:cursor-wait text-white font-bold text-sm shadow-md shadow-[#3b82a6]/30 hover:scale-[1.01] active:scale-[0.99] transition-all"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending to Vinay...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
