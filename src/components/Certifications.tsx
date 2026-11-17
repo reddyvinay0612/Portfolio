@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, CheckCircle2, Calendar, ExternalLink, X, Eye, ShieldCheck, Sparkles } from 'lucide-react';
+import { Award, CheckCircle2, Calendar, X, Eye, ShieldCheck, Maximize2 } from 'lucide-react';
 import { PORTFOLIO_DATA, Certification } from '../data/portfolioData';
 import FocusPullCarousel from './ui/focus-pull-carousel';
 
@@ -26,7 +26,7 @@ export const Certifications: React.FC = () => {
           </p>
         </div>
 
-        {/* INTERACTIVE FOCUS PULL CAROUSEL (OPTICAL CAMERA LENS) */}
+        {/* INTERACTIVE FOCUS PULL CAROUSEL (LANDSCAPE CERTIFICATES FULLY VISIBLE) */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -36,9 +36,9 @@ export const Certifications: React.FC = () => {
         >
           <FocusPullCarousel<Certification>
             items={certs}
-            cardWidth="min(90vw, 470px)"
-            cardHeight="530px"
-            height="620px"
+            cardWidth="min(94vw, 560px)"
+            cardHeight="auto"
+            height="670px"
             blur={6}
             autoplay={0}
             getItemMeta={(cert) => ({
@@ -47,44 +47,41 @@ export const Certifications: React.FC = () => {
             })}
             renderItem={(cert, idx, isCenter) => (
               <div
-                className={`w-full h-full p-6 sm:p-7 rounded-[28px] bg-white border transition-all duration-300 flex flex-col justify-between overflow-hidden text-left ${
+                className={`w-full h-full p-5 sm:p-6 rounded-[28px] bg-white border transition-all duration-300 flex flex-col justify-between overflow-hidden text-left ${
                   isCenter
-                    ? 'border-[#b1b493] shadow-[0_20px_45px_-12px_rgba(0,0,0,0.14)] ring-1 ring-[#b1b493]/30'
+                    ? 'border-[#b1b493] shadow-[0_22px_50px_-10px_rgba(0,0,0,0.16)] ring-1 ring-[#b1b493]/40'
                     : 'border-neutral-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
                 }`}
               >
                 <div>
-                  {/* Certificate Image Thumbnail with Quick Preview Overlay */}
+                  {/* ENTIRE LANDSCAPE CERTIFICATE (100% VISIBLE, NO CROPPING) */}
                   <div 
                     onClick={() => setSelectedCert(cert)}
-                    className="relative w-full h-44 sm:h-48 rounded-2xl overflow-hidden mb-4 bg-neutral-100 border border-neutral-200 cursor-pointer group shadow-inner"
+                    className="relative w-full aspect-[1.4/1] rounded-2xl overflow-hidden mb-4 bg-[#f8f9fa] border border-neutral-200/90 cursor-pointer group shadow-sm hover:shadow-md transition-all flex items-center justify-center p-1"
                   >
                     <img 
                       src={cert.image} 
                       alt={cert.title}
                       loading="lazy"
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.015]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-3.5">
-                      <span className="text-white text-xs font-mono font-semibold flex items-center gap-1.5 drop-shadow">
-                        <Eye className="w-4 h-4 text-[#b1b493]" />
-                        <span>Click to view certificate</span>
+                    
+                    {/* Hover Overlay with Enlarge CTA */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-end justify-between p-3 pointer-events-none">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-white text-[11px] font-mono font-medium flex items-center gap-1.5 shadow-lg">
+                        <Maximize2 className="w-3.5 h-3.5 text-[#b1b493]" />
+                        <span>Enlarge Certificate</span>
                       </span>
-                      <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-mono border border-white/30">
-                        HD View
-                      </span>
+                      {cert.credentialId && (
+                        <span className="px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[10px] font-mono font-bold text-neutral-800 border border-neutral-200/80 shadow-sm">
+                          {cert.credentialId}
+                        </span>
+                      )}
                     </div>
-
-                    {/* Partner / Credential Pill over image */}
-                    {cert.credentialId && (
-                      <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-mono font-bold text-neutral-800 border border-neutral-200/80 shadow-sm">
-                        {cert.credentialId}
-                      </div>
-                    )}
                   </div>
 
                   {/* Header Row: Issuer + Period */}
-                  <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
                     <span className="text-xs font-mono text-[#8e916c] font-bold uppercase tracking-wider truncate">
                       {cert.issuer}
                     </span>
@@ -95,7 +92,7 @@ export const Certifications: React.FC = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg sm:text-xl font-extrabold text-[#000000] tracking-tight mb-2 leading-snug line-clamp-2">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-[#000000] tracking-tight mb-1.5 leading-snug line-clamp-1">
                     {cert.title}
                   </h3>
 
@@ -106,7 +103,7 @@ export const Certifications: React.FC = () => {
 
                   {/* Skill Badges */}
                   <div className="flex flex-wrap gap-1.5">
-                    {cert.skills.slice(0, 4).map((skill) => (
+                    {cert.skills.slice(0, 5).map((skill) => (
                       <span
                         key={skill}
                         className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-[#f8f9fa] border border-neutral-200/80 text-neutral-700 font-medium"
@@ -114,16 +111,16 @@ export const Certifications: React.FC = () => {
                         {skill}
                       </span>
                     ))}
-                    {cert.skills.length > 4 && (
+                    {cert.skills.length > 5 && (
                       <span className="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-[#b1b493]/15 text-[#5a5d40] font-semibold">
-                        +{cert.skills.length - 4}
+                        +{cert.skills.length - 5}
                       </span>
                     )}
                   </div>
                 </div>
 
                 {/* Bottom Verification Footer */}
-                <div className="pt-3.5 mt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
+                <div className="pt-3 mt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
                   <button
                     type="button"
                     onClick={() => setSelectedCert(cert)}
@@ -162,7 +159,7 @@ export const Certifications: React.FC = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 15 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl overflow-hidden shadow-2xl border border-neutral-200 z-10 flex flex-col"
+              className="relative w-full max-w-4xl max-h-[92vh] bg-white rounded-3xl overflow-hidden shadow-2xl border border-neutral-200 z-10 flex flex-col"
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-[#fafafa]">
@@ -190,13 +187,13 @@ export const Certifications: React.FC = () => {
                 </button>
               </div>
 
-              {/* Modal Body: Full-Resolution Image */}
-              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(90vh-140px)] flex flex-col items-center bg-neutral-950/5">
-                <div className="relative rounded-2xl overflow-hidden border border-neutral-200/90 shadow-lg bg-white">
+              {/* Modal Body: Full-Resolution Image in Landscape */}
+              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(92vh-140px)] flex flex-col items-center bg-neutral-950/5">
+                <div className="relative rounded-2xl overflow-hidden border border-neutral-200/90 shadow-lg bg-white p-2">
                   <img
                     src={selectedCert.image}
                     alt={selectedCert.title}
-                    className="max-h-[62vh] w-auto object-contain mx-auto"
+                    className="max-h-[66vh] w-auto object-contain mx-auto rounded-xl"
                   />
                 </div>
 
