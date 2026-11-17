@@ -60,10 +60,17 @@ export interface TechBadge {
 }
 
 export interface Certification {
+  id: string;
   title: string;
   issuer: string;
+  partner?: string;
   period: string;
+  date?: string;
+  credentialId?: string;
   description: string;
+  image: string;
+  skills: string[];
+  verificationBadge: string;
 }
 
 export interface SkillCategory {
@@ -419,22 +426,66 @@ export const PORTFOLIO_DATA = {
 
   certifications: [
     {
+      id: "fullstack-mindenious",
       title: "Full Stack Web Development",
-      issuer: "Professional Development Program",
-      period: "Completed",
-      description: "Intensive 1-month comprehensive training covering frontend modern interfaces, backend APIs, and SQL connectivity."
+      issuer: "Mindenious",
+      partner: "#startupindia • ISO 9001:2015 • MSME • Wipro DICE ID",
+      period: "05-Apr-2025 to 04-May-2025",
+      date: "May 2025",
+      credentialId: "MIND-TRN-25E086",
+      description: "Successfully completed intensive professional training in Full Stack Web Development demonstrating diligence, active participation, and innovation across modern React interfaces, REST APIs, and database connectivity.",
+      image: "/certificates/cert-mindenious-fullstack.jpg",
+      skills: ["React.js", "Node.js", "Express", "RESTful APIs", "SQL", "Frontend UI"],
+      verificationBadge: "Verified by Wipro DICE ID"
     },
     {
-      title: "Enterprise Java Programming",
-      issuer: "Technical Training Institute",
-      period: "Completed",
-      description: "Core and advanced Java, object-oriented software engineering principles, and enterprise application patterns."
+      id: "bosch-industry-iot",
+      title: "Industrial Immersion on I4.0 Solutions & IoT",
+      issuer: "Bosch Limited",
+      partner: "V V Technologies • Bosch Vocational Center",
+      period: "7 Days Intensive",
+      date: "Nov 2024",
+      description: "Successfully completed Skill Development Training in Industrial immersion on Industry 4.0 solutions and IoT at Bosch Vocational Center, analyzing real-time connected industrial automation systems and sensor networks.",
+      image: "/certificates/cert-bosch-iot.jpg",
+      skills: ["Industry 4.0", "Industrial IoT", "Smart Automation", "Embedded Sensors", "System Architecture"],
+      verificationBadge: "Verified by Bosch L&D"
     },
     {
-      title: "Cybersecurity & Defenses",
-      issuer: "Domain Security Program",
-      period: "Completed",
-      description: "Network security foundations, penetration testing awareness, and modern biometric anti-spoofing techniques."
+      id: "pesitm-java-enterprise",
+      title: "Java for Enterprise: Developing Robust Solutions",
+      issuer: "PES Institute of Technology & Management",
+      partner: "PraloTech Solutions LLP, Bangalore",
+      period: "24-Oct-2024 to 26-Oct-2024",
+      date: "Oct 2024",
+      description: "Completed Student Development Program conducted by Dept of CSD & Dept of CSE (Data Science) in association with PraloTech Solutions, focusing on enterprise Java patterns, OOP architectures, and scalable software solutions.",
+      image: "/certificates/cert-pesitm-java.jpg",
+      skills: ["Java Enterprise", "OOP Principles", "Software Architecture", "Robust Backend Systems"],
+      verificationBadge: "Verified by PESITM & PraloTech"
+    },
+    {
+      id: "pesitm-cybersecurity",
+      title: "Unlocking Cybersecurity: Basics to Advanced Techniques",
+      issuer: "PES Institute of Technology & Management",
+      partner: "Cybersena (R&D) India Pvt Ltd, Belagavi",
+      period: "28-Apr-2025 to 29-Apr-2025",
+      date: "Apr 2025",
+      credentialId: "USN: 4PM23CG058",
+      description: "Student Development Program covering network defense fundamentals, ethical hacking methodology, vulnerability scanning, penetration testing techniques, and proactive biometric security countermeasures.",
+      image: "/certificates/cert-pesitm-cybersecurity.jpg",
+      skills: ["Cybersecurity", "Network Defenses", "Penetration Testing", "Threat Mitigation", "InfoSec"],
+      verificationBadge: "Verified by Cybersena R&D"
+    },
+    {
+      id: "mce-hackathon",
+      title: "State-Level 6-Hour Hackathon",
+      issuer: "Malnad College of Engineering (MCE Hassan)",
+      partner: "Team DevOps • Affiliated to VTU Belagavi",
+      period: "22nd November 2024",
+      date: "Nov 2024",
+      description: "Actively participated in the State-Level Hackathon conducted by Team DevOps, demonstrating exceptional technical execution, innovative algorithmic thinking, and collaborative engineering under rapid sprint conditions.",
+      image: "/certificates/cert-malnad-hackathon.jpg",
+      skills: ["Hackathon Sprint", "DevOps Integration", "Rapid Prototyping", "Team Leadership"],
+      verificationBadge: "Verified by MCE Hassan"
     }
-  ]
+  ] as Certification[]
 };
