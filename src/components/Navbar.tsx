@@ -15,7 +15,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   const navItems: LiquidNavItem[] = [
     { label: 'Home', href: '#home', icon: NimbusIcons.home, fx: 'glow' },
     { label: 'About', href: '#about', icon: NimbusIcons.user, fx: 'wave' },
-    { label: 'Services', href: '#services', icon: NimbusIcons.services, fx: 'spin' },
     { label: 'Projects', href: '#projects', icon: NimbusIcons.projects, fx: 'plane' },
     { label: 'Skills', href: '#skills', icon: NimbusIcons.code, fx: 'pop' },
     { label: 'Contact', href: '#contact', icon: NimbusIcons.contact, fx: 'drop' },

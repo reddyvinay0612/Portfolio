@@ -8,7 +8,7 @@ export const About: React.FC = () => {
   return (
     <section 
       id="about" 
-      className="relative min-h-screen py-24 bg-white text-[#212529] flex items-center justify-center overflow-hidden z-20 border-b border-neutral-200/80"
+      className="relative min-h-screen py-24 bg-[#f8f9fa] text-[#212529] flex items-center justify-center overflow-hidden z-20 border-b border-neutral-200/80"
     >
       {/* CLYDE AMBIENT LIGHT ACCENTS */}
       <div className="absolute inset-0 pointer-events-none -z-0 overflow-hidden">
@@ -124,27 +124,27 @@ export const About: React.FC = () => {
 
           {/* Clyde Structured Personal Details Grid */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs font-mono">
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Degree</span>
               <span className="text-[#000000] font-bold text-sm mt-0.5">B.E. in Computer Science &amp; Design</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Institution</span>
               <span className="text-[#000000] font-bold text-sm mt-0.5">PESITM Shivamogga (VTU)</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Cumulative GPA</span>
               <span className="text-[#555a3c] font-bold text-sm mt-0.5">8.02 / 10.00</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Location</span>
               <span className="text-[#000000] font-bold text-sm mt-0.5">Shivamogga, Karnataka, India</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Direct Email</span>
               <span className="text-[#000000] font-bold text-xs mt-0.5 truncate">reddyvinayprakash@gmail.com</span>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#f8f9fa] border border-neutral-200/80 shadow-sm flex flex-col justify-center">
+            <div className="p-3.5 rounded-xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-center">
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">Status</span>
               <span className="text-emerald-700 font-bold text-sm mt-0.5 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
