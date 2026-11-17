@@ -426,6 +426,18 @@ export const PORTFOLIO_DATA = {
 
   certifications: [
     {
+      id: "bosch-industry-iot",
+      title: "Industrial Immersion on I4.0 Solutions & IoT",
+      issuer: "Bosch Limited",
+      partner: "V V Technologies • Bosch Vocational Center",
+      period: "7 Days Intensive",
+      date: "Nov 2024",
+      description: "Successfully completed Skill Development Training in Industrial immersion on Industry 4.0 solutions and IoT at Bosch Vocational Center, analyzing real-time connected industrial automation systems and sensor networks.",
+      image: "/certificates/cert-bosch-iot.jpg",
+      skills: ["Industry 4.0", "Industrial IoT", "Smart Automation", "Embedded Sensors", "System Architecture"],
+      verificationBadge: "Verified by Bosch L&D"
+    },
+    {
       id: "fullstack-mindenious",
       title: "Full Stack Web Development",
       issuer: "Mindenious",
@@ -439,16 +451,28 @@ export const PORTFOLIO_DATA = {
       verificationBadge: "Verified by Wipro DICE ID"
     },
     {
-      id: "bosch-industry-iot",
-      title: "Industrial Immersion on I4.0 Solutions & IoT",
-      issuer: "Bosch Limited",
-      partner: "V V Technologies • Bosch Vocational Center",
-      period: "7 Days Intensive",
+      id: "nitte-hackfest",
+      title: "HackFest 26' (36-Hour National Hackathon)",
+      issuer: "NMAM Institute of Technology",
+      partner: "NITTE Deemed to be University • Finite Loop Club",
+      period: "17-19 April 2026",
+      date: "Apr 2026",
+      description: "Participated in HackFest 26', an intensive 36-hour national-level hackathon, demonstrating dedication, creativity, collaborative problem-solving, and innovative engineering solutions within a rapid sprint timeframe.",
+      image: "/certificates/cert-nitte-hackfest.jpg",
+      skills: ["FinTech Hackathon", "Collaborative Problem Solving", "Rapid Prototyping", "Teamwork", "Critical Thinking"],
+      verificationBadge: "Verified by NMAMIT & Finite Loop"
+    },
+    {
+      id: "mce-hackathon",
+      title: "State-Level 6-Hour Hackathon",
+      issuer: "Malnad College of Engineering (MCE Hassan)",
+      partner: "Team DevOps • Affiliated to VTU Belagavi",
+      period: "22nd November 2024",
       date: "Nov 2024",
-      description: "Successfully completed Skill Development Training in Industrial immersion on Industry 4.0 solutions and IoT at Bosch Vocational Center, analyzing real-time connected industrial automation systems and sensor networks.",
-      image: "/certificates/cert-bosch-iot.jpg",
-      skills: ["Industry 4.0", "Industrial IoT", "Smart Automation", "Embedded Sensors", "System Architecture"],
-      verificationBadge: "Verified by Bosch L&D"
+      description: "Actively participated in the State-Level Hackathon conducted by Team DevOps, demonstrating exceptional technical execution, innovative algorithmic thinking, and collaborative engineering under rapid sprint conditions.",
+      image: "/certificates/cert-malnad-hackathon.jpg",
+      skills: ["Hackathon Sprint", "DevOps Integration", "Rapid Prototyping", "Team Leadership"],
+      verificationBadge: "Verified by MCE Hassan"
     },
     {
       id: "pesitm-java-enterprise",
@@ -474,30 +498,6 @@ export const PORTFOLIO_DATA = {
       image: "/certificates/cert-pesitm-cybersecurity.jpg",
       skills: ["Cybersecurity", "Network Defenses", "Penetration Testing", "Threat Mitigation", "InfoSec"],
       verificationBadge: "Verified by Cybersena R&D"
-    },
-    {
-      id: "mce-hackathon",
-      title: "State-Level 6-Hour Hackathon",
-      issuer: "Malnad College of Engineering (MCE Hassan)",
-      partner: "Team DevOps • Affiliated to VTU Belagavi",
-      period: "22nd November 2024",
-      date: "Nov 2024",
-      description: "Actively participated in the State-Level Hackathon conducted by Team DevOps, demonstrating exceptional technical execution, innovative algorithmic thinking, and collaborative engineering under rapid sprint conditions.",
-      image: "/certificates/cert-malnad-hackathon.jpg",
-      skills: ["Hackathon Sprint", "DevOps Integration", "Rapid Prototyping", "Team Leadership"],
-      verificationBadge: "Verified by MCE Hassan"
-    },
-    {
-      id: "nitte-hackfest",
-      title: "HackFest 26' (36-Hour National Hackathon)",
-      issuer: "NMAM Institute of Technology",
-      partner: "NITTE Deemed to be University • Finite Loop Club",
-      period: "17-19 April 2026",
-      date: "Apr 2026",
-      description: "Participated in HackFest 26', an intensive 36-hour national-level hackathon, demonstrating dedication, creativity, collaborative problem-solving, and innovative engineering solutions within a rapid sprint timeframe.",
-      image: "/certificates/cert-nitte-hackfest.jpg",
-      skills: ["FinTech Hackathon", "Collaborative Problem Solving", "Rapid Prototyping", "Teamwork", "Critical Thinking"],
-      verificationBadge: "Verified by NMAMIT & Finite Loop"
     }
   ] as Certification[]
 };
