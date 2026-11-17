@@ -74,6 +74,13 @@ export const NimbusIcons = {
       <path d="M12 3.5s6 6.4 6 10.6a6 6 0 0 1-12 0C6 9.9 12 3.5 12 3.5Z" />
     </>
   ),
+  services: I(
+    <>
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </>
+  ),
 };
 
 const DEFAULT_ITEMS: LiquidNavItem[] = [

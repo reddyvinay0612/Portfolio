@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowDown, Sparkles, FileText, Github, Linkedin, Mail, Phone, ChevronRight } from 'lucide-react';
+import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface HeroProps {
   onOpenResumeModal: () => void;
@@ -67,9 +68,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           animate="visible"
           className="w-full md:w-3/5 text-left flex flex-col"
         >
-          {/* Status Badge */}
-          <motion.div variants={itemVariants} className="mb-6">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+          {/* Clyde Subheading & Available Pill */}
+          <motion.div variants={itemVariants} className="mb-4 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF2A2A]/10 border border-[#FF2A2A]/30 text-[#FF2A2A] text-xs font-mono font-bold tracking-wider uppercase">
+              <Sparkles className="w-3.5 h-3.5 text-[#FF2A2A]" />
+              <span>Hello! I am Vinayprakash</span>
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF2A2A] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF2A2A]"></span>
@@ -80,17 +86,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             </div>
           </motion.div>
 
-          {/* Main Title */}
-          <motion.div variants={itemVariants} className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-white">
-            <span className="block font-medium text-white/90 text-2xl sm:text-3xl mb-2">Hi, I'm a</span>
-            <span 
-              className="block uppercase tracking-tighter text-transparent"
-              style={{
-                WebkitTextStroke: '2px rgba(255, 255, 255, 0.95)',
-                fontFamily: 'system-ui, sans-serif'
-              }}
-            >
-              Full Stack Developer
+          {/* Clyde & Joyseno Prominent Hero Heading */}
+          <motion.div variants={itemVariants} className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] text-white">
+            <span className="block font-medium text-neutral-300 text-2xl sm:text-3xl mb-2">
+              Creative Engineer
+            </span>
+            <span className="block">
+              Full Stack <span className="text-[#FF2A2A]">&amp;</span> AI Architect
             </span>
           </motion.div>
 
@@ -99,26 +101,77 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             variants={itemVariants} 
             className="mt-6 text-white/80 max-w-xl text-base sm:text-lg leading-relaxed font-light"
           >
-            I focus on React.js, Node.js, and modern web applications with a strong emphasis on performance, clean aesthetics, and database scalability.
+            Engineering scalable web architectures, explainable machine learning systems, and proactive FinTech security against synthetic biometric spoofing.
           </motion.p>
 
-          {/* Buttons CTA */}
+          {/* Buttons CTA (Clyde Style with View Work, Contact Me, and Download CV) */}
           <motion.div 
             variants={itemVariants}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-wrap items-center gap-3.5"
           >
             <a
               href="#projects"
-              className="px-8 py-3.5 rounded-full bg-white hover:bg-neutral-100 text-black text-sm font-bold tracking-wide transition-all duration-300 hover:scale-105 active:scale-95 shadow-2xl shadow-white/10"
+              className="px-7 py-3 rounded-full bg-[#FF2A2A] hover:bg-red-600 text-white text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl shadow-[#FF2A2A]/30 flex items-center gap-2"
             >
-              View My Work
+              <span>View My Work</span>
+              <ChevronRight className="w-4 h-4" />
             </a>
+
+            <button
+              onClick={onOpenResumeModal}
+              className="px-7 py-3 rounded-full bg-white hover:bg-neutral-100 text-black text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl shadow-white/10 flex items-center gap-2"
+            >
+              <FileText className="w-4 h-4 text-black" />
+              <span>Download CV</span>
+            </button>
 
             <a
               href="#contact"
-              className="px-8 py-3.5 rounded-full text-white bg-white/[0.05] hover:bg-white/10 border border-white/15 hover:border-white/40 backdrop-blur-md text-sm font-bold tracking-wide transition-all duration-300 hover:scale-105 active:scale-95"
+              className="px-7 py-3 rounded-full text-white bg-white/[0.05] hover:bg-white/10 border border-white/15 hover:border-[#FF2A2A]/40 backdrop-blur-md text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95"
             >
               Contact Me
+            </a>
+          </motion.div>
+
+          {/* Joyseno Social Icons Strip */}
+          <motion.div 
+            variants={itemVariants}
+            className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3"
+          >
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mr-1">
+              Connect:
+            </span>
+            <a
+              href="https://github.com/reddyvinay0612"
+              target="_blank"
+              rel="noreferrer"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#FF2A2A] border border-white/10 hover:border-[#FF2A2A] text-neutral-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
+              title="GitHub Profile"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#FF2A2A] border border-white/10 hover:border-[#FF2A2A] text-neutral-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
+              title="LinkedIn Profile"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a
+              href={`mailto:${PORTFOLIO_DATA.personal.email}`}
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#FF2A2A] border border-white/10 hover:border-[#FF2A2A] text-neutral-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
+              title="Send Direct Email"
+            >
+              <Mail className="w-4 h-4" />
+            </a>
+            <a
+              href={`tel:${PORTFOLIO_DATA.personal.phone}`}
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#FF2A2A] border border-white/10 hover:border-[#FF2A2A] text-neutral-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
+              title="Call Directly"
+            >
+              <Phone className="w-4 h-4" />
             </a>
           </motion.div>
         </motion.div>

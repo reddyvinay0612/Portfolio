@@ -121,6 +121,37 @@ export const About: React.FC = () => {
             </p>
           </div>
 
+          {/* Clyde Personal Details Grid */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Degree</span>
+              <span className="text-white font-bold text-sm mt-0.5">B.E. in CS &amp; Design</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Institution</span>
+              <span className="text-white font-bold text-sm mt-0.5">PESITM Shivamogga</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Cumulative GPA</span>
+              <span className="text-white font-bold text-sm mt-0.5">8.02 / 10.00</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Location</span>
+              <span className="text-white font-bold text-sm mt-0.5">Karnataka, India</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Email</span>
+              <span className="text-white font-bold text-xs mt-0.5 truncate">reddyvinayprakash@gmail.com</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-black/20 border border-black/25 flex flex-col justify-center">
+              <span className="text-[10px] text-black/70 uppercase font-bold tracking-wider">Status</span>
+              <span className="text-emerald-200 font-bold text-sm mt-0.5 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                Available for Roles
+              </span>
+            </div>
+          </div>
+
           {/* Core Tech Stack Icons */}
           <div className="mt-12">
             <span className="text-[11px] font-mono font-bold tracking-[0.25em] text-black uppercase block mb-6">

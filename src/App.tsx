@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { Counters } from './components/Counters';
 import { About } from './components/About';
+import { Services } from './components/Services';
 import { ProcessTimeline } from './components/ProcessTimeline';
 import { Education } from './components/Education';
 import { Projects } from './components/Projects';
@@ -32,11 +34,17 @@ export const App: React.FC = () => {
         <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
 
         <main>
-          {/* Hero Section with Video */}
+          {/* Hero Section (Clyde & Joyseno Style) */}
           <Hero onOpenResumeModal={() => setIsResumeModalOpen(true)} />
           
-          {/* About Section with Lanyard ID Badge */}
+          {/* Clyde Impact Stat Counters Section */}
+          <Counters />
+
+          {/* About Section with Lanyard ID Badge & Clyde Profile Info Grid */}
           <About />
+
+          {/* Clyde & Joyseno Services / Specializations Section */}
+          <Services />
           
           {/* Process Timeline Section (White Grid S-Curve) */}
           <ProcessTimeline />
@@ -44,7 +52,7 @@ export const App: React.FC = () => {
           {/* Academic Education Section */}
           <Education />
 
-          {/* Works / Projects Section */}
+          {/* Works / Projects Section (Interactive 3D Circular Gallery) */}
           <Projects />
 
           {/* Skill Proficiency Section */}
