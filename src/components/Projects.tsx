@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Code2, 
@@ -12,14 +12,11 @@ import {
 } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 import { CircularGallery, GalleryItem } from './ui/circular-gallery';
-import { generateProjectCardTexture } from '../utils/projectCardCanvas';
 
 export const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0);
-  const [autoRotate, setAutoRotate] = useState<boolean>(true);
-  const [bendIntensity, setBendIntensity] = useState<number>(3);
 
   const categories = [
     'All',
@@ -44,15 +41,40 @@ export const Projects: React.FC = () => {
     setActiveProjectIndex(0);
   }, [selectedCategory]);
 
-  // Generate high-DPI cybernetic textures for each project card
+  // Close project detail modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedProject(null);
+    };
+    if (selectedProject) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
+
   const galleryItems: (GalleryItem & { project: Project })[] = useMemo(() => {
     return filteredProjects.map((project) => ({
-      image: generateProjectCardTexture(project) || `/projects/${project.id}.svg`,
       text: project.title,
       description: project.description,
       project
     }));
   }, [filteredProjects]);
+
+  const handleActiveChange = useCallback((index: number) => {
+    setActiveProjectIndex(index);
+  }, []);
+
+  const handleItemClick = useCallback(
+    (_item: any, index: number) => {
+      const proj = filteredProjects[index];
+      if (proj) setSelectedProject(proj);
+    },
+    [filteredProjects]
+  );
 
   const activeProject = filteredProjects[activeProjectIndex % (filteredProjects.length || 1)] || filteredProjects[0];
 
@@ -99,7 +121,7 @@ export const Projects: React.FC = () => {
         <div className="space-y-6">
             
             {/* Gallery Stage Container */}
-            <div className="relative w-full h-[520px] sm:h-[580px] md:h-[640px] rounded-3xl bg-[#f2f7fa] border border-neutral-200/80 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
+            <div className="relative w-full h-[520px] sm:h-[540px] md:h-[560px] rounded-3xl bg-[#f2f7fa] border border-neutral-200/80 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
               
               {/* Subtle tech background grid */}
               <div 
@@ -110,18 +132,15 @@ export const Projects: React.FC = () => {
                 }}
               />
 
-              {/* The WebGL Circular Gallery */}
+              {/* The 3D Circular Gallery */}
               <div className="w-full h-full">
                 <CircularGallery
                   items={galleryItems}
-                  bend={bendIntensity}
-                  autoRotateSpeed={0.06}
-                  autoScroll={autoRotate ? 0.3 : 0}
-                  onActiveChange={(index) => setActiveProjectIndex(index)}
-                  onItemClick={(item, index) => {
-                    const proj = filteredProjects[index];
-                    if (proj) setSelectedProject(proj);
-                  }}
+                  bend={3}
+                  autoRotateSpeed={0.08}
+                  autoScroll={selectedProject ? 0 : 1}
+                  onActiveChange={handleActiveChange}
+                  onItemClick={handleItemClick}
                 />
               </div>
             </div>
@@ -219,11 +238,15 @@ export const Projects: React.FC = () => {
       {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div
+            onClick={() => setSelectedProject(null)}
+            className="fixed inset-0 z-[60000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
               className="bg-white p-8 rounded-3xl border border-neutral-200/80 max-w-2xl w-full max-h-[85vh] overflow-y-auto relative shadow-2xl text-[#212529]"
             >
               <button
